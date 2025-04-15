@@ -1,0 +1,11 @@
+.border:not(:first-child) {
+    border-top: 1px solid #ccc;
+}
+.secondaryBorder {
+    border-bottom: 1px solid #ccc;
+}
+
+.active {
+    height: auto;
+    padding: 15px;
+}
