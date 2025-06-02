@@ -26,7 +26,7 @@ function MenuItems({ setIsOpenMenuSheet }) {
             {shoppingViewHeaderMenuItems.map((item) => (
                 <p
                     key={item.id}
-                    className='text-black'
+                    className='text-black cursor-pointer'
                     onClick={() => {
                         navigate(item.path);
                         setIsOpenMenuSheet(false);
@@ -105,8 +105,8 @@ function ShoppingHeader() {
     }, [dispath, user.id]);
     return (
         <>
-            <header className='sticky top-0 z-40 w-full border-b bg-background '>
-                <div className='mx-5 lg:mx-7 flex  items-center justify-between py-2'>
+            <header className='sticky top-0 z-40 w-full border-b bg-background container mx-auto'>
+                <div className='flex  items-center justify-between py-2'>
                     <div className='flex gap-2 items-center'>
                         <Button
                             onClick={() => setIsOpenMenuSheet(true)}

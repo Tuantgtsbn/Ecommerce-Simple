@@ -301,6 +301,11 @@ export const shoppingViewHeaderMenuItems = [
         id: 'search',
         label: 'Search',
         path: '/search'
+    },
+    {
+        id: 'blog',
+        label: 'Blog',
+        path: '/blog'
     }
 ];
 export const filterOptions = {

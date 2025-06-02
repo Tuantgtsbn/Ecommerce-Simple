@@ -14,6 +14,7 @@ import AdminOrders from './pages/admin-view/order';
 import ShoppingSearch from './pages/shopping-view/search';
 import OrderSuccessPage from './pages/shopping-view/order-success';
 import DetailProduct from './pages/shopping-view/detail-product';
+
 const AccountShoppingPage = lazy(() => import('./pages/shopping-view/account'));
 const ShoppingHome = lazy(() => import('@/pages/shopping-view/home'));
 const ShoppingListing = lazy(() => import('@/pages/shopping-view/listing'));
@@ -27,7 +28,10 @@ const PayPalReturnPage = lazy(() => import('@/pages/shopping-view/paypal-return'
 const PayPalCancelPage = lazy(() => import('@/pages/shopping-view/paypal-cancel'));
 const ContactPage = lazy(() => import('@/pages/shopping-view/contact'));
 const AboutlPage = lazy(() => import('@/pages/shopping-view/about'));
-
+const HomeBlogPage = lazy(() => import('@/pages/shopping-view/homeblog'));
+const DetailPostPage = lazy(() => import('@/pages/shopping-view/detailPost'));
+const SearchBlogPage = lazy(() => import('@/pages/shopping-view/searchblog'));
+const PostByCategoryPage = lazy(() => import('@/pages/shopping-view/postByCategory'));
 function App() {
     const { user, isLoading, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -72,6 +76,11 @@ function App() {
                     <Route path='contact' element={<ContactPage />} />
                     <Route path='product/:id' element={<DetailProduct />} />
                     <Route path='*' element={<PageNotFound />} />
+                    <Route path='blog' element={<HomeBlogPage />} />
+                    <Route path='blog' element={<HomeBlogPage />} />
+                    <Route path='blog/:slug' element={<DetailPostPage />} />
+                    <Route path='blog/search' element={<SearchBlogPage />} />
+                    <Route path='blog/category/:name' element={<PostByCategoryPage />} />
                 </Route>
                 <Route
                     path='/admin'

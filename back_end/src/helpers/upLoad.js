@@ -1,7 +1,9 @@
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const dotenv = require('dotenv');
-dotenv.config();
+const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envPath });
+console.log('environment', process.env.NODE_ENV);
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,

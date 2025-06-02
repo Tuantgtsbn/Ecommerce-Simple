@@ -42,26 +42,22 @@ function ShoppingSearch() {
     // }, []);
 
     useEffect(() => {
-        setSearchTerm(query || '');
         async function fetchSearchResults(term) {
             try {
                 if (!term) {
                     setSearchResults([]);
                     return;
                 }
-                const response = await axiosClient.get(
-                    `/api/shop/search?keyword=${encodeURIComponent(term)}`,
-                    {
-                        withCredentials: true
-                    }
-                );
+                const response = await axiosClient.get(`/api/shop/search?keyword=${term}`, {
+                    withCredentials: true
+                });
                 // console.log('Response:', response);
                 if (response.data.success) {
                     setSearchResults(response.data.data);
 
                     // Update search history
                     const newHistory = [
-                        term,
+                        term.split('+').join(' '),
                         ...searchHistory.filter((item) => item !== term)
                     ].slice(0, MAX_HISTORY_ITEMS);
                     setSearchHistory(newHistory);
@@ -77,12 +73,12 @@ function ShoppingSearch() {
                 setShowHistory(false);
             }
         }
-        fetchSearchResults(query);
-    }, [query]);
+        fetchSearchResults(searchParams.get('q'));
+    }, [searchParams]);
     // Handle search
     const handleSearch = async (term) => {
         if (!term.trim()) return;
-        setSearchParams({ q: encodeURIComponent(term) });
+        setSearchParams({ q: term });
     };
 
     const handleClickDetail = async (productId) => {
@@ -114,6 +110,16 @@ function ShoppingSearch() {
                         onFocus={() => setShowHistory(true)}
                         // onBlur={() => setShowHistory(false)}
                         className='text-lg'
+                        onBlur={() => {
+                            setTimeout(() => {
+                                setShowHistory(false);
+                            }, 200);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch(searchTerm);
+                            }
+                        }}
                     />
                     <Button onClick={() => handleSearch(searchTerm)} disabled={isLoading}>
                         <SearchIcon className='w-5 h-5 mr-2' />

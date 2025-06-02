@@ -82,3 +82,7 @@ export function mappingStatusOrder(status) {
             return 'Unknown';
     }
 }
+export function removeVietnameseTones(str) {
+    str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return str;
+}

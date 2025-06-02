@@ -10,6 +10,9 @@ const ShoppingOrderRouter = require('./shop/order-routes');
 const ShoppingSearchRouter = require('./shop/search-routes');
 const ShoppingReviewRouter = require('./shop/review-routes');
 const ShoppingContactRouter = require('./shop/contact-routes');
+const AdminPostRouter = require('./admin/post-routes');
+const ShoppingBlogCategoryRouter = require('./shop/blogcategory-routes');
+const ShoppingPostRouter = require('./shop/post-routes');
 const { checkRoleAdmin, checkRoleUser } = require('../middlewares/checkRole');
 function routes(app) {
     app.use('/api/auth', AuthRouter);
@@ -17,6 +20,7 @@ function routes(app) {
     app.use('/api/admin/contact', checkRoleAdmin, AdminContactRouter);
     app.use('/api/admin/orders', checkRoleAdmin, AdminOrderRouter);
     app.use('/api/admin/users', checkRoleAdmin, AdminUserRouter);
+    app.use('/api/admin/posts', checkRoleAdmin, AdminPostRouter);
     app.use('/api/shop/products', checkRoleUser, ShoppingProductRouter);
     app.use('/api/shop/cart', checkRoleUser, ShoppingCartRouter);
     app.use('/api/shop/address', checkRoleUser, ShoppingAddressRouter);
@@ -24,5 +28,11 @@ function routes(app) {
     app.use('/api/shop/search', checkRoleUser, ShoppingSearchRouter);
     app.use('/api/shop/review', checkRoleUser, ShoppingReviewRouter);
     app.use('/api/shop/contact', checkRoleUser, ShoppingContactRouter);
+    app.use(
+        '/api/shop/blogcategory',
+        checkRoleUser,
+        ShoppingBlogCategoryRouter
+    );
+    app.use('/api/shop/post', checkRoleUser, ShoppingPostRouter);
 }
 module.exports = routes;

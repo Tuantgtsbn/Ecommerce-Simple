@@ -3,11 +3,12 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
-dotenv.config({});
+const envPath = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envPath });
 const app = express();
 app.use(
     cors({
-        origin: 'http://localhost:5173', // Chỉ cho phép domain này
+        origin: process.env.URL_CORS,
         credentials: true
     })
 );
@@ -19,6 +20,6 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 const connectDB = require('./config/db');
 connectDB();
 routes(app);
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 5000, '0.0.0.0', () => {
     console.log(`Server is running on port ${process.env.PORT || 5000}`);
 });

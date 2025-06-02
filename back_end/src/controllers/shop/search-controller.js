@@ -9,15 +9,17 @@ const searchProducts = async (req, res) => {
                 message: 'Keyword is required and must be in string format'
             });
         }
-
-        const regEx = new RegExp(keyword, 'i');
+        let parseKeyword = keyword.split('+').join(' ');
+        const regEx = new RegExp(parseKeyword, 'i');
 
         const createSearchQuery = {
             $or: [
                 { title: regEx },
+                { name: regEx },
                 { description: regEx },
                 { category: regEx },
-                { brand: regEx }
+                { brand: regEx },
+                { tags: regEx }
             ]
         };
 
