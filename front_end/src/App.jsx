@@ -4,9 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import Loading from '@components/common/Loading/Loading';
 import { useSelector, useDispatch } from 'react-redux';
 import ShoppingLayout from '@components/shopping-view/layout';
-import CheckAuth from '@components/common/CheckAuth';
+import CheckAuth from '@components/common/checkAuth';
 import { lazy } from 'react';
-import { checkAuth, getProfile } from './store/auth-slice';
+import { checkAuth as checkAuthentication } from './store/auth-slice';
 import AdminLayout from '@components/admin-view/layout';
 import AuthLayout from '@components/auth-view/layout';
 import AdminProducts from './pages/admin-view/products';
@@ -38,7 +38,7 @@ function App() {
     useEffect(() => {
         async function checkAuthPeople() {
             try {
-                const response = await dispatch(checkAuth()).unwrap();
+                const response = await dispatch(checkAuthentication()).unwrap();
                 console.log(response);
                 // const a = await dispatch(getProfile(response.user.id)).unwrap();
                 // console.log(a);
