@@ -1,7 +1,7 @@
 const User = require('../../models/User');
 const statisticalUsers = async (req, res) => {
     try {
-        const users = await User.find({ role: 'user' });
+        const users = await User.find({ role: 'client' });
         const dateNow = new Date();
         const dayNow = dateNow.getDate();
         const newUsers = users.filter((user) => {

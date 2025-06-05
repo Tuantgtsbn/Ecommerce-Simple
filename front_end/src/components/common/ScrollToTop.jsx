@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FaChevronUp } from 'react-icons/fa6';
 import { useLocation, useNavigationType } from 'react-router-dom';
-
+import classNames from 'classnames';
 function ScrollToTop() {
     const { pathname, search } = useLocation();
     const navigationType = useNavigationType();
-
+    const [isDisplay, setIsDisplay] = useState(false);
     useEffect(() => {
         // Only scroll to top if it's a PUSH navigation
         if (navigationType === 'PUSH') {
@@ -29,6 +30,11 @@ function ScrollToTop() {
     // Save scroll position before leaving the page
     useEffect(() => {
         const handleScroll = () => {
+            if (window.scrollY > 500) {
+                setIsDisplay(true);
+            } else {
+                setIsDisplay(false);
+            }
             const currentState = window.history.state || {};
             window.history.replaceState(
                 {
@@ -43,7 +49,19 @@ function ScrollToTop() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    return null;
+    return (
+        <div
+            className={classNames(
+                'fixed bottom-10 right-10 z-50 cursor-pointer w-[40px] h-[40px] rounded-full bg-gray-400 flex items-center justify-center',
+                {
+                    hidden: !isDisplay
+                }
+            )}
+            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+        >
+            <FaChevronUp width={20} height={20} />
+        </div>
+    );
 }
 
 export default ScrollToTop;

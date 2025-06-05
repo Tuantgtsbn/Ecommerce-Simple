@@ -6,7 +6,7 @@ function Layout() {
         <div className='flex flex-col bg-white overflow-hidden min-h-screen'>
             {/* common header */}
             <Header />
-            <main className='flex flex-1 flex-col w-full'>
+            <main className='flex flex-1 flex-col w-full mt-[56px]'>
                 <Outlet />
             </main>
             <Footer />

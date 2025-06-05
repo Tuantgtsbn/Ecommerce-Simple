@@ -35,7 +35,7 @@ function CheckAuth({ isAuthenticated, isLoading, user, children }) {
     }
 
     // Redirect regular users away from admin pages
-    if (isAuthenticated && user?.role === 'user' && location.pathname.startsWith('/admin')) {
+    if (isAuthenticated && user?.role === 'client' && location.pathname.startsWith('/admin')) {
         return <Navigate to='/unauth-page' />;
     }
 

@@ -1,0 +1,132 @@
+[
+    {
+        "name": "Nike",
+        "slug": "nike",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Adidas",
+        "slug": "adidas",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Puma",
+        "slug": "puma",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Levi's",
+        "slug": "levi",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Zara",
+        "slug": "zara",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "H&M",
+        "slug": "h&m",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Uniqlo",
+        "slug": "uniqlo",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Gucci",
+        "slug": "gucci",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Chanel",
+        "slug": "chanel",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    },
+    {
+        "name": "Louis Vuitton",
+        "slug": "louis-vuitton",
+        "description": "Leading brand in men's fashion.",
+        "logo": "https://example.com/images/brand-a-logo.jpg",
+        "isActive": true,
+        "createdAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "updatedAt": {
+            "$date": "2023-10-01T12:00:00Z"
+        }
+    }
+]

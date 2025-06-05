@@ -1,0 +1,36 @@
+[
+    {
+        "code": "WELCOME10",
+        "name": "Welcome Discount",
+        "discountType": "percentage",
+        "discountValue": 10,
+        "minOrderAmount": 300000,
+        "maxDiscountAmount": 100000,
+        "startDate": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "endDate": {
+            "$date": "2023-10-10T12:00:00Z"
+        },
+        "usageLimit": 1000,
+        "usedCount": 50,
+        "isActive": true
+    },
+    {
+        "code": "SAVE50K",
+        "name": "Welcome Tet holiday",
+        "discountType": "fixed_amount",
+        "discountValue": 50000,
+        "minOrderAmount": 500000,
+        "maxDiscountAmount": 50000,
+        "startDate": {
+            "$date": "2023-10-01T12:00:00Z"
+        },
+        "endDate": {
+            "$date": "2023-10-10T12:00:00Z"
+        },
+        "usageLimit": 500,
+        "usedCount": 25,
+        "isActive": true
+    }
+]

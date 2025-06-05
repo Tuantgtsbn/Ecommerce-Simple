@@ -9,6 +9,7 @@ import shoppingCartReducer from './shop/cart-slice';
 import shoppingAddressReducer from './shop/address-slice';
 import shoppingOrderReducer from './shop/order-slice';
 import shoppingReviewReducer from './shop/review-slice';
+import shoppingCategoryReducer from './shop/category-slice';
 const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -20,7 +21,8 @@ const store = configureStore({
         shoppingCart: shoppingCartReducer,
         shoppingAddress: shoppingAddressReducer,
         shoppingOrder: shoppingOrderReducer,
-        shoppingReview: shoppingReviewReducer
+        shoppingReview: shoppingReviewReducer,
+        shoppingCategory: shoppingCategoryReducer
     }
 });
 

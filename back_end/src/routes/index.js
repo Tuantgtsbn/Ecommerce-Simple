@@ -13,7 +13,12 @@ const ShoppingContactRouter = require('./shop/contact-routes');
 const AdminPostRouter = require('./admin/post-routes');
 const ShoppingBlogCategoryRouter = require('./shop/blogcategory-routes');
 const ShoppingPostRouter = require('./shop/post-routes');
-const { checkRoleAdmin, checkRoleUser } = require('../middlewares/checkRole');
+const CommonCategoryRouter = require('./common/category-routes');
+const {
+    checkRoleAdmin,
+    checkRoleUser,
+    checkRoleClient
+} = require('../middlewares/checkRole');
 function routes(app) {
     app.use('/api/auth', AuthRouter);
     app.use('/api/admin/products', checkRoleAdmin, AdminProductRouter);
@@ -21,18 +26,19 @@ function routes(app) {
     app.use('/api/admin/orders', checkRoleAdmin, AdminOrderRouter);
     app.use('/api/admin/users', checkRoleAdmin, AdminUserRouter);
     app.use('/api/admin/posts', checkRoleAdmin, AdminPostRouter);
-    app.use('/api/shop/products', checkRoleUser, ShoppingProductRouter);
-    app.use('/api/shop/cart', checkRoleUser, ShoppingCartRouter);
-    app.use('/api/shop/address', checkRoleUser, ShoppingAddressRouter);
-    app.use('/api/shop/order', checkRoleUser, ShoppingOrderRouter);
-    app.use('/api/shop/search', checkRoleUser, ShoppingSearchRouter);
-    app.use('/api/shop/review', checkRoleUser, ShoppingReviewRouter);
-    app.use('/api/shop/contact', checkRoleUser, ShoppingContactRouter);
+    app.use('/api/shop/products', checkRoleClient, ShoppingProductRouter);
+    app.use('/api/shop/cart', checkRoleClient, ShoppingCartRouter);
+    app.use('/api/shop/address', checkRoleClient, ShoppingAddressRouter);
+    app.use('/api/shop/order', checkRoleClient, ShoppingOrderRouter);
+    app.use('/api/shop/search', checkRoleClient, ShoppingSearchRouter);
+    app.use('/api/shop/review', checkRoleClient, ShoppingReviewRouter);
+    app.use('/api/shop/contact', checkRoleClient, ShoppingContactRouter);
     app.use(
         '/api/shop/blogcategory',
-        checkRoleUser,
+        checkRoleClient,
         ShoppingBlogCategoryRouter
     );
-    app.use('/api/shop/post', checkRoleUser, ShoppingPostRouter);
+    app.use('/api/shop/post', checkRoleClient, ShoppingPostRouter);
+    app.use('/api/common/category', checkRoleUser, CommonCategoryRouter);
 }
 module.exports = routes;
