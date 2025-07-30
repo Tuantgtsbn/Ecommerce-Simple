@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import {useState, useEffect, useCallback} from "react";
 
 /**
  * Custom hook to track window dimensions with debounce
@@ -6,42 +6,42 @@ import { useState, useEffect, useCallback } from 'react';
  * @returns {Object} Window width and height
  */
 function useWindowSize(delay = 250) {
-    const [windowSize, setWindowSize] = useState({
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = useCallback(() => {
+    const debounce = (fn, ms) => {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), ms);
+      };
+    };
+
+    const debouncedResize = debounce(() => {
+      setWindowSize({
         width: window.innerWidth,
-        height: window.innerHeight
-    });
+        height: window.innerHeight,
+      });
+    }, delay);
 
-    const handleResize = useCallback(() => {
-        const debounce = (fn, ms) => {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => fn(...args), ms);
-            };
-        };
+    debouncedResize();
+  }, [delay]);
 
-        const debouncedResize = debounce(() => {
-            setWindowSize({
-                width: window.innerWidth,
-                height: window.innerHeight
-            });
-        }, delay);
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
 
-        debouncedResize();
-    }, [delay]);
+    // Initial call to set the initial size
+    handleResize();
 
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
 
-        // Initial call to set the initial size
-        handleResize();
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
-
-    return windowSize;
+  return windowSize;
 }
 
 export default useWindowSize;

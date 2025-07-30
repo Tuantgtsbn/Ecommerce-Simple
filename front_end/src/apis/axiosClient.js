@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 const baseURL = import.meta.env.VITE_API_URL;
 const axiosClient = axios.create({
-    baseURL,
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    withCredentials: true,
-    timeout: 10000
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+  timeout: 10000,
 });
 
 export default axiosClient;

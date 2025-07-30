@@ -1,46 +1,46 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import classNames from 'classnames'
+import React, {useCallback, useEffect, useState} from "react";
+import classNames from "classnames";
 export const useDotButton = (emblaApi) => {
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const [scrollSnaps, setScrollSnaps] = useState([])
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState([]);
 
-    const onDotButtonClick = useCallback(
-        (index) => {
-            if (!emblaApi) return
-            emblaApi.scrollTo(index)
-        },
-        [emblaApi]
-    )
+  const onDotButtonClick = useCallback(
+    (index) => {
+      if (!emblaApi) return;
+      emblaApi.scrollTo(index);
+    },
+    [emblaApi],
+  );
 
-    const onInit = useCallback((emblaApi) => {
-        setScrollSnaps(emblaApi.scrollSnapList())
-    }, [])
+  const onInit = useCallback((emblaApi) => {
+    setScrollSnaps(emblaApi.scrollSnapList());
+  }, []);
 
-    const onSelect = useCallback((emblaApi) => {
-        setSelectedIndex(emblaApi.selectedScrollSnap())
-    }, [])
+  const onSelect = useCallback((emblaApi) => {
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, []);
 
-    useEffect(() => {
-        if (!emblaApi) return
+  useEffect(() => {
+    if (!emblaApi) return;
 
-        onInit(emblaApi)
-        onSelect(emblaApi)
-        emblaApi.on('reInit', onInit).on('reInit', onSelect).on('select', onSelect)
-    }, [emblaApi, onInit, onSelect])
+    onInit(emblaApi);
+    onSelect(emblaApi);
+    emblaApi.on("reInit", onInit).on("reInit", onSelect).on("select", onSelect);
+  }, [emblaApi, onInit, onSelect]);
 
-    return {
-        selectedIndex,
-        scrollSnaps,
-        onDotButtonClick
-    }
-}
+  return {
+    selectedIndex,
+    scrollSnaps,
+    onDotButtonClick,
+  };
+};
 
 export const DotButton = (props) => {
-    const { children, className, ...restProps } = props
+  const {children, className, ...restProps} = props;
 
-    return (
-        <div className={classNames(className)} {...restProps}>
-            {children}
-        </div>
-    )
-}
+  return (
+    <div className={classNames(className)} {...restProps}>
+      {children}
+    </div>
+  );
+};
