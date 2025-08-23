@@ -52,7 +52,7 @@ function ScrollToTop() {
   return (
     <div
       className={classNames(
-        "fixed bottom-10 right-10 z-50 cursor-pointer w-[40px] h-[40px] rounded-full bg-gray-400 flex items-center justify-center",
+        "fixed bottom-10 right-10 z-50 cursor-pointer w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center",
         {
           hidden: !isDisplay,
         },

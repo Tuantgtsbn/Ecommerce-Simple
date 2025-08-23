@@ -29,7 +29,7 @@ import {Card, CardContent} from "@/components/ui/card";
 import {createSearchParamsHelper} from "@/lib/utils";
 import ShoppingProductCard from "@/components/shopping-view/productCard";
 import ProductDetailDialog from "@/components/shopping-view/productDetail";
-import {set} from "react-hook-form";
+
 const categoriesWithIcon = [
   {id: "men", label: "Men", icon: ShirtIcon},
   {id: "women", label: "Women", icon: CloudLightning},
@@ -49,40 +49,8 @@ const brandsWithIcon = [
 const featureImageList = [bannerOne, bannerTwo, bannerThree];
 function HomeShoppingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
-  const [loadedImages, setLoadedImages] = useState(new Set());
-
-  const handleImageLoad = (event) => {
-    const img = event.target;
-    const containerWidth = img.parentElement.offsetWidth;
-    console.log(containerWidth, "containerWidth");
-    const aspectRatio = img.naturalWidth / img.naturalHeight;
-    const calculatedHeight = containerWidth / aspectRatio;
-
-    // Add current image to loaded images set
-    setLoadedImages((prev) => new Set(prev).add(img.src));
-
-    // Update height only if this image is taller
-    setImageHeight((prev) => Math.max(prev, calculatedHeight));
-
-    // If all images are loaded, do final height calculation
-    if (loadedImages.size === featureImageList.length - 1) {
-      const allImages = document.querySelectorAll(".slider-image");
-      let maxHeight = 0;
-
-      allImages.forEach((img) => {
-        const ratio = img.naturalWidth / img.naturalHeight;
-        const height = containerWidth / ratio;
-        maxHeight = Math.max(maxHeight, height);
-      });
-
-      setImageHeight(maxHeight);
-    }
-  };
-
   const {productList} = useSelector((state) => state.shoppingProducts);
   const [openDetailProduct, setOpenDetailProduct] = useState(false);
-  const {user} = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -98,13 +66,6 @@ function HomeShoppingPage() {
       toast.error(error.message);
     }
   };
-  // useEffect(() => {
-  //     const timer = setInterval(() => {
-  //         setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-  //     }, 5000);
-
-  //     return () => clearInterval(timer);
-  // }, []);
 
   useEffect(() => {
     const filter = {
@@ -115,7 +76,7 @@ function HomeShoppingPage() {
     dispatch(fetchFilteredProducts(searchParams));
   }, [dispatch]);
   useEffect(() => {
-    window.document.title = "Trang chủ";
+    window.document.title = "Home - Shopping";
   }, []);
   console.log(productList, "productList");
 
@@ -123,17 +84,16 @@ function HomeShoppingPage() {
     <div className="flex flex-col min-h-screen">
       <div
         className="relative w-full bg-gray-100 transition-height duration-300 ease-in-out"
-        style={{height: `${imageHeight}px`}}
+        style={{height: "900px"}}
       >
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
               <img
                 src={slide}
                 key={index}
-                onLoad={handleImageLoad}
                 className={`slider-image ${
                   index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-1000`}
+                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
               />
             ))
           : null}

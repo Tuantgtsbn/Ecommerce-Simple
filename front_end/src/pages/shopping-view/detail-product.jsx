@@ -9,10 +9,8 @@ import Imgs5 from "@assets/imgs/Bank/maestro.jpeg";
 import Imgs6 from "@assets/imgs/Bank/bitcoin.jpeg";
 import NoProductFound from "@assets/imgs/noproduct.png";
 import Tooltip from "@/components/common/Tooltip/Tooltip";
-
 import {useEffect, useRef, useState} from "react";
 import Accordion from "@/components/common/Accordion/accordion";
-import {Label} from "@/components/ui/label";
 import {Link, useParams} from "react-router-dom";
 import {fetchDetailProduct} from "@/store/shop/products-slice";
 import {getReviewsByProductId} from "@/store/shop/review-slice";
@@ -26,6 +24,14 @@ import {addProductToCart, fetchCartItems} from "@/store/shop/cart-slice";
 import RatingStar from "@/components/common/rating-star";
 import SliderCommon from "@/components/shopping-view/SliderCommon/SliderCommon";
 import ModalSlider from "@/components/shopping-view/Modal/ModalSlider/ModalSlider";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 function DetailProduct() {
   const {detailProduct, isLoading: isLoadingDetail} = useSelector(
@@ -85,15 +91,10 @@ function DetailProduct() {
     if (type === "plus") {
       copyQuantity += 1;
     } else {
+      if (copyQuantity === 1) return;
       copyQuantity -= 1;
     }
-
-    if (copyQuantity > detailProduct.stock) {
-      toast.error("You have reached the maximum quantity for this product");
-      return;
-    } else {
-      setQuantity(copyQuantity);
-    }
+    setQuantity(copyQuantity);
   };
   const addToCart = async () => {
     try {
@@ -120,8 +121,14 @@ function DetailProduct() {
     setIsSilerModalOpen(true);
     setChooseImg(index);
   };
-  const renderFunc = (item, index) => {
-    return <img src={item} alt="" className="w-full object-contain" />;
+  const renderFunc = (item) => {
+    return (
+      <img
+        src={item}
+        alt=""
+        className="w-full h-full object-cover rounded-lg"
+      />
+    );
   };
   const elementRef = useRef(null);
   useEffect(() => {
@@ -129,14 +136,40 @@ function DetailProduct() {
       ? `${detailProduct.name} - Ecommerce`
       : "Loading...";
   }, [detailProduct?.name]);
+
   return isLoadingDetail ? (
     <Loading className="h-screen" />
   ) : detailProduct ? (
     <>
       <div className="container mx-auto p-4">
+        <Breadcrumb className="py-4">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/" className="capitalize text-[16px]">
+                  Home
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/components" className="capitalize text-[16px]">
+                  {detailProduct.category}
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="font-bold text-[16px]">
+                {detailProduct.name}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-9">
           <div>
-            <div className="h-[450px] mb-4">
+            <div className="h-[600px] mb-4">
               <img
                 src={listImgs[chooseImg]}
                 alt=""
@@ -154,7 +187,7 @@ function DetailProduct() {
             />
           </div>
           <div className="flex flex-col gap-3">
-            <h1 className="text-2xl">{detailProduct.name}</h1>
+            <h1 className="text-2xl font-bold">{detailProduct.name}</h1>
             <div className="flex gap-2">
               <div className="flex gap-2">
                 <RatingStar
@@ -167,8 +200,8 @@ function DetailProduct() {
             <div>
               {detailProduct?.discount > 0 ? (
                 <div>
-                  <div className="text-red-500 flex font-[500]">
-                    <p className="text-lg ">
+                  <div className="text-red-500 flex font-[500] text-[32px]">
+                    <p>
                       {detailProduct.price * (1 - detailProduct.discount / 100)}
                     </p>
                     <sub>đ</sub>
@@ -192,11 +225,11 @@ function DetailProduct() {
                 </div>
               )}
             </div>
-            <p>{detailProduct.description}</p>
+            <p className="line-clamp-2">{detailProduct.description}</p>
             <div className="flex gap-4">
               <div className="flex items-center gap-2">
                 <Button
-                  disabled={detailProduct.quantity === 1}
+                  disabled={quantiy === 1}
                   variant="outline"
                   size="icon"
                   onClick={() => handleChangeQuantity("minus")}
@@ -206,6 +239,7 @@ function DetailProduct() {
                 </Button>
                 <p>{quantiy}</p>
                 <Button
+                  disabled={quantiy === detailProduct.stock}
                   variant="outline"
                   size="icon"
                   onClick={() => handleChangeQuantity("plus")}
@@ -280,15 +314,15 @@ function DetailProduct() {
             <div>
               <div className="flex gap-2 items-center">
                 <h1 className="text-xl">Brand:</h1>
-                <p className="capitalize text-xl">{detailProduct.brand}</p>
+                <p className="capitalize">{detailProduct.brand}</p>
               </div>
               <div className="flex gap-2 items-center">
                 <h1 className="text-xl">SKU:</h1>
-                <p className="capitalize text-xl">{detailProduct._id}</p>
+                <p className="capitalize">{detailProduct._id}</p>
               </div>
               <div className="flex gap-2 items-center">
                 <h1 className="text-xl">Category:</h1>
-                <p className="capitalize text-xl">{detailProduct.category}</p>
+                <p className="capitalize">{detailProduct.category}</p>
               </div>
             </div>
             <div>
@@ -309,7 +343,9 @@ function DetailProduct() {
           </div>
         </div>
         <div className="mt-8">
-          <p className="text-2xl font-semibold text-center">Related products</p>
+          <p className="text-2xl font-semibold text-center mb-4">
+            Related products
+          </p>
           {isLoading ? (
             <Loading className="h-[400px]" />
           ) : error ? (

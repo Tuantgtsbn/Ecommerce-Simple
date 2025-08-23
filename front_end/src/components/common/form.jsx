@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import InputFile from "./inputFile";
+import classNames from "classnames";
 function CommonForm({
   formControls,
   formData,
@@ -136,7 +137,14 @@ function CommonForm({
         {formControls.map((inputConfig, index) => (
           <div key={index}>
             <Label className="mb-1" htmlFor={inputConfig.name}>
-              {inputConfig.label}
+              {inputConfig.label}{" "}
+              <span
+                className={classNames({
+                  "text-red-500": inputConfig.required,
+                })}
+              >
+                {inputConfig.required ? "*" : "(optional)"}
+              </span>
             </Label>
             {renderInputsByComponentType(inputConfig)}
           </div>

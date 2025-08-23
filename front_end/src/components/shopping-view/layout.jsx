@@ -1,3 +1,4 @@
+import ScrollToTop from "../common/ScrollToTop.jsx";
 import Footer from "./footer.jsx";
 import Header from "./header.jsx";
 import {Outlet} from "react-router-dom";

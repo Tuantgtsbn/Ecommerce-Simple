@@ -2,6 +2,7 @@ import {UploadCloudIcon, X} from "lucide-react";
 import {Label} from "../ui/label";
 import {useEffect, useRef, useState} from "react";
 import {Button} from "../ui/button";
+import classNames from "classnames";
 function InputFile({files, setFormData, name, label, config, ...props}) {
   console.log("File insulation", files);
   const maxFiles = config.max || 1;
@@ -97,7 +98,12 @@ function InputFile({files, setFormData, name, label, config, ...props}) {
   }, []);
   return (
     <>
-      <Label htmlFor={name}>{label}</Label>
+      <Label htmlFor={name}>
+        {label}{" "}
+        <span className={classNames({"text-red-500": config?.required})}>
+          {config?.required ? "*" : "(optional)"}
+        </span>
+      </Label>
       <div
         onDragOver={handleOnDragOver}
         onDrop={handleOnDrop}

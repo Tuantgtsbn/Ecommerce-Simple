@@ -13,9 +13,9 @@ createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <AppProvider>
       <Router>
-        <ScrollToTop />
         <Suspense fallback={<Loading className="h-screen" />}>
           <App />
+          <ScrollToTop />
         </Suspense>
       </Router>
     </AppProvider>

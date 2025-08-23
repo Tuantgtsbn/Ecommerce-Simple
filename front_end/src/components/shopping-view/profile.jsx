@@ -102,7 +102,7 @@ function Profile() {
           <CardTitle>Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center space-y-4">
+          <div className="flex flex-col space-y-4">
             <Avatar className="h-24 w-24">
               <AvatarImage src={user.avatar} />
               <AvatarFallback>

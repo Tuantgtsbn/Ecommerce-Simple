@@ -135,7 +135,7 @@ function ShoppingHeader() {
   return (
     <>
       <header className="fixed top-0 z-40 w-full border-b bg-background ">
-        <div className="flex  items-center justify-between py-2 container mx-auto">
+        <div className="flex items-center justify-between py-2 container mx-auto px-3">
           <div className="flex gap-2 items-center">
             <Button
               onClick={() => setIsOpenMenuSheet(true)}

@@ -43,7 +43,7 @@ function ShoppingSearch() {
   //     }
   // }, []);
   useEffect(() => {
-    window.document.title = "Tìm kiếm";
+    window.document.title = "Search - Shopping";
   }, []);
   useEffect(() => {
     async function fetchSearchResults(term) {

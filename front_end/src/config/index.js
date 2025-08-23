@@ -210,6 +210,7 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
     componentType: "input",
     type: "text",
     placeholder: "Enter product name",
+    required: true,
   },
   {
     label: "Title",
@@ -217,12 +218,14 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
     componentType: "input",
     type: "text",
     placeholder: "Enter product title",
+    required: true,
   },
   {
     label: "Description",
     name: "description",
     componentType: "textarea",
     placeholder: "Enter product description",
+    required: true,
   },
   {
     label: "Category",
@@ -236,6 +239,7 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
       {id: "footwear", label: "Footwear"},
     ],
     default: defaultCategory,
+    required: true,
   },
   {
     label: "Brand",
@@ -250,6 +254,7 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
       {id: "h&m", label: "H&M"},
     ],
     default: defaultBrand,
+    required: true,
   },
   {
     label: "Price",
@@ -257,6 +262,7 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
     componentType: "input",
     type: "number",
     placeholder: "Enter product price",
+    required: true,
   },
   {
     label: "Discount",
@@ -271,6 +277,7 @@ export const editProductFormElements = (defaultBrand, defaultCategory) => [
     componentType: "input",
     type: "number",
     placeholder: "Enter total stock",
+    required: true,
   },
 ];
 
@@ -407,7 +414,7 @@ export const AddressFormConfig = [
     componentType: "textarea",
     name: "notes",
     placeholder: "Please enter your notes",
-    label: "Notes (optional)",
+    label: "Notes",
   },
 ];
 

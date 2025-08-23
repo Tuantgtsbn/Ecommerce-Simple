@@ -71,12 +71,7 @@ export const getOneOrderByUserId = createAsyncThunk(
     }
   },
 );
-const asyncThunks = [
-  createOrder,
-  capturePayment,
-  getOrdersByUserId,
-  getOneOrderByUserId,
-];
+const asyncThunks = [createOrder, capturePayment, getOrdersByUserId];
 const ShoppingOrderSlice = createSlice({
   name: "ShoppingOrder",
   initialState,

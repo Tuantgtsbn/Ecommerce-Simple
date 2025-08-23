@@ -22,6 +22,7 @@ const thumbnailConfig = {
   config: {
     accept: "image/*",
     isMultiple: false,
+    required: true,
   },
 };
 const imagesConfig = {
@@ -31,6 +32,7 @@ const imagesConfig = {
     accept: "image/*",
     isMultiple: true,
     max: 5,
+    required: true,
   },
 };
 function FormAddProduct({setOpenDialog}) {

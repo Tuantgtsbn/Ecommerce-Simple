@@ -14,6 +14,7 @@ import {startTransition, useEffect, useOptimistic, useState} from "react";
 import RatingStar from "../common/rating-star";
 import {addReview, getReviewsByProductId} from "@/store/shop/review-slice";
 import {useNavigate} from "react-router-dom";
+
 function ProductDetailDialog({open, setOpen}) {
   const [rating, setRating] = useState(0);
   const [reviewMessage, setReviewMessage] = useState("");
@@ -143,12 +144,18 @@ function ProductDetailDialog({open, setOpen}) {
                 <div className="flex gap-2">
                   <p
                     className={classNames("text-3xl font-bold", {
-                      "line-through": detailProduct?.discount > 0,
+                      "line-through text-red-500": detailProduct?.discount > 0,
                     })}
                   >
                     {detailProduct?.price}
                   </p>
-                  <sub className="pt-2">đ</sub>
+                  <sub
+                    className={classNames("pt-2", {
+                      "text-red-500": detailProduct?.discount > 0,
+                    })}
+                  >
+                    đ
+                  </sub>
                 </div>
                 {detailProduct?.discount > 0 && (
                   <div className="flex gap-2">
@@ -160,7 +167,11 @@ function ProductDetailDialog({open, setOpen}) {
                 )}
               </div>
               <div className="mt-2">
-                <Button className="w-full" onClick={handleNavigateToDetailPage}>
+                <Button
+                  className="w-full"
+                  variant="outline"
+                  onClick={handleNavigateToDetailPage}
+                >
                   Watch detail
                 </Button>
               </div>

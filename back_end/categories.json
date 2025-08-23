@@ -1,0 +1,1836 @@
+[
+  {
+    "_id": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "name": "Men",
+    "slug": "men",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "parentCategoryId": null
+  },
+  {
+    "_id": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "name": "Women",
+    "slug": "women",
+    "description": "Discover the newest styles in women's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "parentCategoryId": null
+  },
+  {
+    "_id": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "name": "Kids",
+    "slug": "kids",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "parentCategoryId": null
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d03"
+    },
+    "name": "Men's Jackets",
+    "slug": "mens-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "name": "Men's Shirts",
+    "slug": "mens-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d05"
+    },
+    "name": "Men's Pants",
+    "slug": "mens-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d06"
+    },
+    "name": "Men's Sportswear",
+    "slug": "mens-sportswear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d07"
+    },
+    "name": "Men's Underwear & Innerwear",
+    "slug": "mens-underwear-innerwear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d08"
+    },
+    "name": "Other Men's Products",
+    "slug": "other-mens-products",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 6,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d09"
+    },
+    "name": "Men's Accessories",
+    "slug": "mens-accessories",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0cff"
+    },
+    "isActive": true,
+    "sortOrder": 7,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d0c"
+    },
+    "name": "Women's Pants",
+    "slug": "womens-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d0d"
+    },
+    "name": "Women's Sportswear",
+    "slug": "womens-sportswear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d0e"
+    },
+    "name": "Women's Underwear & Innerwear",
+    "slug": "womens-underwear-innerwear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d0f"
+    },
+    "name": "Other Women's Products",
+    "slug": "other-womens-products",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 6,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d10"
+    },
+    "name": "Women's Accessories",
+    "slug": "womens-accessories",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 7,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d11"
+    },
+    "name": "Kids' Jackets",
+    "slug": "kids-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "name": "Kids' Shirts",
+    "slug": "kids-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d13"
+    },
+    "name": "Kids' Pants",
+    "slug": "kids-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d14"
+    },
+    "name": "Kids' Sportswear",
+    "slug": "kids-sportswear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d15"
+    },
+    "name": "Kids' Underwear & Innerwear",
+    "slug": "kids-underwear-innerwear",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d16"
+    },
+    "name": "Other Kids' Products",
+    "slug": "other-kids-products",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 6,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f2c3a408ec298703c0d17"
+    },
+    "name": "Kids' Accessories",
+    "slug": "kids-accessories",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d01"
+    },
+    "isActive": true,
+    "sortOrder": 7,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d18"
+    },
+    "name": "Men's Sun Protection Jackets",
+    "slug": "mens-sun-protection-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d03"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d19"
+    },
+    "name": "Men's Vests",
+    "slug": "mens-vests",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d03"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1a"
+    },
+    "name": "Men's Windbreakers",
+    "slug": "mens-windbreakers",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d03"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1b"
+    },
+    "name": "Men's Down Jackets",
+    "slug": "mens-down-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d03"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1c"
+    },
+    "name": "Men's Polo Shirts",
+    "slug": "mens-polo-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1d"
+    },
+    "name": "Men's Dress Shirts",
+    "slug": "mens-dress-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1e"
+    },
+    "name": "Men's T-Shirts",
+    "slug": "mens-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d1f"
+    },
+    "name": "Men's Sweaters",
+    "slug": "mens-sweaters",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d20"
+    },
+    "name": "Men's Hoodies",
+    "slug": "mens-hoodies",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d04"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d21"
+    },
+    "name": "Men's Dress Pants",
+    "slug": "mens-dress-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d05"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d22"
+    },
+    "name": "Men's Jeans",
+    "slug": "mens-jeans",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d05"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d23"
+    },
+    "name": "Men's Shorts",
+    "slug": "mens-shorts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d05"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d24"
+    },
+    "name": "Men's Khaki Pants",
+    "slug": "mens-khaki-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d05"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d25"
+    },
+    "name": "Men's Sports Sets",
+    "slug": "mens-sports-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d06"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d26"
+    },
+    "name": "Men's Sports T-Shirts",
+    "slug": "mens-sports-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d06"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d27"
+    },
+    "name": "Men's Sports Pants",
+    "slug": "mens-sports-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d06"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d28"
+    },
+    "name": "Men's Tank Tops",
+    "slug": "mens-tank-tops",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d07"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d29"
+    },
+    "name": "Men's Underpants",
+    "slug": "mens-underpants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d07"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2a"
+    },
+    "name": "Men's Short Sleeve Sets",
+    "slug": "mens-short-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d08"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2b"
+    },
+    "name": "Men's Long Sleeve Sets",
+    "slug": "mens-long-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d08"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2c"
+    },
+    "name": "Men's Shoes",
+    "slug": "mens-shoes",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d09"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2d"
+    },
+    "name": "Men's Socks",
+    "slug": "mens-socks",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d09"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2e"
+    },
+    "name": "Men's Belts",
+    "slug": "mens-belts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d09"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3035408ec298703c0d2f"
+    },
+    "name": "Men's Bags",
+    "slug": "mens-bags",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d09"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f3190408ec298703c0d30"
+    },
+    "name": "Women's Jackets",
+    "slug": "womens-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "name": "Women's Shirts",
+    "slug": "womens-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2923408ec298703c0d00"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d32"
+    },
+    "name": "Women's Sun Protection Jackets",
+    "slug": "womens-sun-protection-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f3190408ec298703c0d30"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d33"
+    },
+    "name": "Women's Vests",
+    "slug": "womens-vests",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f3190408ec298703c0d30"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d34"
+    },
+    "name": "Women's Windbreakers",
+    "slug": "womens-windbreakers",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f3190408ec298703c0d30"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d35"
+    },
+    "name": "Women's Down Jackets",
+    "slug": "womens-down-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f3190408ec298703c0d30"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d36"
+    },
+    "name": "Women's Polo Shirts",
+    "slug": "womens-polo-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d37"
+    },
+    "name": "Women's Dress Shirts",
+    "slug": "womens-dress-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d38"
+    },
+    "name": "Women's T-Shirts",
+    "slug": "womens-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d39"
+    },
+    "name": "Women's Sweaters",
+    "slug": "womens-sweaters",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3a"
+    },
+    "name": "Women's Hoodies",
+    "slug": "womens-hoodies",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f31a2408ec298703c0d31"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3b"
+    },
+    "name": "Women's Dress Pants",
+    "slug": "womens-dress-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0c"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3c"
+    },
+    "name": "Women's Jeans",
+    "slug": "womens-jeans",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0c"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3d"
+    },
+    "name": "Women's Shorts",
+    "slug": "womens-shorts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0c"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3e"
+    },
+    "name": "Women's Khaki Pants",
+    "slug": "womens-khaki-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0c"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d3f"
+    },
+    "name": "Women's Sports Sets",
+    "slug": "womens-sports-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0d"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d40"
+    },
+    "name": "Women's Sports T-Shirts",
+    "slug": "womens-sports-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0d"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d41"
+    },
+    "name": "Women's Sports Pants",
+    "slug": "womens-sports-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0d"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d42"
+    },
+    "name": "Women's Tank Tops",
+    "slug": "womens-tank-tops",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0e"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d43"
+    },
+    "name": "Women's Underpants",
+    "slug": "womens-underpants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0e"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d44"
+    },
+    "name": "Women's Short Sleeve Sets",
+    "slug": "womens-short-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0f"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d45"
+    },
+    "name": "Women's Long Sleeve Sets",
+    "slug": "womens-long-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d0f"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d46"
+    },
+    "name": "Women's Shoes",
+    "slug": "womens-shoes",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d10"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d47"
+    },
+    "name": "Women's Socks",
+    "slug": "womens-socks",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d10"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d48"
+    },
+    "name": "Women's Belts",
+    "slug": "womens-belts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d10"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f32b2408ec298703c0d49"
+    },
+    "name": "Women's Bags",
+    "slug": "womens-bags",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d10"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4a"
+    },
+    "name": "Kids' Windbreakers",
+    "slug": "kids-windbreakers",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d11"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4b"
+    },
+    "name": "Kids' Down Jackets",
+    "slug": "kids-down-jackets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d11"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4c"
+    },
+    "name": "Kids' Polo Shirts",
+    "slug": "kids-polo-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4d"
+    },
+    "name": "Kids' Dress Shirts",
+    "slug": "kids-dress-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4e"
+    },
+    "name": "Kids' T-Shirts",
+    "slug": "kids-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d4f"
+    },
+    "name": "Kids' Sweaters",
+    "slug": "kids-sweaters",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d50"
+    },
+    "name": "Kids' Hoodies",
+    "slug": "kids-hoodies",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d12"
+    },
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d51"
+    },
+    "name": "Kids' Fleece Pants",
+    "slug": "kids-fleece-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d13"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d52"
+    },
+    "name": "Kids' Jeans",
+    "slug": "kids-jeans",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d13"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d53"
+    },
+    "name": "Kids' Shorts",
+    "slug": "kids-shorts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d13"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d54"
+    },
+    "name": "Kids' Khaki Pants",
+    "slug": "kids-khaki-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d13"
+    },
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d55"
+    },
+    "name": "Kids' Sports Sets",
+    "slug": "kids-sports-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d14"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d56"
+    },
+    "name": "Kids' Sports T-Shirts",
+    "slug": "kids-sports-t-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d14"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d57"
+    },
+    "name": "Kids' Sports Pants",
+    "slug": "kids-sports-pants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d14"
+    },
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d58"
+    },
+    "name": "Kids' Thermal Shirts",
+    "slug": "kids-thermal-shirts",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d15"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d59"
+    },
+    "name": "Kids' Underpants",
+    "slug": "kids-underpants",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d15"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d5a"
+    },
+    "name": "Kids' Short Sleeve Sets",
+    "slug": "kids-short-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d16"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d5b"
+    },
+    "name": "Kids' Long Sleeve Sets",
+    "slug": "kids-long-sleeve-sets",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d16"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d5c"
+    },
+    "name": "Kids' Shoes",
+    "slug": "kids-shoes",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d17"
+    },
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "683f346e408ec298703c0d5d"
+    },
+    "name": "Kids' Socks",
+    "slug": "kids-socks",
+    "description": "Explore the latest trends in men's fashion.",
+    "image": "https://example.com/images/mens-fashion.jpg",
+    "parentCategoryId": {
+      "$oid": "683f2c3a408ec298703c0d17"
+    },
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2023-10-01T12:00:00.000Z"
+    }
+  }
+]

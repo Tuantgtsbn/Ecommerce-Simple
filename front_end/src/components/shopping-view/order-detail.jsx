@@ -1,18 +1,43 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {DialogContent, DialogHeader, DialogTitle} from "../ui/dialog";
 import {Label} from "../ui/label";
 import {Separator} from "../ui/separator";
 import {formatDateCustom} from "@/lib/utils";
 import classNames from "classnames";
-function ShoppingOrderDetail() {
+import {useEffect, useState} from "react";
+import {getOneOrderByUserId} from "@/store/shop/order-slice";
+function ShoppingOrderDetail({orderId}) {
   const {user} = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const {orderDetails} = useSelector((state) => state.shoppingOrder);
+
+  useEffect(() => {
+    async function fetchOrderDetails() {
+      if (!orderId) return;
+      setLoading(true);
+      try {
+        await dispatch(getOneOrderByUserId(orderId)).unwrap();
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchOrderDetails();
+  }, [orderId]);
+
   return (
     <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
       <DialogHeader>
         <DialogTitle>Order detail</DialogTitle>
       </DialogHeader>
-      {orderDetails ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : isError ? (
+        <p className="text-red-500">Error loading order details</p>
+      ) : orderDetails ? (
         <>
           <div className="grid gap-3 py-4 space-y-2">
             <div className="flex gap-3 items-center">

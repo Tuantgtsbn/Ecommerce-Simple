@@ -15,7 +15,7 @@ function MenuItems({setOpen}) {
 
   return (
     <nav className="flex flex-col gap-2 mt-8">
-      {adminSidebarMenuItems.map((item, index) => (
+      {adminSidebarMenuItems.map((item) => (
         <div
           key={item.id}
           className={classNames(

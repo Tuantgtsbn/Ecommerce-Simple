@@ -12,12 +12,13 @@ import {
 import {Dialog, DialogTrigger} from "../ui/dialog";
 import ShoppingOrderDetail from "./order-detail";
 import {useDispatch, useSelector} from "react-redux";
-import {getOneOrderByUserId, getOrdersByUserId} from "@/store/shop/order-slice";
+import {getOrdersByUserId} from "@/store/shop/order-slice";
 import {formatDateCustom} from "@/lib/utils";
 import {Badge} from "../ui/badge";
 import classNames from "classnames";
 function ShoppingOrder() {
   const [openDetailOrder, setOpenDetailOrder] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const {orderList, isLoading} = useSelector((state) => state.shoppingOrder);
   const {user} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -31,14 +32,10 @@ function ShoppingOrder() {
       }
     }
     fetchOrders();
-  }, [dispatch, user.id]);
+  }, [user.id]);
   const handleOpenDetailOrder = async (orderId) => {
-    try {
-      await dispatch(getOneOrderByUserId(orderId)).unwrap();
-      setOpenDetailOrder(true);
-    } catch (error) {
-      console.log(error);
-    }
+    setSelectedOrderId(orderId);
+    setOpenDetailOrder(true);
   };
   return (
     <>
@@ -91,7 +88,7 @@ function ShoppingOrder() {
                           {order.orderStatus}
                         </Badge>
                       </TableCell>
-                      <TableCell className="space-x-2">
+                      <TableCell className="space-x-2 flex">
                         <Button className="bg-red-500 text-white">
                           Cancel
                         </Button>
@@ -113,7 +110,7 @@ function ShoppingOrder() {
         </CardContent>
       </Card>
       <Dialog open={openDetailOrder} onOpenChange={setOpenDetailOrder}>
-        <ShoppingOrderDetail />
+        <ShoppingOrderDetail orderId={selectedOrderId} />
       </Dialog>
     </>
   );

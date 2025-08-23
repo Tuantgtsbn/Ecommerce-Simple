@@ -5,6 +5,7 @@ import {categoryValueMap, brandValueMap} from "@/config";
 import {addProductToCart, fetchCartItems} from "@/store/shop/cart-slice";
 import {useToast} from "@/contexts/ToastContext";
 import {useState} from "react";
+
 function ShoppingProductCard({product, handleClickDetail}) {
   const dispatch = useDispatch();
   const {toast} = useToast();
@@ -44,7 +45,7 @@ function ShoppingProductCard({product, handleClickDetail}) {
           <img
             src={product.thumbnail}
             alt={product.name}
-            className="w-full object-cover h-[300px] rounded-t-lg"
+            className="w-full h-[400px] object-cover rounded-t-lg"
           />
           {product?.discount > 0 && (
             <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-lg border-1 border-white border-solid">
@@ -54,7 +55,7 @@ function ShoppingProductCard({product, handleClickDetail}) {
         </div>
       </div>
       <CardContent>
-        <h2 className="text-xl font-bold mb-2">{product?.name}</h2>
+        <h2 className="text-xl font-bold mb-2 line-clamp-1">{product?.name}</h2>
         <div className="flex justify-between mb-2">
           <p className="text-muted-foreground">
             {product.category
@@ -69,7 +70,7 @@ function ShoppingProductCard({product, handleClickDetail}) {
         </div>
         <div>
           {product?.discount > 0 ? (
-            <div>
+            <div className="flex justify-between items-center">
               <div className="text-red-500 flex font-[500]">
                 <p className="text-lg ">
                   {product.price * (1 - product.discount / 100)}

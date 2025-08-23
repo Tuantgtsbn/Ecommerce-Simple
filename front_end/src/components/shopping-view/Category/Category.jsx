@@ -1,14 +1,11 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {HousePlug, Search} from "lucide-react";
+import {Search} from "lucide-react";
 import {useState} from "react";
 import {
   Accordion,
@@ -20,7 +17,6 @@ import {TfiArrowTopRight} from "react-icons/tfi";
 
 function CategoryDialog({categories, open, setIsOpenListCategory}) {
   const [searchTerm, setSearchTerm] = useState("");
-  const handleCategorySelect = () => {};
   const renderCategory = (category, level = 0) => {
     return (
       <div key={category._id} className="text-[20px]">
@@ -56,20 +52,17 @@ function CategoryDialog({categories, open, setIsOpenListCategory}) {
   };
   return (
     <Dialog open={open} onOpenChange={setIsOpenListCategory}>
-      <DialogContent className="!w-screen !max-w-full top-[380px]">
+      <DialogContent className="max-w-[90%]">
         <DialogHeader>
           <div>
             <DialogTitle className="text-center text-2xl">
-              Chọn danh mục sản phẩm
+              Select category
             </DialogTitle>
-            <DialogDescription>
-              Tìm kiếm và chọn danh mục phù hợp
-            </DialogDescription>
           </div>
         </DialogHeader>
         <div className="space-y-4">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Tìm kiếm danh mục..."
               value={searchTerm}
