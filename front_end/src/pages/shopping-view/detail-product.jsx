@@ -304,7 +304,7 @@ function DetailProduct() {
                 </Tooltip>
               </div>
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 bg-white">
-                <h1 className="uppercase">
+                <h1 className="uppercase whitespace-nowrap text-[14px] lg:text-[16px]">
                   Guaranteed <span className="text-green-400">safe</span>{" "}
                   checkout
                 </h1>

@@ -126,24 +126,26 @@ function ProductDetailDialog({open, setOpen}) {
           </div>
         </DialogContent>
       ) : (
-        <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w[80vw] lg:max-w-[70vw]">
-          <div className="relative overflow-hidden rounded-lg">
+        <DialogContent className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w[80vw] lg:max-w-[70vw] overflow-y-auto max-h-[75vh]">
+          <div className="relative overflow-hidden flex items-center">
             <img
               src={detailProduct?.thumbnail}
               alt={detailProduct?.title}
               width={600}
               height={600}
-              className="aspect-square w-full object-cover"
+              className="aspect-square w-full object-cover rounded-lg mt-[10px] lg:mt-0"
             />
           </div>
           <div className="grid gap-6">
             <div>
-              <h1 className="text-3xl font-bold">{detailProduct?.title}</h1>
-              <p>{detailProduct?.description}</p>
+              <h1 className="text-xl lg:text-2xl font-bold">
+                {detailProduct?.title}
+              </h1>
+              <p className="line-clamp-2">{detailProduct?.description}</p>
               <div className="flex justify-between ">
                 <div className="flex gap-2">
                   <p
-                    className={classNames("text-3xl font-bold", {
+                    className={classNames("text-xl lg:text-2xl font-bold", {
                       "line-through text-red-500": detailProduct?.discount > 0,
                     })}
                   >
@@ -159,7 +161,7 @@ function ProductDetailDialog({open, setOpen}) {
                 </div>
                 {detailProduct?.discount > 0 && (
                   <div className="flex gap-2">
-                    <p className="text-3xl font-bold">
+                    <p className="text-xl lg:text-2xl font-bold">
                       {detailProduct.price * (1 - detailProduct.discount / 100)}
                     </p>
                     <sub className="pt-2">đ</sub>
@@ -183,7 +185,7 @@ function ProductDetailDialog({open, setOpen}) {
               <Separator />
               <div className="max-h-[300px] overflow-y-auto flex flex-col gap-4 mt-2 relative">
                 <div className="sticky top-0 bg-white z-10">
-                  <p className="text-3xl font-bold">Reviews</p>
+                  <p className="text-xl lg:text-2xl font-bold">Reviews</p>
                 </div>
                 <div className="space-y-4">
                   {optimisticReviews.map((review) => (
@@ -202,7 +204,9 @@ function ProductDetailDialog({open, setOpen}) {
                 </div>
               </div>
               <div className="px-1 flex flex-col gap-2 mt-4">
-                <Label className="text-3xl font-bold">Write a review</Label>
+                <Label className="text-xl lg:text-2xl font-bold">
+                  Write a review
+                </Label>
                 <div className="flex gap-2">
                   <RatingStar rating={rating} setRating={setRating} />
                 </div>
