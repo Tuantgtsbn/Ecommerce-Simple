@@ -10,6 +10,9 @@ import shoppingAddressReducer from "./shop/address-slice";
 import shoppingOrderReducer from "./shop/order-slice";
 import shoppingReviewReducer from "./shop/review-slice";
 import shoppingCategoryReducer from "./shop/category-slice";
+import {bannerApi} from "./api/bannerApi.js";
+import {setupListeners} from "@reduxjs/toolkit/query";
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -23,7 +26,13 @@ const store = configureStore({
     shoppingOrder: shoppingOrderReducer,
     shoppingReview: shoppingReviewReducer,
     shoppingCategory: shoppingCategoryReducer,
+    [bannerApi.reducerPath]: bannerApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(bannerApi.middleware);
   },
 });
+
+setupListeners(store.dispatch);
 
 export default store;

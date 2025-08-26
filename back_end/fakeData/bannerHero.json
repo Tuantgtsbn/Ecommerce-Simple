@@ -1,0 +1,207 @@
+[
+  {
+    "title": "Black Friday Sale",
+    "subtitle": "Sale up to 50% off",
+    "description": "Don't miss out on our biggest sale of the year! Enjoy discounts of up to 50% on selected items. Limited time offer, shop now and save big!",
+    "images": {
+      "desktop": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195519/Ecommerce/ybmwdgkzpvsusjbapq9w.jpg",
+        "alt": "Banner black friday sale for desktop",
+        "width": 1920,
+        "height": 800
+      },
+      "tablet": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195519/Ecommerce/ybmwdgkzpvsusjbapq9w.jpg",
+        "alt": "Banner black friday sale for tablet",
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195519/Ecommerce/ybmwdgkzpvsusjbapq9w.jpg",
+        "alt": "Banner black friday sale for mobile",
+        "width": 375,
+        "height": 400
+      }
+    },
+    "cta": {
+      "text": "Shop now",
+      "url": "/listing",
+      "type": "primary",
+      "isExternal": false
+    },
+    "order": 1,
+    "isActive": true,
+    "startDate": "2025-06-01T00:00:00.000Z",
+    "endDate": "2025-12-31T23:59:59.000Z",
+    "seo": {
+      "metaTitle": "Khuyến Mại Mùa Hè 2025 - Giảm Giá Lên Đến 50%",
+      "metaDescription": "Khám phá bộ sưu tập mùa hè với ưu đãi giảm giá lên đến 50%. Hàng ngàn sản phẩm chất lượng cao đang chờ bạn.",
+      "keywords": ["khuyến mại", "mùa hè", "giảm giá", "sale", "ưu đãi"]
+    },
+    "createdBy": "67d951b7413964d21104f6e4"
+  },
+  {
+    "title": "New Fashion Collection",
+    "subtitle": "New arrivals for 2025",
+    "description": "Discover the latest fashion trends for 2025 with our new collection. From casual wear to elegant outfits, find the perfect style that suits you.",
+    "images": {
+      "desktop": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/aybpvftko7tj6d9kjh1n.jpg",
+        "alt": "New fashion collection 2025 for desktop",
+        "width": 1920,
+        "height": 800
+      },
+      "tablet": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/aybpvftko7tj6d9kjh1n.jpg",
+        "alt": "New fashion collection 2025 for tablet",
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/aybpvftko7tj6d9kjh1n.jpg",
+        "alt": "New fashion collection 2025 for mobile",
+        "width": 375,
+        "height": 400
+      }
+    },
+    "cta": {
+      "text": "Discover",
+      "url": "/listing",
+      "type": "secondary",
+      "isExternal": false
+    },
+    "order": 2,
+    "isActive": true,
+    "startDate": "2024-07-01T00:00:00.000Z",
+    "endDate": "2025-12-31T23:59:59.000Z",
+    "seo": {
+      "metaTitle": "Bộ Sưu Tập Thời Trang Mới 2024 - Xu Hướng Độc Quyền",
+      "metaDescription": "Khám phá bộ sưu tập thời trang mới nhất 2024 với các thiết kế độc đáo và xu hướng hiện đại nhất.",
+      "keywords": ["thời trang", "bộ sưu tập", "xu hướng", "2024", "thiết kế"]
+    },
+    "createdBy": "67d951b7413964d21104f6e4"
+  },
+  {
+    "title": "New Fashion Collection",
+    "subtitle": "New arrivals for 2025",
+    "description": "Discover the latest fashion trends for 2025 with our new collection. From casual wear to elegant outfits, find the perfect style that suits you.",
+    "images": {
+      "desktop": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/p4zkp68iwkyj4gqgbcfn.jpg",
+        "alt": "New fashion collection 2025 for desktop",
+        "width": 1920,
+        "height": 800
+      },
+      "tablet": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/p4zkp68iwkyj4gqgbcfn.jpg",
+        "alt": "New fashion collection 2025 for tablet",
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/p4zkp68iwkyj4gqgbcfn.jpg",
+        "alt": "New fashion collection 2025 for mobile",
+        "width": 375,
+        "height": 400
+      }
+    },
+    "cta": {
+      "text": "Discover",
+      "url": "/listing",
+      "type": "secondary",
+      "isExternal": false
+    },
+    "order": 2,
+    "isActive": true,
+    "startDate": "2024-07-01T00:00:00.000Z",
+    "endDate": "2025-12-31T23:59:59.000Z",
+    "seo": {
+      "metaTitle": "Bộ Sưu Tập Thời Trang Mới 2024 - Xu Hướng Độc Quyền",
+      "metaDescription": "Khám phá bộ sưu tập thời trang mới nhất 2024 với các thiết kế độc đáo và xu hướng hiện đại nhất.",
+      "keywords": ["thời trang", "bộ sưu tập", "xu hướng", "2024", "thiết kế"]
+    },
+    "createdBy": "67d951b7413964d21104f6e4"
+  },
+  {
+    "title": "New Fashion Collection",
+    "subtitle": "New arrivals for 2025",
+    "description": "Discover the latest fashion trends for 2025 with our new collection. From casual wear to elegant outfits, find the perfect style that suits you.",
+    "images": {
+      "desktop": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/wylrsjahpgiko8esev2u.jpg",
+        "alt": "New fashion collection 2025 for desktop",
+        "width": 1920,
+        "height": 800
+      },
+      "tablet": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/wylrsjahpgiko8esev2u.jpg",
+        "alt": "New fashion collection 2025 for tablet",
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195295/Ecommerce/wylrsjahpgiko8esev2u.jpg",
+        "alt": "New fashion collection 2025 for mobile",
+        "width": 375,
+        "height": 400
+      }
+    },
+    "cta": {
+      "text": "Discover",
+      "url": "/listing",
+      "type": "secondary",
+      "isExternal": false
+    },
+    "order": 2,
+    "isActive": true,
+    "startDate": "2024-07-01T00:00:00.000Z",
+    "endDate": "2025-12-31T23:59:59.000Z",
+    "seo": {
+      "metaTitle": "Bộ Sưu Tập Thời Trang Mới 2024 - Xu Hướng Độc Quyền",
+      "metaDescription": "Khám phá bộ sưu tập thời trang mới nhất 2024 với các thiết kế độc đáo và xu hướng hiện đại nhất.",
+      "keywords": ["thời trang", "bộ sưu tập", "xu hướng", "2024", "thiết kế"]
+    },
+    "createdBy": "67d951b7413964d21104f6e4"
+  },
+  {
+    "title": "New Fashion Collection",
+    "subtitle": "New arrivals for 2025",
+    "description": "Discover the latest fashion trends for 2025 with our new collection. From casual wear to elegant outfits, find the perfect style that suits you.",
+    "images": {
+      "desktop": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/jsvhylbhqejd2utoi6bh.jpg",
+        "alt": "New fashion collection 2025 for desktop",
+        "width": 1920,
+        "height": 800
+      },
+      "tablet": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/jsvhylbhqejd2utoi6bh.jpg",
+        "alt": "New fashion collection 2025 for tablet",
+        "width": 1024,
+        "height": 600
+      },
+      "mobile": {
+        "url": "https://res.cloudinary.com/dctzo9scu/image/upload/v1756195296/Ecommerce/jsvhylbhqejd2utoi6bh.jpg",
+        "alt": "New fashion collection 2025 for mobile",
+        "width": 375,
+        "height": 400
+      }
+    },
+    "cta": {
+      "text": "Discover",
+      "url": "/listing",
+      "type": "secondary",
+      "isExternal": false
+    },
+    "order": 2,
+    "isActive": true,
+    "startDate": "2024-07-01T00:00:00.000Z",
+    "endDate": "2025-12-31T23:59:59.000Z",
+    "seo": {
+      "metaTitle": "Bộ Sưu Tập Thời Trang Mới 2024 - Xu Hướng Độc Quyền",
+      "metaDescription": "Khám phá bộ sưu tập thời trang mới nhất 2024 với các thiết kế độc đáo và xu hướng hiện đại nhất.",
+      "keywords": ["thời trang", "bộ sưu tập", "xu hướng", "2024", "thiết kế"]
+    },
+    "createdBy": "67d951b7413964d21104f6e4"
+  }
+]

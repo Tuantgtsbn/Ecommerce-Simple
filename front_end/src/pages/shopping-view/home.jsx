@@ -1,7 +1,4 @@
 import {Button} from "@/components/ui/button";
-import bannerOne from "../../assets/imgs/banner-1.webp";
-import bannerTwo from "../../assets/imgs/banner-2.webp";
-import bannerThree from "../../assets/imgs/banner-3.webp";
 import {
   Airplay,
   BabyIcon,
@@ -29,6 +26,8 @@ import {Card, CardContent} from "@/components/ui/card";
 import {createSearchParamsHelper} from "@/lib/utils";
 import ShoppingProductCard from "@/components/shopping-view/productCard";
 import ProductDetailDialog from "@/components/shopping-view/productDetail";
+import {useGetActiveBannersQuery} from "@/store/api/bannerApi";
+import {HeroSection} from "@/components/shopping-view/HeroSection";
 
 const categoriesWithIcon = [
   {id: "men", label: "Men", icon: ShirtIcon},
@@ -46,18 +45,19 @@ const brandsWithIcon = [
   {id: "zara", label: "Zara", icon: Images},
   {id: "h&m", label: "H&M", icon: Heater},
 ];
-const featureImageList = [bannerOne, bannerTwo, bannerThree];
+
 function HomeShoppingPage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const {productList} = useSelector((state) => state.shoppingProducts);
   const [openDetailProduct, setOpenDetailProduct] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {toast} = useToast();
+  const {data: activeBanners, isLoading, isError} = useGetActiveBannersQuery();
+
   const handleNavigateToListingPage = (id, category) => {
     navigate(`/listing/?${category}=${id}`);
   };
+
   const handleClickDetail = async (productId) => {
     try {
       await dispatch(fetchDetailProduct(productId)).unwrap();
@@ -75,54 +75,19 @@ function HomeShoppingPage() {
     console.log(searchParams, "searchParams");
     dispatch(fetchFilteredProducts(searchParams));
   }, [dispatch]);
+
   useEffect(() => {
     window.document.title = "Home - Shopping";
   }, []);
-  console.log(productList, "productList");
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div
-        className="relative w-full bg-gray-100 transition-height duration-300 ease-in-out"
-        style={{height: "900px"}}
-      >
-        {featureImageList && featureImageList.length > 0
-          ? featureImageList.map((slide, index) => (
-              <img
-                src={slide}
-                key={index}
-                className={`slider-image ${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-              />
-            ))
-          : null}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) =>
-                (prevSlide - 1 + featureImageList.length) %
-                featureImageList.length,
-            )
-          }
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
-        >
-          <ChevronLeftIcon className="w-4 h-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) => (prevSlide + 1) % featureImageList.length,
-            )
-          }
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
-        >
-          <ChevronRightIcon className="w-4 h-4" />
-        </Button>
+      <div className="relative w-full bg-gray-100">
+        <HeroSection
+          data={activeBanners?.data}
+          isLoading={isLoading}
+          isError={isError}
+        />
       </div>
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">

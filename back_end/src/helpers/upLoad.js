@@ -3,7 +3,7 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 const envPath = `.env.${process.env.NODE_ENV || "development"}`;
 dotenv.config({path: envPath});
-console.log("environment", process.env.NODE_ENV);
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -12,7 +12,9 @@ cloudinary.config({
 });
 
 const storage = multer.memoryStorage();
+
 const upload = multer({storage});
+
 const deleteImages = async (publicIds) => {
   try {
     const result = await cloudinary.api.delete_resources(publicIds);
@@ -22,6 +24,7 @@ const deleteImages = async (publicIds) => {
     throw new Error("Error deleting images");
   }
 };
+
 const uploadOneImage = async (file, folder) => {
   try {
     let fileToUpload;
@@ -51,6 +54,7 @@ const uploadOneImage = async (file, folder) => {
     throw new Error("Error uploading image");
   }
 };
+
 const deleteOneImage = async (publicId) => {
   try {
     const result = await cloudinary.uploader.destroy(publicId);
@@ -60,6 +64,7 @@ const deleteOneImage = async (publicId) => {
     throw new Error("Error deleting image");
   }
 };
+
 const uploadImagesProduct = async (files) => {
   const uploadedPublicIds = [];
   try {
@@ -102,6 +107,7 @@ const uploadImagesProduct = async (files) => {
     throw new Error("Error uploading images");
   }
 };
+
 const uploadManyImages = async (files, folder) => {
   const uploadedUrls = [];
   const uploadedPublicIds = [];
@@ -140,6 +146,7 @@ const uploadManyImages = async (files, folder) => {
     throw new Error("Error uploading images");
   }
 };
+
 module.exports = {
   upload,
   cloudinary,

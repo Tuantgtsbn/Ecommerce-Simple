@@ -13,11 +13,15 @@ function ReviewProduct({review}) {
       </div>
 
       <div className="flex-1">
-        <p className="text-bold text-xl">{review?.userId?.userName}</p>
+        <p className="text-bold text-sm lg:text-xl line-clamp-1">
+          {review?.userId?.userName}
+        </p>
         <div className="flex gap-1">
           <RatingStar rating={review?.rating} readonly />
         </div>
-        <p className="text-muted-foreground text-xl">{review?.comment}</p>
+        <p className="text-muted-foreground text-sm lg:text-xl line-clamp-1">
+          {review?.comment}
+        </p>
         {review?.isOptimistic && (
           <p className="text-muted-foreground">Loading...</p>
         )}
