@@ -89,7 +89,7 @@ const createBanner = async (req, res) => {
     }
     const newBanner = new BannerHero({
       ...req.body,
-      createBy: req.user?._id,
+      createBy: req.user?.id,
     });
     const savedBanner = await newBanner.save();
     await savedBanner.populate("createdBy", "username email");
@@ -111,7 +111,7 @@ const updateBanner = async (req, res) => {
     const {id} = req.params;
     const updateData = {
       ...req.body,
-      updateBy: req.user?._id,
+      updateBy: req.user?.id,
     };
     const updatedBanner = await BannerHero.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -169,7 +169,7 @@ const toggleBannerStatus = async (req, res) => {
         .json({success: false, message: "Banner not found"});
     }
     banner.isActive = !banner.isActive;
-    banner.updateBy = req.user?._id;
+    banner.updateBy = req.user?.id;
     await banner.save();
     res.status(200).json({
       success: true,
@@ -195,7 +195,7 @@ const reorderBanners = async (req, res) => {
       const banner = await BannerHero.findById(id);
       if (banner) {
         banner.order = order;
-        banner.updateBy = req.user?._id;
+        banner.updateBy = req.user?.id;
         return banner.save();
       }
       throw new Error(`Banner with id ${id} not found`);
