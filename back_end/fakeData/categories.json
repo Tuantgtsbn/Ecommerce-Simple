@@ -1,0 +1,96 @@
+[
+  {
+    "_id": {
+      "$oid": "60f1c2c0d4f5e6789abcdef0"
+    },
+    "name": "Electronics",
+    "slug": "electronics",
+    "description": "Electronic devices and gadgets",
+    "image": "https://img.freepik.com/free-vector/flat-black-friday-horizontal-sale-banner_23-2149101407.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "parentCategoryId": null,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1c2c0d4f5e6789abcdef1"
+    },
+    "name": "Smartphones",
+    "slug": "smartphones",
+    "description": "Latest smartphones and mobile devices",
+    "image": "https://img.freepik.com/free-vector/smartphone-realistic-composition_1284-52732.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "parentCategoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef0"
+    },
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1c2c0d4f5e6789abcdef2"
+    },
+    "name": "Laptops",
+    "slug": "laptops",
+    "description": "Laptop computers and accessories",
+    "image": "https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg",
+    "isActive": true,
+    "sortOrder": 2,
+    "parentCategoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef0"
+    },
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": "60f1c2c0d4f5e6789abcdef3",
+    "name": "Clothing",
+    "slug": "clothing",
+    "description": "Fashion and clothing items",
+    "image": "https://img.freepik.com/free-vector/clothes-colorful-background_52683-33768.jpg",
+    "isActive": true,
+    "sortOrder": 2,
+    "parentCategoryId": null,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "_id": "60f1c2c0d4f5e6789abcdef4",
+    "name": "Men's Clothing",
+    "slug": "mens-clothing",
+    "description": "Clothing for men",
+    "image": "https://img.freepik.com/free-vector/men-s-fashion-clothing-collection_23-2148236755.jpg",
+    "isActive": true,
+    "sortOrder": 1,
+    "parentCategoryId": "60f1c2c0d4f5e6789abcdef3",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "_id": "60f1c2c0d4f5e6789abcdef5",
+    "name": "Women's Clothing",
+    "slug": "womens-clothing",
+    "description": "Clothing for women",
+    "image": "https://img.freepik.com/free-vector/women-s-fashion-clothing-collection_23-2148236754.jpg",
+    "isActive": true,
+    "sortOrder": 2,
+    "parentCategoryId": "60f1c2c0d4f5e6789abcdef3",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]

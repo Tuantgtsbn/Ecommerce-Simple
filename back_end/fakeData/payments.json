@@ -1,0 +1,83 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f242c0d4f5e6789abcdef0"
+    },
+    "orderId": {
+      "$oid": "60f232c0d4f5e6789abcdef0"
+    },
+    "paymentMethod": "paypal",
+    "paymentStatus": "paid",
+    "transactionId": {
+      "$oid": "PAYPAL_TXN_123456789"
+    },
+    "payerName": "John Doe",
+    "payerEmail": "john.doe@gmail.com",
+    "amount": 874.1,
+    "paymentId": {
+      "$oid": "PAYPAL_PAYMENT_ID_123"
+    },
+    "currency": "USD",
+    "paymentDate": {
+      "$date": "2024-08-20T10:35:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-08-20T10:35:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-20T10:35:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f242c0d4f5e6789abcdef1"
+    },
+    "orderId": {
+      "$oid": "60f232c0d4f5e6789abcdef1"
+    },
+    "paymentMethod": "credit_card",
+    "paymentStatus": "paid",
+    "transactionId": {
+      "$oid": "CC_TXN_987654321"
+    },
+    "payerName": "Jane Smith",
+    "payerEmail": "jane.smith@gmail.com",
+    "amount": 834.35,
+    "paymentId": {
+      "$oid": "CC_PAYMENT_ID_456"
+    },
+    "currency": "USD",
+    "paymentDate": {
+      "$date": "2024-08-25T14:20:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-08-25T14:20:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-25T14:20:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f242c0d4f5e6789abcdef2"
+    },
+    "orderId": {
+      "$oid": "60f232c0d4f5e6789abcdef2"
+    },
+    "paymentMethod": "cash",
+    "paymentStatus": "pending",
+    "transactionId": null,
+    "payerName": "Mike Wilson",
+    "payerEmail": "mike.wilson@yahoo.com",
+    "amount": 1039.2,
+    "paymentId": null,
+    "currency": "USD",
+    "paymentDate": null,
+    "createdAt": {
+      "$date": "2024-08-27T11:45:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T11:45:00.000Z"
+    }
+  }
+]

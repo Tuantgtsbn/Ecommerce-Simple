@@ -2,10 +2,49 @@ const Order = require("../../models/Orders");
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const {page = 1, limit = 10, search, status, userId} = req.query;
+
+    const filter = {};
+
+    // Tìm kiếm theo từ khóa
+    if (search) {
+      filter.$or = [
+        {orderId: {$regex: search, $options: "i"}},
+        {"shippingAddress.recipientName": {$regex: search, $options: "i"}},
+        {"shippingAddress.phone": {$regex: search, $options: "i"}},
+      ];
+    }
+
+    // Lọc theo status
+    if (status) {
+      filter.status = status;
+    }
+
+    // Lọc theo user
+    if (userId) {
+      filter.userId = userId;
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const orders = await Order.find(filter)
+      .populate("userId", "name email phone")
+      .populate("items.productId", "name slug thumbnail basePrice")
+      .sort({createdAt: -1})
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Order.countDocuments(filter);
+
     res.status(200).json({
       success: true,
       data: orders,
+      pagination: {
+        currentPage: Number(page),
+        totalPages: Math.ceil(total / Number(limit)),
+        totalItems: total,
+        itemsPerPage: Number(limit),
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -17,13 +56,18 @@ const getAllOrders = async (req, res) => {
 const getDetailOrder = async (req, res) => {
   try {
     const {id} = req.params;
-    const order = await Order.findById(id);
+    const order = await Order.findById(id)
+      .populate("userId", "name email phone")
+      .populate("items.productId", "name slug thumbnail basePrice")
+      .populate("couponId", "code discountType discountValue");
+
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
+
     res.status(200).json({
       success: true,
       data: order,
@@ -39,23 +83,47 @@ const updateOrderStatus = async (req, res) => {
   try {
     const {id} = req.params;
     const {status} = req.body;
+
     if (!id || !status) {
       return res.status(400).json({
         success: false,
         message: "Id and status are required",
       });
     }
+
+    // Kiểm tra status hợp lệ
+    const validStatuses = [
+      "pending",
+      "confirmed",
+      "shipped",
+      "delivered",
+      "cancelled",
+    ];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status",
+      });
+    }
+
     const order = await Order.findByIdAndUpdate(
       id,
-      {orderStatus: status},
+      {
+        status: status,
+        updatedAt: new Date(),
+      },
       {new: true},
-    );
+    )
+      .populate("userId", "name email phone")
+      .populate("items.productId", "name slug thumbnail basePrice");
+
     if (!order) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
+
     res.status(200).json({
       success: true,
       message: "Order status updated successfully",
@@ -70,7 +138,10 @@ const updateOrderStatus = async (req, res) => {
 };
 const statisticalOrdersAndRevenue = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().populate(
+      "items.productId",
+      "name category.name",
+    );
     const dateNow = new Date();
 
     // Lấy thông tin tháng hiện tại
@@ -100,12 +171,12 @@ const statisticalOrdersAndRevenue = async (req, res) => {
 
     // Tính toán doanh thu
     const currentMonthRevenue = currentMonthOrders.reduce(
-      (sum, order) => sum + order.totalAmount,
+      (sum, order) => sum + (order.totalAmount || 0),
       0,
     );
 
     const lastMonthRevenue = lastMonthOrders.reduce(
-      (sum, order) => sum + order.totalAmount,
+      (sum, order) => sum + (order.totalAmount || 0),
       0,
     );
 
@@ -124,9 +195,24 @@ const statisticalOrdersAndRevenue = async (req, res) => {
 
     // Tính tổng doanh thu toàn thời gian
     const totalRevenue = orders.reduce(
-      (sum, order) => sum + order.totalAmount,
+      (sum, order) => sum + (order.totalAmount || 0),
       0,
     );
+
+    // Thống kê theo status
+    const statusStats = orders.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Thống kê theo payment method
+    const paymentStats = orders.reduce((acc, order) => {
+      const method = order.paymentMethod || "unknown";
+      acc[method] = (acc[method] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Doanh thu theo tháng (12 tháng gần nhất)
     const monthlyBusiness = [];
     for (let i = 11; i >= 0; i--) {
       const month = (currentMonth - i + 12) % 12;
@@ -137,23 +223,23 @@ const statisticalOrdersAndRevenue = async (req, res) => {
           orderDate.getMonth() === month && orderDate.getFullYear() === year
         );
       });
-      const thisMothRevenue = thisMonthOrders.reduce(
-        (sum, order) => sum + order.totalAmount,
+      const thisMonthRevenue = thisMonthOrders.reduce(
+        (sum, order) => sum + (order.totalAmount || 0),
         0,
       );
       monthlyBusiness.push({
         month: month + 1,
         year,
-        revenue: thisMothRevenue,
+        revenue: thisMonthRevenue,
         orders: thisMonthOrders.length,
       });
     }
+
     return res.status(200).json({
       success: true,
       data: {
-        currentMonth,
+        currentMonth: currentMonth + 1,
         currentYear,
-        orders,
         statistics: {
           currentMonth: {
             orders: currentMonthOrders.length,
@@ -171,6 +257,8 @@ const statisticalOrdersAndRevenue = async (req, res) => {
             orders: orders.length,
             revenue: totalRevenue,
           },
+          statusStats,
+          paymentStats,
           monthlyBusiness,
         },
       },

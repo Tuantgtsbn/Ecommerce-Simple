@@ -1,0 +1,191 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f2c2c0d4f5e6789abcdef0"
+    },
+    "title": "iPhone 15 Pro vs Samsung Galaxy S24: The Ultimate Comparison",
+    "slug": "iphone-15-pro-vs-samsung-galaxy-s24-ultimate-comparison",
+    "content": "\u003ch2\u003eIntroduction\u003c/h2\u003e\u003cp\u003eThe smartphone market has never been more competitive, with Apple\u0027s iPhone 15 Pro and Samsung\u0027s Galaxy S24 leading the charge. Both devices represent the pinnacle of mobile technology, but which one is right for you?\u003c/p\u003e\u003ch2\u003eDesign and Build Quality\u003c/h2\u003e\u003cp\u003eThe iPhone 15 Pro features a premium titanium construction that\u0027s both lightweight and durable. Samsung\u0027s Galaxy S24, on the other hand, maintains its signature glass and aluminum design with enhanced durability.\u003c/p\u003e\u003ch2\u003ePerformance\u003c/h2\u003e\u003cp\u003eApple\u0027s A17 Pro chip delivers exceptional performance for both everyday tasks and demanding applications. Samsung\u0027s latest Snapdragon processor provides excellent performance with improved AI capabilities.\u003c/p\u003e\u003ch2\u003eCamera Systems\u003c/h2\u003e\u003cp\u003eBoth phones excel in photography, with the iPhone 15 Pro offering a versatile triple-camera system and the Galaxy S24 featuring advanced computational photography features.\u003c/p\u003e\u003ch2\u003eConclusion\u003c/h2\u003e\u003cp\u003eYour choice between these flagship devices will ultimately depend on your ecosystem preference, specific feature priorities, and budget considerations.\u003c/p\u003e",
+    "excerpt": "A comprehensive comparison between Apple\u0027s iPhone 15 Pro and Samsung\u0027s Galaxy S24 to help you make an informed decision.",
+    "categories": [
+      {
+        "categoryId": {
+          "$oid": "60f2b2c0d4f5e6789abcdef1"
+        }
+      }
+    ],
+    "totalDislikes": 3,
+    "totalLikes": 127,
+    "totalViews": 1450,
+    "publishedAt": {
+      "$date": "2024-08-20T10:00:00.000Z"
+    },
+    "status": "published",
+    "author": {
+      "authorId": {
+        "$oid": "60f1b2c0d4f5e6789abcdef0"
+      },
+      "authorName": "admin"
+    },
+    "thumbnail": {
+      "desktop": {
+        "url": "https://img.freepik.com/free-vector/smartphone-comparison-concept-illustration_114360-2047.jpg",
+        "alt": "iPhone vs Samsung comparison thumbnail"
+      },
+      "tablet": {
+        "url": "https://img.freepik.com/free-vector/smartphone-comparison-concept-illustration_114360-2047.jpg",
+        "alt": "iPhone vs Samsung comparison thumbnail tablet"
+      },
+      "mobile": {
+        "url": "https://img.freepik.com/free-vector/smartphone-comparison-concept-illustration_114360-2047.jpg",
+        "alt": "iPhone vs Samsung comparison thumbnail mobile"
+      }
+    },
+    "visibility": "public",
+    "tags": [
+      {
+        "tagId": {
+          "$oid": "60f1e2c0d4f5e6789abcdef1"
+        },
+        "tagName": "new",
+        "slug": "new"
+      },
+      {
+        "tagId": {
+          "$oid": "60f1e2c0d4f5e6789abcdef2"
+        },
+        "tagName": "featured",
+        "slug": "featured"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-08-20T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-20T10:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f2c2c0d4f5e6789abcdef1"
+    },
+    "title": "Best Laptops for Students in 2024: Complete Buying Guide",
+    "slug": "best-laptops-students-2024-complete-buying-guide",
+    "content": "\u003ch2\u003eWhy Choosing the Right Laptop Matters\u003c/h2\u003e\u003cp\u003eAs a student, your laptop is more than just a device â€“ it\u0027s your gateway to education, research, and productivity. With so many options available, finding the perfect balance of performance, portability, and price can be challenging.\u003c/p\u003e\u003ch2\u003eKey Features to Consider\u003c/h2\u003e\u003ch3\u003ePerformance\u003c/h3\u003e\u003cp\u003eLook for laptops with modern processors like Intel Core i5/i7 or AMD Ryzen 5/7. These provide enough power for multitasking, research, and even light creative work.\u003c/p\u003e\u003ch3\u003eBattery Life\u003c/h3\u003e\u003cp\u003eAim for at least 8-10 hours of battery life to get through a full day of classes without hunting for power outlets.\u003c/p\u003e\u003ch3\u003ePortability\u003c/h3\u003e\u003cp\u003eWeight matters when you\u0027re carrying your laptop across campus. Consider ultrabooks that weigh under 3 pounds.\u003c/p\u003e\u003ch2\u003eTop Recommendations\u003c/h2\u003e\u003ch3\u003eDell XPS 13\u003c/h3\u003e\u003cp\u003eThe Dell XPS 13 offers an excellent balance of performance, portability, and build quality. Its InfinityEdge display maximizes screen real estate while keeping the footprint small.\u003c/p\u003e\u003ch3\u003eMacBook Air M2\u003c/h3\u003e\u003cp\u003eApple\u0027s MacBook Air with M2 chip delivers exceptional performance and all-day battery life in an incredibly thin and light package.\u003c/p\u003e\u003ch2\u003eBudget Considerations\u003c/h2\u003e\u003cp\u003eStudent discounts are widely available. Many manufacturers offer special pricing for students, and back-to-school sales can provide significant savings.\u003c/p\u003e",
+    "excerpt": "Everything you need to know about choosing the perfect laptop for your studies, including top recommendations and money-saving tips.",
+    "categories": [
+      {
+        "categoryId": {
+          "$oid": "60f2b2c0d4f5e6789abcdef2"
+        }
+      }
+    ],
+    "totalDislikes": 1,
+    "totalLikes": 89,
+    "totalViews": 876,
+    "publishedAt": {
+      "$date": "2024-08-15T14:30:00.000Z"
+    },
+    "status": "published",
+    "author": {
+      "authorId": {
+        "$oid": "60f1b2c0d4f5e6789abcdef4"
+      },
+      "authorName": "staff_member"
+    },
+    "thumbnail": {
+      "desktop": {
+        "url": "https://img.freepik.com/free-vector/laptop-student-concept-illustration_114360-1876.jpg",
+        "alt": "Student laptop buying guide thumbnail"
+      },
+      "tablet": {
+        "url": "https://img.freepik.com/free-vector/laptop-student-concept-illustration_114360-1876.jpg",
+        "alt": "Student laptop buying guide thumbnail tablet"
+      },
+      "mobile": {
+        "url": "https://img.freepik.com/free-vector/laptop-student-concept-illustration_114360-1876.jpg",
+        "alt": "Student laptop buying guide thumbnail mobile"
+      }
+    },
+    "visibility": "public",
+    "tags": [
+      {
+        "tagId": {
+          "$oid": "60f1e2c0d4f5e6789abcdef2"
+        },
+        "tagName": "featured",
+        "slug": "featured"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-08-15T14:30:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T14:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f2c2c0d4f5e6789abcdef2"
+    },
+    "title": "The Future of Wearable Technology: Trends to Watch in 2024",
+    "slug": "future-wearable-technology-trends-2024",
+    "content": "\u003ch2\u003eThe Evolution of Wearables\u003c/h2\u003e\u003cp\u003eWearable technology has come a long way from simple step counters. Today\u0027s devices are sophisticated health monitors, communication tools, and even fashion statements.\u003c/p\u003e\u003ch2\u003eHealth Monitoring Revolution\u003c/h2\u003e\u003cp\u003eModern wearables can track everything from heart rate variability to blood oxygen levels. The integration of AI is enabling more accurate health predictions and personalized recommendations.\u003c/p\u003e\u003ch2\u003eEmerging Trends\u003c/h2\u003e\u003ch3\u003eAdvanced Health Sensors\u003c/h3\u003e\u003cp\u003eNew sensors are being developed to monitor glucose levels, hydration, and even stress hormones through skin contact.\u003c/p\u003e\u003ch3\u003eImproved Battery Technology\u003c/h3\u003e\u003cp\u003eLonger battery life and faster charging are making wearables more practical for everyday use.\u003c/p\u003e\u003ch3\u003eFashion Integration\u003c/h3\u003e\u003cp\u003eLuxury brands are partnering with tech companies to create wearables that don\u0027t compromise on style.\u003c/p\u003e\u003ch2\u003eThe Road Ahead\u003c/h2\u003e\u003cp\u003eAs technology continues to advance, we can expect wearables to become even more integrated into our daily lives, offering unprecedented insights into our health and productivity.\u003c/p\u003e",
+    "excerpt": "Explore the latest trends and innovations shaping the future of wearable technology in 2024 and beyond.",
+    "categories": [
+      {
+        "categoryId": {
+          "$oid": "60f2b2c0d4f5e6789abcdef0"
+        }
+      },
+      {
+        "categoryId": {
+          "$oid": "60f2b2c0d4f5e6789abcdef3"
+        }
+      }
+    ],
+    "totalDislikes": 0,
+    "totalLikes": 45,
+    "totalViews": 342,
+    "publishedAt": {
+      "$date": "2024-08-10T09:15:00.000Z"
+    },
+    "status": "published",
+    "author": {
+      "authorId": {
+        "$oid": "60f1b2c0d4f5e6789abcdef0"
+      },
+      "authorName": "admin"
+    },
+    "thumbnail": {
+      "desktop": {
+        "url": "https://img.freepik.com/free-vector/wearable-technology-concept-illustration_114360-1234.jpg",
+        "alt": "Wearable technology trends thumbnail"
+      },
+      "tablet": {
+        "url": "https://img.freepik.com/free-vector/wearable-technology-concept-illustration_114360-1234.jpg",
+        "alt": "Wearable technology trends thumbnail tablet"
+      },
+      "mobile": {
+        "url": "https://img.freepik.com/free-vector/wearable-technology-concept-illustration_114360-1234.jpg",
+        "alt": "Wearable technology trends thumbnail mobile"
+      }
+    },
+    "visibility": "public",
+    "tags": [
+      {
+        "tagId": {
+          "$oid": "60f1e2c0d4f5e6789abcdef4"
+        },
+        "tagName": "trending",
+        "slug": "trending"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-08-10T09:15:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-10T09:15:00.000Z"
+    }
+  }
+]

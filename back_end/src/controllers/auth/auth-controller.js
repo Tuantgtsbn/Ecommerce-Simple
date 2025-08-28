@@ -4,30 +4,53 @@ const User = require("../../models/User");
 
 //Register
 const registerUser = async (req, res) => {
-  const {userName, password, email} = req.body;
+  const {userName, password, email, gender, birthday} = req.body;
   try {
+    // Kiểm tra user đã tồn tại
     const checkUser = await User.findOne({email});
     if (checkUser)
       return res.status(400).json({
         success: false,
-        message: "Email already exists ! Please try another email.",
+        message: "Email already exists! Please try another email.",
       });
+
+    // Kiểm tra độ dài password
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       userName,
       email,
       password: hashedPassword,
+      gender: gender || "male",
+      birthday: birthday ? new Date(birthday) : new Date("2000-01-01"),
+      isActive: true,
     });
+
     await newUser.save();
-    res.status(200).json({
+
+    res.status(201).json({
       success: true,
-      message: "Register successfully !",
+      message: "Register successfully!",
+      data: {
+        id: newUser._id,
+        userName: newUser.userName,
+        email: newUser.email,
+        role: newUser.role,
+        isActive: newUser.isActive,
+      },
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -40,17 +63,32 @@ const loginUser = async (req, res) => {
     if (!checkUser) {
       return res.status(400).json({
         success: false,
-        message: "Email does not exist ! Please try another email.",
+        message: "Email does not exist! Please try another email.",
       });
     }
+
+    // Kiểm tra user có active không
+    if (!checkUser.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: "Account is disabled. Please contact administrator.",
+      });
+    }
+
     const checkPassword = await bcrypt.compare(password, checkUser.password);
     if (!checkPassword) {
       return res.status(400).json({
         success: false,
-        message: "Password is incorrect ! Please try again.",
+        message: "Password is incorrect! Please try again.",
       });
     }
-    // create token
+
+    // Cập nhật lastLoginAt
+    await User.findByIdAndUpdate(checkUser._id, {
+      lastLoginAt: new Date(),
+    });
+
+    // Tạo token
     const token = jwt.sign(
       {
         id: checkUser._id,
@@ -58,28 +96,34 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         userName: checkUser.userName,
         avatar: checkUser.avatar,
+        isActive: checkUser.isActive,
       },
       "CLIENT_SECRET_KEY",
       {expiresIn: "10h"},
     );
+
     res.cookie("token", token, {
       path: "/",
       maxAge: 10 * 60 * 60 * 1000,
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
+
     res.json({
       success: true,
-      message: "Login successfully !",
+      message: "Login successfully!",
       user: {
+        id: checkUser._id,
         email: checkUser.email,
         role: checkUser.role,
-        id: checkUser._id,
         userName: checkUser.userName,
         avatar: checkUser.avatar,
         gender: checkUser.gender,
         birthday: checkUser.birthday,
+        isActive: checkUser.isActive,
+        lastLoginAt: new Date(),
+        createdAt: checkUser.createdAt,
       },
     });
   } catch (error) {
@@ -87,6 +131,7 @@ const loginUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -127,23 +172,43 @@ const getInformation = async (req, res) => {
 };
 const updateProfile = async (req, res) => {
   try {
-    const {id, userName, email, birthday, gender} = req.body;
+    const {id, userName, email, birthday, gender, avatar} = req.body;
     if (!id || !userName || !email) {
       return res.status(400).json({
         success: false,
         message: "Id, userName, email are required",
       });
     }
-    const user = await User.findByIdAndUpdate(
-      id,
-      {userName, email, birthday: new Date(birthday), gender},
-      {new: true},
-    );
+
+    // Kiểm tra email có bị trùng với user khác không
+    const existingUser = await User.findOne({email, _id: {$ne: id}});
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists with another account",
+      });
+    }
+
+    const updateData = {
+      userName,
+      email,
+      updatedAt: new Date(),
+    };
+
+    if (birthday) updateData.birthday = new Date(birthday);
+    if (gender) updateData.gender = gender;
+    if (avatar) updateData.avatar = avatar;
+
+    const user = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+    }).select("-password");
+
     if (!user)
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
+
     res.status(200).json({
       success: true,
       message: "Update profile successfully",
@@ -154,6 +219,7 @@ const updateProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -166,32 +232,46 @@ const changePassword = async (req, res) => {
         message: "Id, currentPassword, newPassword are required",
       });
     }
+
+    // Kiểm tra độ dài password mới
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "New password must be at least 6 characters long",
+      });
+    }
+
     const user = await User.findById(id);
     if (!user)
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
+
     const checkPassword = await bcrypt.compare(currentPassword, user.password);
     if (!checkPassword) {
       return res.status(400).json({
         success: false,
-        message: "Password is incorrect ! Please try again.",
+        message: "Current password is incorrect! Please try again.",
       });
     }
+
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await user.save();
+    await User.findByIdAndUpdate(id, {
+      password: hashedPassword,
+      updatedAt: new Date(),
+    });
+
     res.status(200).json({
       success: true,
       message: "Change password successfully",
-      data: user,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
+      error: error.message,
     });
   }
 };
@@ -201,19 +281,34 @@ const authMiddleware = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Unauthorized",
+      message: "Unauthorized - No token provided",
     });
   }
   try {
     const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
-    const user = await User.findById(decoded.id, {password: 0});
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - User not found",
+      });
+    }
+
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: "Account is disabled",
+      });
+    }
+
     req.user = user;
     next();
   } catch (error) {
     console.log(error);
     return res.status(401).json({
       success: false,
-      message: "Unauthorized",
+      message: "Unauthorized - Invalid token",
     });
   }
 };

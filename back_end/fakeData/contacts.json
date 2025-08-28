@@ -1,0 +1,76 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f282c0d4f5e6789abcdef0"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "username": "john_doe",
+    "email": "john.doe@gmail.com",
+    "phone": "0901234567",
+    "message": "I would like to know more about the iPhone 15 Pro warranty coverage. Can you provide details about international warranty?",
+    "isRead": false,
+    "createdAt": {
+      "$date": "2024-08-28T09:15:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T09:15:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f282c0d4f5e6789abcdef1"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef2"
+    },
+    "username": "jane_smith",
+    "email": "jane.smith@gmail.com",
+    "phone": "0912345678",
+    "message": "Hi, I received my Samsung Galaxy S24 but there seems to be a small scratch on the screen. How can I proceed with a replacement?",
+    "isRead": true,
+    "createdAt": {
+      "$date": "2024-08-26T14:45:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T10:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f282c0d4f5e6789abcdef2"
+    },
+    "userId": null,
+    "username": "Sarah Johnson",
+    "email": "sarah.johnson@hotmail.com",
+    "phone": "0934567890",
+    "message": "Do you have any upcoming sales for laptops? I\u0027m interested in purchasing a Dell XPS 13 but waiting for a good deal.",
+    "isRead": false,
+    "createdAt": {
+      "$date": "2024-08-27T16:20:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T16:20:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f282c0d4f5e6789abcdef3"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef3"
+    },
+    "username": "mike_wilson",
+    "email": "mike.wilson@yahoo.com",
+    "phone": "0923456789",
+    "message": "Great service! My order was delivered quickly and everything was well packaged. Thank you!",
+    "isRead": true,
+    "createdAt": {
+      "$date": "2024-08-25T11:10:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-26T08:45:00.000Z"
+    }
+  }
+]

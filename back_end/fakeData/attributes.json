@@ -1,0 +1,145 @@
+[
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef1"
+    },
+    "name": "Color",
+    "values": [
+      "Red",
+      "Blue",
+      "Green",
+      "Black",
+      "White",
+      "Yellow",
+      "Pink",
+      "Purple",
+      "Orange",
+      "Gray"
+    ],
+    "createdAt": {
+      "$date": "2024-01-10T08:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef2"
+    },
+    "name": "Size",
+    "values": ["XS", "S", "M", "L", "XL", "XXL", "XXXL"],
+    "createdAt": {
+      "$date": "2024-01-10T08:05:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:35:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef3"
+    },
+    "name": "Material",
+    "values": [
+      "Cotton",
+      "Polyester",
+      "Wool",
+      "Silk",
+      "Linen",
+      "Denim",
+      "Leather",
+      "Synthetic",
+      "Blend"
+    ],
+    "createdAt": {
+      "$date": "2024-01-10T08:10:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:40:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef4"
+    },
+    "name": "Storage",
+    "values": ["64GB", "128GB", "256GB", "512GB", "1TB", "2TB"],
+    "createdAt": {
+      "$date": "2024-01-10T08:15:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:45:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef5"
+    },
+    "name": "RAM",
+    "values": ["4GB", "8GB", "16GB", "32GB", "64GB"],
+    "createdAt": {
+      "$date": "2024-01-10T08:20:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:50:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef6"
+    },
+    "name": "Screen Size",
+    "values": [
+      "5.5 inch",
+      "6.1 inch",
+      "6.4 inch",
+      "6.7 inch",
+      "13 inch",
+      "14 inch",
+      "15.6 inch",
+      "17 inch"
+    ],
+    "createdAt": {
+      "$date": "2024-01-10T08:25:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T10:55:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef7"
+    },
+    "name": "Brand Model",
+    "values": [
+      "iPhone 15",
+      "iPhone 15 Pro",
+      "Galaxy S24",
+      "Galaxy S24 Ultra",
+      "MacBook Air",
+      "MacBook Pro",
+      "ThinkPad X1",
+      "Dell XPS"
+    ],
+    "createdAt": {
+      "$date": "2024-01-10T08:30:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T11:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef8"
+    },
+    "name": "Weight",
+    "values": ["Under 1kg", "1-2kg", "2-3kg", "3-4kg", "Over 4kg"],
+    "createdAt": {
+      "$date": "2024-01-10T08:35:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-15T11:05:00.000Z"
+    }
+  }
+]

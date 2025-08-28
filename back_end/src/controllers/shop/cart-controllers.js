@@ -1,35 +1,79 @@
-const Cart = require("../../models/Cart");
+const {CartItemModel: CartItem} = require("../../models/Cart");
+const {ProductModel: Product} = require("../../models/Product");
+
 const addProductToCart = async (req, res) => {
   try {
-    const {userId, productId, quantity} = req.body;
-    if (!userId || !productId || !quantity) {
+    const {userId, variantId, quantity = 1} = req.body;
+
+    if (!userId || !variantId || !quantity) {
       return res.status(400).json({
-        message: false,
-        error: "Invalid data provided",
+        success: false,
+        message: "Missing required fields: userId, variantId, quantity",
       });
     }
-    let cart = await Cart.findOne({userId});
-    if (!cart) {
-      cart = new Cart({
-        userId,
-        items: [],
-      });
-    }
-    const findCurrentProductIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId,
-    );
-    if (findCurrentProductIndex === -1) {
-      cart.items.push({productId, quantity});
-    } else {
-      cart.items[findCurrentProductIndex].quantity += quantity;
-    }
-    await cart.save();
-    res.status(200).json({
-      success: true,
-      data: cart.toObject(),
+
+    // Kiểm tra sản phẩm có tồn tại và available không
+    const product = await Product.findOne({
+      "variants._id": variantId,
+      "isActive": true,
+      "status": "inStock",
     });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product variant not found or not available",
+      });
+    }
+
+    const variant = product.variants.id(variantId);
+    if (!variant || variant.quantity < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient stock for this variant",
+      });
+    }
+
+    // Kiểm tra xem item đã có trong cart chưa
+    const existingCartItem = await CartItem.findOne({userId, variantId});
+
+    if (existingCartItem) {
+      // Cập nhật quantity
+      const newQuantity = existingCartItem.quantity + quantity;
+
+      if (newQuantity > variant.quantity) {
+        return res.status(400).json({
+          success: false,
+          message: "Total quantity exceeds available stock",
+        });
+      }
+
+      existingCartItem.quantity = newQuantity;
+      await existingCartItem.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Cart updated successfully",
+        data: existingCartItem,
+      });
+    } else {
+      // Tạo cart item mới
+      const newCartItem = new CartItem({
+        userId,
+        variantId,
+        quantity,
+      });
+
+      await newCartItem.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Product added to cart successfully",
+        data: newCartItem,
+      });
+    }
   } catch (error) {
-    console.log(error);
+    console.error("Add to cart error:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -39,51 +83,78 @@ const addProductToCart = async (req, res) => {
 const fetchCartItems = async (req, res) => {
   try {
     const {userId} = req.params;
+
     if (!userId) {
       return res.status(400).json({
-        message: false,
-        error: "User is required",
-      });
-    }
-    const cart = await Cart.findOne({userId}).populate({
-      path: "items.productId",
-      select: "thumbnail name title description price discount stock",
-    });
-    if (!cart) {
-      return res.status(404).json({
         success: false,
-        message: "Cart not found",
+        message: "User ID is required",
       });
     }
-    // Lọc ra các item hợp lệ
-    // Vì có thể có trường hợp sản phẩm đã bị xóa khỏi db nhưng vẫn còn trong giỏ hàng hoặc giỏ hàng chứa sản phẩm không tồn tại
-    const validItems = (cart.items || []).filter((item) => item.productId);
-    if (validItems.length < (cart.items || []).length) {
-      cart.items = validItems;
-      await cart.save();
-    }
-    const populateCartItems = validItems.map((item) => ({
-      name: item.productId.name,
-      productId: item.productId._id,
-      image: item.productId.thumbnail,
-      title: item.productId.title,
-      price: item.productId.price,
-      discount: item.productId.discount,
-      thumbnail: item.productId.thumbnail,
-      description: item.productId.description,
-      stock: item.productId.stock,
-      quantity: item.quantity,
-    }));
+
+    // Lấy tất cả cart items của user và populate thông tin product
+    const cartItems = await CartItem.find({userId})
+      .populate({
+        path: "variantId",
+        populate: {
+          path: "productId",
+          select:
+            "name slug description images categoryId brandId basePrice discountPrice averageRating totalReviews",
+          populate: [
+            {path: "categoryId", select: "name slug"},
+            {path: "brandId", select: "name slug logo"},
+          ],
+        },
+      })
+      .sort({createdAt: -1});
+
+    // Lọc ra các items có variant và product hợp lệ
+    const validCartItems = cartItems.filter(
+      (item) =>
+        item.variantId &&
+        item.variantId.productId &&
+        item.variantId.productId.isActive,
+    );
+
+    // Format dữ liệu cho frontend
+    const formattedItems = validCartItems.map((item) => {
+      const variant = item.variantId;
+      const product = variant.productId;
+
+      return {
+        _id: item._id,
+        cartItemId: item._id,
+        productId: product._id,
+        variantId: variant._id,
+        name: product.name,
+        slug: product.slug,
+        description: product.description,
+        images: variant.images?.length > 0 ? variant.images : product.images,
+        price: variant.price || product.basePrice,
+        discountPrice: variant.discountPrice || product.discountPrice,
+        category: product.categoryId,
+        brand: product.brandId,
+        averageRating: product.averageRating,
+        totalReviews: product.totalReviews,
+        attributes: variant.attributes,
+        stock: variant.quantity,
+        quantity: item.quantity,
+        createdAt: item.createdAt,
+      };
+    });
 
     return res.status(200).json({
       success: true,
       data: {
-        ...cart.toObject(),
-        items: populateCartItems,
+        items: formattedItems,
+        totalItems: formattedItems.length,
+        totalQuantity: formattedItems.reduce(
+          (sum, item) => sum + item.quantity,
+          0,
+        ),
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error("Fetch cart items error:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -93,57 +164,66 @@ const fetchCartItems = async (req, res) => {
 
 const updateCartItemQty = async (req, res) => {
   try {
-    const {userId, productId, quantity} = req.body;
-    if (!userId || !productId || !quantity) {
+    const {userId, variantId, quantity} = req.body;
+
+    if (!userId || !variantId || !quantity || quantity < 1) {
       return res.status(400).json({
-        message: false,
-        error: "Invalid data provided",
+        success: false,
+        message: "Invalid data provided. Quantity must be at least 1",
       });
     }
-    const cart = await Cart.findOne({userId});
-    if (!cart) {
+
+    // Tìm cart item
+    const cartItem = await CartItem.findOne({userId, variantId});
+    if (!cartItem) {
       return res.status(404).json({
         success: false,
-        message: "Cart not found",
+        message: "Cart item not found",
       });
     }
-    const findCurrentProductIndex = cart.items.findIndex(
-      (item) => item.productId.toString() === productId,
-    );
-    if (findCurrentProductIndex === -1) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found in cart",
-      });
-    }
-    cart.items[findCurrentProductIndex].quantity = quantity;
-    await cart.save();
-    await cart.populate({
-      path: "items.productId",
-      select: "thumbnail name title description price discount stock",
+
+    // Kiểm tra stock
+    const product = await Product.findOne({
+      "variants._id": variantId,
+      "isActive": true,
     });
-    const populateCartItems = cart.items.map((item) => ({
-      name: item.productId ? item.productId.name : null,
-      productId: item.productId ? item.productId._id : null,
-      image: item.productId ? item.productId.thumbnail : null,
-      title: item.productId ? item.productId.title : null,
-      price: item.productId ? item.productId.price : null,
-      discount: item.productId ? item.productId.discount : null,
-      thumbnail: item.productId ? item.productId.thumbnail : null,
-      description: item.productId ? item.productId.description : null,
-      stock: item.productId ? item.productId.stock : null,
-      quantity: item.productId ? item.quantity : null,
-    }));
-    res.status(200).json({
-      success: true,
-      data: {
-        ...cart.toObject(),
-        items: populateCartItems,
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found or not available",
+      });
+    }
+
+    const variant = product.variants.id(variantId);
+    if (!variant || variant.quantity < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient stock. Available: " + (variant?.quantity || 0),
+      });
+    }
+
+    // Cập nhật quantity
+    cartItem.quantity = quantity;
+    await cartItem.save();
+
+    // Populate và trả về thông tin đầy đủ
+    await cartItem.populate({
+      path: "variantId",
+      populate: {
+        path: "productId",
+        select: "name slug images basePrice discountPrice",
       },
     });
+
+    return res.status(200).json({
+      success: true,
+      message: "Cart item updated successfully",
+      data: cartItem,
+    });
   } catch (error) {
-    console.log(error);
-    return res.json(500).json({
+    console.error("Update cart item error:", error);
+    res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -152,56 +232,101 @@ const updateCartItemQty = async (req, res) => {
 
 const deleteCartItem = async (req, res) => {
   try {
-    const {userId, productId} = req.body;
-    if (!userId || !productId) {
+    const {userId, variantId} = req.body;
+
+    if (!userId || !variantId) {
       return res.status(400).json({
-        message: false,
-        error: "Invalid data provided",
+        success: false,
+        message: "Missing required fields: userId, variantId",
       });
     }
-    const cart = await Cart.findOne({userId}).populate({
-      path: "items.productId",
-      select: "thumbnail name title description price discount stock",
-    });
-    if (!cart) {
+
+    const deletedItem = await CartItem.findOneAndDelete({userId, variantId});
+
+    if (!deletedItem) {
       return res.status(404).json({
         success: false,
-        message: "Cart not found",
+        message: "Cart item not found",
       });
     }
-    // delete item in cart
-    cart.items = (cart.items || []).filter(
-      (item) => item.productId._id.toString() !== productId,
-    );
-    await cart.save();
 
-    const populateCartItems = cart.items.map((item) => ({
-      name: item.productId ? item.productId.name : "Product not found",
-      productId: item.productId ? item.productId._id : null,
-      image: item.productId ? item.productId.image : null,
-      title: item.productId ? item.productId.title : "Product not found",
-      price: item.productId ? item.productId.price : null,
-      salePrice: item.productId ? item.productId.salePrice : null,
-      quantity: item.quantity,
-    }));
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
+      message: "Cart item deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete cart item error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const clearCart = async (req, res) => {
+  try {
+    const {userId} = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    await CartItem.deleteMany({userId});
+
+    return res.status(200).json({
+      success: true,
+      message: "Cart cleared successfully",
+    });
+  } catch (error) {
+    console.error("Clear cart error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getCartCount = async (req, res) => {
+  try {
+    const {userId} = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const totalItems = await CartItem.countDocuments({userId});
+    const cartItems = await CartItem.find({userId});
+    const totalQuantity = cartItems.reduce(
+      (sum, item) => sum + item.quantity,
+      0,
+    );
+
+    return res.status(200).json({
       success: true,
       data: {
-        ...cart.toObject(),
-        items: populateCartItems,
+        totalItems,
+        totalQuantity,
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error("Get cart count error:", error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: error.message,
     });
   }
 };
 module.exports = {
   addProductToCart,
+  fetchCartItems,
   updateCartItemQty,
   deleteCartItem,
-  fetchCartItems,
+  clearCart,
+  getCartCount,
 };

@@ -1,0 +1,68 @@
+[
+  {
+    "_id": {
+      "$oid": "60f202c0d4f5e6789abcdef0"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "detail": "123 Nguyen Hue Street, Floor 10",
+    "ward": "Ben Nghe Ward",
+    "district": "District 1",
+    "city": "Ho Chi Minh City",
+    "country": "Vietnam",
+    "phone": "0901234567",
+    "notes": "Near Bitexco Tower",
+    "isDefault": true,
+    "createdAt": {
+      "$date": "2024-02-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-02-15T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f202c0d4f5e6789abcdef1"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef2"
+    },
+    "detail": "456 Le Lai Street, Apartment 5A",
+    "ward": "Ben Thanh Ward",
+    "district": "District 1",
+    "city": "Ho Chi Minh City",
+    "country": "Vietnam",
+    "phone": "0912345678",
+    "notes": "Blue building",
+    "isDefault": true,
+    "createdAt": {
+      "$date": "2024-01-20T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-20T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f202c0d4f5e6789abcdef2"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef3"
+    },
+    "detail": "789 Dong Khoi Street",
+    "ward": "Ben Nghe Ward",
+    "district": "District 1",
+    "city": "Ho Chi Minh City",
+    "country": "Vietnam",
+    "phone": "0923456789",
+    "notes": "Near Opera House",
+    "isDefault": true,
+    "createdAt": {
+      "$date": "2024-03-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-03-01T00:00:00.000Z"
+    }
+  }
+]

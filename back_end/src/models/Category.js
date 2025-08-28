@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 const CategorySchema = new Schema(
   {
     name: {
@@ -38,8 +39,33 @@ const CategorySchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
+    collection: "categories",
   },
 );
 
-const Category = mongoose.model("Category", CategorySchema);
-module.exports = Category;
+CategorySchema.virtual("subcategories", {
+  ref: "Category",
+  localField: "_id",
+  foreignField: "parentCategoryId",
+});
+
+CategorySchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("name")) {
+    const postIdToExclude = this.isNew ? null : this._id;
+    this.slug = await generateUniqueSlug(
+      "Category",
+      this.name,
+      postIdToExclude,
+    );
+    this.updated_at = new Date();
+  }
+  next();
+});
+
+CategorySchema.index({parentCategoryId: 1});
+
+const CategoryModel = mongoose.model("Category", CategorySchema);
+
+module.exports = {CategoryModel};

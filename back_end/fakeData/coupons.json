@@ -1,0 +1,99 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f222c0d4f5e6789abcdef0"
+    },
+    "code": "SUMMER2024",
+    "name": "Summer Sale 2024",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "minOrderAmount": 100000,
+    "maxDiscountAmount": 200000,
+    "startDate": {
+      "$date": "2024-06-01T00:00:00.000Z"
+    },
+    "endDate": {
+      "$date": "2024-08-31T23:59:59.000Z"
+    },
+    "usageLimit": 1000,
+    "usageLimitPerUser": 1,
+    "usedCount": 245,
+    "isActive": true,
+    "type": "all",
+    "couponCategories": null,
+    "couponProducts": null,
+    "createdAt": {
+      "$date": "2024-05-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f222c0d4f5e6789abcdef1"
+    },
+    "code": "NEWUSER50",
+    "name": "New User Discount",
+    "discountType": "fixed_amount",
+    "discountValue": 50000,
+    "minOrderAmount": 200000,
+    "maxDiscountAmount": 50000,
+    "startDate": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "endDate": {
+      "$date": "2024-12-31T23:59:59.000Z"
+    },
+    "usageLimit": 500,
+    "usageLimitPerUser": 1,
+    "usedCount": 89,
+    "isActive": true,
+    "type": "all",
+    "couponCategories": null,
+    "couponProducts": null,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f222c0d4f5e6789abcdef2"
+    },
+    "code": "ELECTRONICS15",
+    "name": "Electronics Category Discount",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "minOrderAmount": 500000,
+    "maxDiscountAmount": 300000,
+    "startDate": {
+      "$date": "2024-07-01T00:00:00.000Z"
+    },
+    "endDate": {
+      "$date": "2024-09-30T23:59:59.000Z"
+    },
+    "usageLimit": 200,
+    "usageLimitPerUser": 2,
+    "usedCount": 67,
+    "isActive": true,
+    "type": "category",
+    "couponCategories": [
+      {
+        "name": "Electronics",
+        "categoryId": {
+          "$oid": "60f1c2c0d4f5e6789abcdef0"
+        }
+      }
+    ],
+    "couponProducts": null,
+    "createdAt": {
+      "$date": "2024-06-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  }
+]

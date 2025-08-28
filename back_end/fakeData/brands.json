@@ -1,0 +1,82 @@
+[
+  {
+    "_id": {
+      "$oid": "60f1d2c0d4f5e6789abcdef0"
+    },
+    "name": "Apple",
+    "slug": "apple",
+    "description": "Apple Inc. - Premium technology products",
+    "logo": "https://logos-world.net/wp-content/uploads/2020/04/Apple-Logo.png",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1d2c0d4f5e6789abcdef1"
+    },
+    "name": "Samsung",
+    "slug": "samsung",
+    "description": "Samsung Electronics - Innovative technology solutions",
+    "logo": "https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo.png",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1d2c0d4f5e6789abcdef2"
+    },
+    "name": "Nike",
+    "slug": "nike",
+    "description": "Nike - Just Do It",
+    "logo": "https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1d2c0d4f5e6789abcdef3"
+    },
+    "name": "Adidas",
+    "slug": "adidas",
+    "description": "Adidas - Impossible is Nothing",
+    "logo": "https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1d2c0d4f5e6789abcdef4"
+    },
+    "name": "Dell",
+    "slug": "dell",
+    "description": "Dell Technologies - Advancing innovation",
+    "logo": "https://logos-world.net/wp-content/uploads/2020/04/Dell-Logo.png",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  }
+]

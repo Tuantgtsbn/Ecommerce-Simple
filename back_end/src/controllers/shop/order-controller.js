@@ -1,220 +1,332 @@
-const Order = require("../../models/Orders");
-const Product = require("../../models/Product");
-const Cart = require("../../models/Cart");
+const {
+  OrderModel: Order,
+  OrderStatusHistoryModel: OrderStatusHistory,
+} = require("../../models/Orders");
+const {ProductModel: Product} = require("../../models/Product");
+const {CartItemModel: CartItem} = require("../../models/Cart");
+const {UserModel: User} = require("../../models/User");
+const {AddressModel: Address} = require("../../models/Address");
 const paypal = require("../../helpers/paypal");
+
+// Hàm tạo order number duy nhất
+const generateOrderNumber = () => {
+  const timestamp = Date.now().toString();
+  const random = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
+  return `ORD${timestamp}${random}`;
+};
+
 const createOrder = async (req, res) => {
   try {
     const {
       userId,
       cartItems,
-      addressInfo,
-      orderStatus,
-      paymentMethod,
-      paymentStatus,
-      totalAmount,
-      orderDate,
-      orderUpdateDate,
-      paymentId,
-      payerId,
-      cartId,
+      addressId,
+      paymentMethod = "cash",
+      couponCode,
+      notes,
     } = req.body;
-    //Kiểm tra tồn kho cho tất cả sản phẩm
-    const stockCheckPromises = cartItems.map(async (item) => {
-      const product = await Product.findById(item.productId);
-      if (!product) {
-        throw new Error(`Product ${item.productId} not found`);
-      }
-      if (product.stock < item.quantity) {
-        throw new Error(
-          `Insufficient stock for product ${product.name}. Available: ${product.stock}, Requested: ${item.quantity}`,
-        );
-      }
-      return {
-        product,
-        requestedQuantity: item.quantity,
-      };
-    });
-    try {
-      var stockCheckResults = await Promise.all(stockCheckPromises);
-    } catch (error) {
+
+    // Validate required fields
+    if (!userId || !cartItems || cartItems.length === 0 || !addressId) {
       return res.status(400).json({
         success: false,
-        message: error.message,
+        message: "Missing required fields",
       });
     }
+
+    // Lấy thông tin user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Lấy thông tin địa chỉ
+    const address = await Address.findById(addressId);
+    if (!address) {
+      return res.status(404).json({
+        success: false,
+        message: "Address not found",
+      });
+    }
+
+    // Kiểm tra và validate cart items
+    const orderItems = [];
+    let subTotal = 0;
+
+    for (const item of cartItems) {
+      const product = await Product.findOne({
+        "variants._id": item.variantId,
+        "isActive": true,
+      });
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Product with variant ${item.variantId} not found`,
+        });
+      }
+
+      const variant = product.variants.id(item.variantId);
+      if (!variant || variant.quantity < item.quantity) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient stock for ${product.name}. Available: ${variant?.quantity || 0}`,
+        });
+      }
+
+      const itemPrice =
+        variant.discountPrice || variant.price || product.basePrice;
+      const itemTotal = itemPrice * item.quantity;
+      subTotal += itemTotal;
+
+      orderItems.push({
+        variantId: item.variantId,
+        title: product.name,
+        name: product.name,
+        thumbnail: variant.images?.[0] || product.images?.[0],
+        price: itemPrice,
+        quantity: item.quantity,
+        discount: variant.discount || 0,
+        attributes: variant.attributes || [],
+      });
+    }
+
+    // Tính toán tổng tiền (có thể thêm logic coupon, shipping fee)
+    const shippingFee = 0; // Có thể tính dựa trên địa chỉ
+    const totalDiscount = 0; // Có thể tính từ coupon
+    const totalAmount = subTotal + shippingFee - totalDiscount;
+
+    // Tạo order
+    const orderNumber = generateOrderNumber();
+    const newOrder = new Order({
+      orderNumber,
+      userId,
+      customer: {
+        username: user.username,
+        email: user.email,
+        phone: user.phone || address.phone,
+      },
+      orderItems,
+      shippingAddress: {
+        addressId: address._id,
+        detail: address.detail,
+        ward: address.ward,
+        district: address.district,
+        city: address.city,
+        country: address.country,
+        phone: address.phone,
+        notes: address.notes,
+      },
+      orderStatus: "pending",
+      shippingFee,
+      subTotal,
+      totalDiscount,
+      totalAmount,
+      notes,
+    });
+
+    await newOrder.save();
+
+    // Tạo order status history
+    await new OrderStatusHistory({
+      orderId: newOrder._id,
+      status: "pending",
+      message: "Order created successfully",
+    }).save();
+
     if (paymentMethod === "cash") {
-      const newlyCreatedOrder = new Order({
+      // Xử lý thanh toán tiền mặt - Confirm order và update stock
+      await confirmOrder(newOrder._id);
+
+      // Xóa cart items
+      await CartItem.deleteMany({
         userId,
-        cartItems,
-        addressInfo,
-        orderStatus,
-        paymentMethod,
-        paymentStatus,
-        totalAmount,
-        orderDate,
-        orderUpdateDate,
-        cartId,
+        variantId: {$in: cartItems.map((item) => item.variantId)},
       });
-      await newlyCreatedOrder.save();
-      // await Cart.findByIdAndDelete(cartId);
-      stockCheckResults.forEach(async (result) => {
-        result.product.stock -= result.requestedQuantity;
-        await result.product.save();
-      });
-      await Cart.findByIdAndDelete(cartId);
 
       return res.status(200).json({
         success: true,
         message: "Order created successfully",
-        data: newlyCreatedOrder,
+        data: newOrder,
       });
     } else if (paymentMethod === "paypal") {
-      const create_payment_json = {
-        intent: "sale",
-        payer: {
-          payment_method: "paypal",
-        },
-        redirect_urls: {
-          return_url: "http://localhost:5173/shop/paypal-return",
-          cancel_url: "http://localhost:5173/shop/paypal-cancel",
-        },
-        transactions: [
-          {
-            item_list: {
-              items: cartItems.map((item) => ({
-                name: item.title,
-                sku: item.productId,
-                price: (
-                  item.price -
-                  (item.price * item.discount) / 100
-                ).toFixed(2),
-                currency: "USD",
-                quantity: item.quantity,
-              })),
-            },
-            amount: {
-              currency: "USD",
-              total: totalAmount.toFixed(2),
-            },
-            description: "This is the payment description.",
-          },
-        ],
-      };
-      paypal.payment.create(
-        create_payment_json,
-        async function (error, payment) {
-          if (error) {
-            console.log(error);
-            return res.status(500).json({
-              success: false,
-              message: "Error creating payment",
-            });
-          } else {
-            console.log("Payment", payment);
-            const newlyCreatedOrder = new Order({
-              userId,
-              cartItems,
-              addressInfo,
-              orderStatus,
-              paymentMethod,
-              paymentStatus,
-              totalAmount,
-              orderDate,
-              orderUpdateDate,
-              paymentId,
-              payerId,
-              cartId,
-            });
-            await newlyCreatedOrder.save();
-            const approvalURL = payment.links.find(
-              (link) => link.rel === "approval_url",
-            ).href;
-            res.status(201).json({
-              success: true,
-              approvalURL,
-              orderId: newlyCreatedOrder._id,
-              message: "Order created successfully",
-            });
-          }
-        },
-      );
+      // Xử lý PayPal payment
+      return await createPayPalPayment(newOrder, cartItems, res);
     }
   } catch (error) {
-    console.error(error);
+    console.error("Create order error:", error);
     res.status(500).json({
       success: false,
       message: "Error creating order",
     });
   }
 };
+
+// Helper function để confirm order và update stock
+const confirmOrder = async (orderId) => {
+  const order = await Order.findById(orderId);
+  if (!order) return;
+
+  // Update stock cho các variants
+  for (const item of order.orderItems) {
+    const product = await Product.findOne({"variants._id": item.variantId});
+    if (product) {
+      const variant = product.variants.id(item.variantId);
+      if (variant) {
+        variant.quantity -= item.quantity;
+        await product.save();
+      }
+    }
+  }
+
+  // Update order status
+  order.orderStatus = "confirmed";
+  await order.save();
+
+  // Add status history
+  await new OrderStatusHistory({
+    orderId: order._id,
+    status: "confirmed",
+    message: "Order confirmed and stock updated",
+  }).save();
+};
+
+// Helper function để tạo PayPal payment
+const createPayPalPayment = async (order, cartItems, res) => {
+  const create_payment_json = {
+    intent: "sale",
+    payer: {
+      payment_method: "paypal",
+    },
+    redirect_urls: {
+      return_url: "http://localhost:5173/shop/paypal-return",
+      cancel_url: "http://localhost:5173/shop/paypal-cancel",
+    },
+    transactions: [
+      {
+        item_list: {
+          items: order.orderItems.map((item) => ({
+            name: item.title,
+            sku: item.variantId.toString(),
+            price: item.price.toFixed(2),
+            currency: "USD",
+            quantity: item.quantity,
+          })),
+        },
+        amount: {
+          currency: "USD",
+          total: order.totalAmount.toFixed(2),
+        },
+        description: `Payment for order ${order.orderNumber}`,
+      },
+    ],
+  };
+
+  return new Promise((resolve, reject) => {
+    paypal.payment.create(create_payment_json, async (error, payment) => {
+      if (error) {
+        console.error("PayPal error:", error);
+        return res.status(500).json({
+          success: false,
+          message: "Error creating PayPal payment",
+        });
+      } else {
+        const approvalURL = payment.links.find(
+          (link) => link.rel === "approval_url",
+        ).href;
+
+        res.status(201).json({
+          success: true,
+          approvalURL,
+          orderId: order._id,
+          message: "Order created, please complete PayPal payment",
+        });
+      }
+    });
+  });
+};
 const capturePayment = async (req, res) => {
   try {
     const {paymentId, payerId, orderId} = req.body;
 
-    let order = await Order.findById(orderId);
+    if (!paymentId || !payerId || !orderId) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required payment information",
+      });
+    }
 
+    const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: "Order can not be found",
+        message: "Order not found",
       });
     }
 
-    order.paymentStatus = "paid";
-    order.orderStatus = "inProcess";
-    order.paymentId = paymentId;
-    order.payerId = payerId;
-    await order.save();
-    const stockCheckPromises = order.cartItems.map(async (item) => {
-      const product = await Product.findById(item.productId);
-      if (!product) {
-        throw new Error(`Product ${item.productId} not found`);
-      }
-      if (product.stock < item.quantity) {
-        throw new Error(
-          `Insufficient stock for product ${product.name}. Available: ${product.stock}, Requested: ${item.quantity}`,
-        );
-      }
-      return {
-        product,
-        requestedQuantity: item.quantity,
-      };
-    });
-    try {
-      const stockCheckResults = await Promise.all(stockCheckPromises);
-      stockCheckResults.forEach(async (result) => {
-        result.product.stock -= result.requestedQuantity;
-        await result.product.save();
-      });
-    } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
+    // Execute PayPal payment
+    const execute_payment_json = {
+      payer_id: payerId,
+      transactions: [
+        {
+          amount: {
+            currency: "USD",
+            total: order.totalAmount.toFixed(2),
+          },
+        },
+      ],
+    };
 
-    const getCartId = order.cartId;
-    await Cart.findByIdAndDelete(getCartId);
-    order.orderStatus = "confirmed";
-    await order.save();
+    paypal.payment.execute(
+      paymentId,
+      execute_payment_json,
+      async (error, payment) => {
+        if (error) {
+          console.error("PayPal execution error:", error);
+          return res.status(500).json({
+            success: false,
+            message: "Payment execution failed",
+          });
+        } else {
+          // Confirm order và update stock
+          await confirmOrder(orderId);
 
-    res.status(200).json({
-      success: true,
-      message: "Order confirmed",
-      data: order,
-    });
-  } catch (e) {
-    console.log(e);
+          // Xóa cart items
+          const cartItems = await CartItem.find({
+            userId: order.userId,
+            variantId: {$in: order.orderItems.map((item) => item.variantId)},
+          });
+
+          await CartItem.deleteMany({
+            userId: order.userId,
+            variantId: {$in: order.orderItems.map((item) => item.variantId)},
+          });
+
+          res.status(200).json({
+            success: true,
+            message: "Payment captured and order confirmed",
+            data: order,
+          });
+        }
+      },
+    );
+  } catch (error) {
+    console.error("Capture payment error:", error);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error capturing payment",
     });
   }
 };
 
 const getOrdersByUserId = async (req, res) => {
   try {
-    const {userId} = req.body;
+    const {userId} = req.params;
 
     if (!userId) {
       return res.status(400).json({
@@ -223,21 +335,35 @@ const getOrdersByUserId = async (req, res) => {
       });
     }
 
-    const orders = await Order.find({userId}).sort({createdAt: -1}); // Sắp xếp theo thời gian tạo mới nhất
+    const {page = 1, limit = 10, status} = req.query;
+    const skip = (page - 1) * limit;
 
-    if (!orders) {
-      return res.status(404).json({
-        success: false,
-        message: "No orders found",
-      });
+    // Build filter object
+    const filter = {userId};
+    if (status) {
+      filter.orderStatus = status;
     }
+
+    const orders = await Order.find(filter)
+      .sort({createdAt: -1})
+      .skip(skip)
+      .limit(Number(limit))
+      .populate("shippingAddress.addressId", "detail ward district city");
+
+    const totalOrders = await Order.countDocuments(filter);
 
     return res.status(200).json({
       success: true,
       data: orders,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total: totalOrders,
+        pages: Math.ceil(totalOrders / limit),
+      },
     });
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    console.error("Get orders error:", error);
     return res.status(500).json({
       success: false,
       message: "Error fetching orders",
@@ -248,6 +374,44 @@ const getOrdersByUserId = async (req, res) => {
 const getOneOrderByUserId = async (req, res) => {
   try {
     const {orderId} = req.params;
+
+    const order = await Order.findById(orderId)
+      .populate("shippingAddress.addressId")
+      .populate("userId", "username email");
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Lấy order status history
+    const statusHistory = await OrderStatusHistory.find({orderId}).sort({
+      createdAt: 1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        ...order.toObject(),
+        statusHistory,
+      },
+    });
+  } catch (error) {
+    console.error("Get order error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching order",
+    });
+  }
+};
+
+const cancelOrder = async (req, res) => {
+  try {
+    const {orderId} = req.params;
+    const {reason} = req.body;
+
     const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({
@@ -255,15 +419,55 @@ const getOneOrderByUserId = async (req, res) => {
         message: "Order not found",
       });
     }
+
+    // Chỉ cho phép hủy order khi đang pending hoặc confirmed
+    if (!["pending", "confirmed"].includes(order.orderStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot cancel order in current status",
+      });
+    }
+
+    // Restore stock nếu order đã confirmed
+    if (order.orderStatus === "confirmed") {
+      for (const item of order.orderItems) {
+        const product = await Product.findOne({"variants._id": item.variantId});
+        if (product) {
+          const variant = product.variants.id(item.variantId);
+          if (variant) {
+            variant.quantity += item.quantity;
+            await product.save();
+          }
+        }
+      }
+    }
+
+    // Update order
+    order.orderStatus = "cancelled";
+    order.cancellation = {
+      reason: reason || "Cancelled by customer",
+      cancelledBy: "customer",
+      cancelledAt: new Date(),
+    };
+    await order.save();
+
+    // Add status history
+    await new OrderStatusHistory({
+      orderId: order._id,
+      status: "cancelled",
+      message: reason || "Order cancelled by customer",
+    }).save();
+
     return res.status(200).json({
       success: true,
-      data: order.toObject(),
+      message: "Order cancelled successfully",
+      data: order,
     });
   } catch (error) {
-    console.error("Error fetching order:", error);
+    console.error("Cancel order error:", error);
     return res.status(500).json({
       success: false,
-      message: "Error fetching order",
+      message: "Error cancelling order",
     });
   }
 };
@@ -272,4 +476,5 @@ module.exports = {
   capturePayment,
   getOrdersByUserId,
   getOneOrderByUserId,
+  cancelOrder,
 };

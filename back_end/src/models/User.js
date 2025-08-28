@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["client", "admin"],
+      enum: ["client", "admin", "staff"],
       default: "client",
     },
     avatar: {
@@ -36,8 +36,28 @@ const UserSchema = new mongoose.Schema(
       enum: ["male", "female", "other"],
       default: "male",
     },
+    googleId: {
+      type: String,
+      sparse: true,
+    },
+    facebookId: {
+      type: String,
+      sparse: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    lastLoginAt: {
+      type: Date,
+    },
   },
-  {timestamps: true},
+  {timestamps: true, toJSON: {virtuals: true}, toObject: {virtuals: true}},
 );
+
+UserSchema.index({googleId: 1}, {sparse: true});
+UserSchema.index({facebookId: 1}, {sparse: true});
+
 const User = mongoose.model("User", UserSchema);
+
 module.exports = User;

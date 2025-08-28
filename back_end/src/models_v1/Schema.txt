@@ -1,0 +1,300 @@
+Address{
+    _id,
+    userId,
+    detail,
+    ward,
+    district,
+    city,
+    country,
+    phone,
+    notes,
+    isDefault
+    created_at,
+    updated_at
+}
+
+
+User {
+    _id,
+    username,
+    email,
+    password,
+    role,
+    avatar,
+    birthday,
+    gender,
+    googleId,
+    facebookId,
+    created_at,
+    updated_at
+}
+
+Session {
+    _id,
+    userId,
+    expires_at
+}
+
+
+BlogCategories {
+    _id,
+    name,
+    slug,
+    description,
+    imageUrl,
+    created_at,
+    updated_at
+}
+
+Post {
+    _id,
+    title,
+    slug,
+    content,
+    excerpt,
+    categories : [{
+        categoryId
+    }]
+    dislikeCount,
+    likeCount,
+    viewCount,
+    created_at,
+    updated_at,
+    published_at,
+    status,
+    visibility,
+    author: {
+        authorId
+    },
+    featuredImage: {
+        url,
+        altText
+    }
+}
+
+
+Category {
+    _id,
+    name,
+    slug,
+    description,
+    image,
+    isActive,
+    sortOrder,
+    parentCategoryId,
+    created_at,
+    updated_at
+}
+
+Contact {
+    _id,
+    username,
+    email,
+    phone,
+    message,
+    isRead,
+    created_at,
+    updated_at
+}
+
+Coupon {
+    _id,
+    code,
+    name,
+    discountType,
+    discountValue,
+    minOrderAmount,
+    maxDiscountAmount,
+    startDate,
+    endDate,
+    usageLimit,
+    usageLimitPerUser
+    usedCount,
+    isActive,
+    created_at,
+    updated_at,
+    type: // 'all', 'category', 'product'
+}
+
+Coupon_Category {
+    _id,
+    couponId,
+    categoryId
+}
+
+Coupon_Product {
+    _id,
+    couponId,
+    productId
+}
+
+Brand {
+    _id,
+    name,
+    slug,
+    description,
+    logo,
+    isActive,
+    created_at,
+    updated_at
+}
+
+Product {
+    _id,
+    brandId
+    categoryId,
+    name,
+    slug,
+    description,
+    thumbnail,
+    images,
+    isActive,
+    created_at,
+    updated_at,
+    totalReviews,
+    averageRating,
+    totalRatings,
+    totalLikes,
+    totalDislikes,
+    tags: [],
+    status,
+    maxDiscount,
+    basePrice
+}
+
+Attribute {
+    id,
+    name
+}
+
+Attribute_value {
+    id,
+    attributeId,
+    value
+}
+
+Product_Variant {
+    id,
+    productId,
+    sku,
+    price,
+    quantity,
+    imageUrl,
+    price,
+    discount,
+    name,
+    slug
+}
+
+
+variant_value {
+    id,
+    variantId,
+    attributeValueId
+}
+
+Reviews {
+    id,
+    userId,
+    productId,
+    comment,
+    rating,
+    created_at,
+    updated_at
+}
+
+WishList {
+    id,
+    userId,
+    items: [
+        {
+            productvarianid
+        }
+    ]
+}
+
+Cart {
+    id,
+    userId,
+    items: [
+        {
+            variantid,
+            quantity,
+        }
+    ],
+}
+
+Order {
+    id,
+    userId,
+    orderItems: [
+        {
+            productVariantId,
+            name,
+            price,
+            quantity,
+            discount
+        }
+    ]
+    totalFromProducts,
+    shippingFee,
+    totalAmount,
+    totalDiscount
+    addressId,
+    orderStatus,
+    couponId,
+    paymentId,
+    created_at,
+    updated_at,
+    reasonForCancel,
+    reasonForReject,
+    reasonForFailedDelivery,
+    reasonForRefund
+}
+
+Payment {
+    id,
+    orderId,
+    paymentMethod,
+    paymentStatus,
+    transactionId,
+    payerName,
+    payerEmail,
+    amount,
+    currency,
+    paymentDate,
+    paymentId
+    created_at
+    updated_at
+}
+
+ShippingProvider {
+    id,
+    name,
+    slug,
+    description,
+    logo,
+    phone,
+}
+
+OrderStatusHistory {
+    id,
+    orderId,
+    message,
+    satus,
+    created_at
+}
+
+
+ShopInformation {
+    id,
+    name,
+    address,
+    phone,
+    email,
+    website,
+    logo,
+    description,
+    created_at,
+    updated_at
+}

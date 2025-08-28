@@ -1,42 +1,92 @@
-const {PostsModel: Post} = require("../../models/Posts");
-const BlogCategories = require("../../models/BlogCategories");
-const User = require("../../models/User");
+const {PostModel: Post} = require("../../models/Posts");
+const {
+  BlogCategoryModel: BlogCategories,
+} = require("../../models/BlogCategories");
+const {UserModel: User} = require("../../models/User");
 const {default: mongoose} = require("mongoose");
 
 const getPosts = async (req, res) => {
   try {
-    const {page = 1, limit = 20, category_id = ""} = req.body;
-    let sortBy = req.body.sortBy || "created_at";
-    if (sortBy === "most-view") {
-      sortBy = "view_count";
-    } else if (sortBy === "most-like") {
-      sortBy = "like_count";
+    const {
+      page = 1,
+      limit = 20,
+      categoryId,
+      sortBy = "createdAt",
+      search,
+      authorId,
+      tags,
+    } = req.query;
+
+    const skip = (page - 1) * limit;
+
+    // Build filter object
+    const filter = {isActive: true};
+
+    if (categoryId) {
+      filter.categoryId = categoryId;
     }
-    const filter = category_id ? {categories: {$elemMatch: {category_id}}} : {};
+
+    if (authorId) {
+      filter.authorId = authorId;
+    }
+
+    if (search) {
+      filter.$or = [
+        {title: {$regex: search, $options: "i"}},
+        {excerpt: {$regex: search, $options: "i"}},
+        {content: {$regex: search, $options: "i"}},
+      ];
+    }
+
+    if (tags) {
+      const tagArray = tags.split(",");
+      filter.tags = {$in: tagArray};
+    }
+
+    // Build sort object
+    let sortOptions = {};
+    switch (sortBy) {
+      case "newest":
+        sortOptions = {createdAt: -1};
+        break;
+      case "oldest":
+        sortOptions = {createdAt: 1};
+        break;
+      case "most-view":
+        sortOptions = {totalViews: -1};
+        break;
+      case "most-like":
+        sortOptions = {totalLikes: -1};
+        break;
+      case "title":
+        sortOptions = {title: 1};
+        break;
+      default:
+        sortOptions = {createdAt: -1};
+    }
+
     const totalPosts = await Post.countDocuments(filter);
-    const totalPages = Math.ceil(totalPosts / limit);
+
     const posts = await Post.find(filter)
-      .populate({
-        path: "categories.category_id",
-        select: "name",
-      })
-      .populate({
-        path: "author.author_id",
-        select: "userName avatar",
-      })
-      .select({
-        content: 0,
-      })
-      .sort({[sortBy]: -1})
-      .skip(limit * (page - 1))
-      .limit(limit);
+      .populate("categoryId", "name slug")
+      .populate("authorId", "username avatar")
+      .select("-content") // Exclude content for list view
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(Number(limit));
+
     return res.status(200).json({
       success: true,
       data: posts,
-      totalPages,
-      currentPage: +page,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total: totalPosts,
+        pages: Math.ceil(totalPosts / limit),
+      },
     });
   } catch (error) {
+    console.error("Get posts error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -47,26 +97,30 @@ const getPosts = async (req, res) => {
 const getDetailPostById = async (req, res) => {
   try {
     const {id} = req.params;
-    const post = await Post.findById(id)
-      .populate({
-        path: "categories.category_id",
-        select: "name",
-      })
-      .populate({
-        path: "author.author_id",
-        select: "userName avatar",
-      });
+
+    const post = await Post.findOne({_id: id, isActive: true})
+      .populate("categoryId", "name slug description")
+      .populate("authorId", "username avatar bio")
+      .populate("tags", "name slug");
+
     if (!post) {
       return res.status(404).json({
         success: false,
         message: "Post not found",
       });
     }
+
+    // Increase view count
+    await Post.findByIdAndUpdate(id, {
+      $inc: {totalViews: 1},
+    });
+
     return res.status(200).json({
       success: true,
       data: post,
     });
   } catch (error) {
+    console.error("Get post by ID error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -76,27 +130,31 @@ const getDetailPostById = async (req, res) => {
 
 const getDetailPostBySlug = async (req, res) => {
   try {
-    const {id} = req.params;
-    const post = await Post.findOne({slug: id})
-      .populate({
-        path: "categories.category_id",
-        select: "name",
-      })
-      .populate({
-        path: "author.author_id",
-        select: "userName avatar",
-      });
+    const {slug} = req.params;
+
+    const post = await Post.findOne({slug, isActive: true})
+      .populate("categoryId", "name slug description")
+      .populate("authorId", "username avatar bio")
+      .populate("tags", "name slug");
+
     if (!post) {
       return res.status(404).json({
         success: false,
         message: "Post not found",
       });
     }
+
+    // Increase view count
+    await Post.findByIdAndUpdate(post._id, {
+      $inc: {totalViews: 1},
+    });
+
     return res.status(200).json({
       success: true,
       data: post,
     });
   } catch (error) {
+    console.error("Get post by slug error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -108,12 +166,16 @@ const getDetailPost = async (req, res) => {
   try {
     const {id} = req.params;
     const isValidId = mongoose.Types.ObjectId.isValid(id);
+
     if (!isValidId) {
+      // Treat as slug
+      req.params.slug = id;
       return getDetailPostBySlug(req, res);
     } else {
       return getDetailPostById(req, res);
     }
   } catch (error) {
+    console.error("Get detail post error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -123,49 +185,127 @@ const getDetailPost = async (req, res) => {
 
 const searchPosts = async (req, res) => {
   try {
-    const {keyword, page = 1, limit = 10} = req.query;
-    console.log(keyword, "keyword");
-    console.log(page, "page");
-    let parseKeyword = keyword.split("+").join(" ");
+    const {keyword, page = 1, limit = 10, categoryId} = req.query;
 
-    if (!parseKeyword || typeof parseKeyword !== "string") {
+    if (!keyword || typeof keyword !== "string") {
       return res.status(400).json({
-        succes: false,
-        message: "Keyword is required and must be in string format",
+        success: false,
+        message: "Keyword is required and must be a string",
       });
     }
-    const regEx = new RegExp(parseKeyword, "i");
-    const createSearchQuery = {
-      $or: [{title: regEx}, {content: regEx}],
+
+    const skip = (page - 1) * limit;
+    const cleanKeyword = keyword.replace(/\+/g, " ").trim();
+
+    // Build search query
+    const searchQuery = {
+      isActive: true,
+      $or: [
+        {title: {$regex: cleanKeyword, $options: "i"}},
+        {excerpt: {$regex: cleanKeyword, $options: "i"}},
+        {content: {$regex: cleanKeyword, $options: "i"}},
+        {tags: {$regex: cleanKeyword, $options: "i"}},
+      ],
     };
-    const totalPosts = await Post.countDocuments(createSearchQuery);
-    const totalPages = Math.ceil(totalPosts / limit);
-    const searchResults = await Post.find(createSearchQuery)
-      .populate({
-        path: "categories.category_id",
-        select: "name",
-      })
-      .populate({
-        path: "author.author_id",
-        select: "userName avatar",
-      })
-      .select({
-        content: 0,
-      })
-      .sort({created_at: -1})
-      .skip(limit * (page - 1))
-      .limit(limit);
+
+    if (categoryId) {
+      searchQuery.categoryId = categoryId;
+    }
+
+    const totalPosts = await Post.countDocuments(searchQuery);
+
+    const searchResults = await Post.find(searchQuery)
+      .populate("categoryId", "name slug")
+      .populate("authorId", "username avatar")
+      .select("-content") // Exclude content for search results
+      .sort({createdAt: -1})
+      .skip(skip)
+      .limit(Number(limit));
+
     res.status(200).json({
       success: true,
       data: searchResults,
-      totalPages,
-      currentPage: +page,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total: totalPosts,
+        pages: Math.ceil(totalPosts / limit),
+      },
+      searchQuery: cleanKeyword,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Search posts error:", error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Search error occurred",
+    });
+  }
+};
+
+const getRelatedPosts = async (req, res) => {
+  try {
+    const {postId} = req.params;
+    const {limit = 5} = req.query;
+
+    const currentPost = await Post.findById(postId);
+    if (!currentPost) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    // Find related posts based on category and tags
+    const relatedPosts = await Post.find({
+      _id: {$ne: postId},
+      isActive: true,
+      $or: [
+        {categoryId: currentPost.categoryId},
+        {tags: {$in: currentPost.tags}},
+      ],
+    })
+      .populate("categoryId", "name slug")
+      .populate("authorId", "username avatar")
+      .select("-content")
+      .sort({createdAt: -1})
+      .limit(Number(limit));
+
+    return res.status(200).json({
+      success: true,
+      data: relatedPosts,
+    });
+  } catch (error) {
+    console.error("Get related posts error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getFeaturedPosts = async (req, res) => {
+  try {
+    const {limit = 5} = req.query;
+
+    const featuredPosts = await Post.find({
+      isActive: true,
+      isFeatured: true,
+    })
+      .populate("categoryId", "name slug")
+      .populate("authorId", "username avatar")
+      .select("-content")
+      .sort({createdAt: -1})
+      .limit(Number(limit));
+
+    return res.status(200).json({
+      success: true,
+      data: featuredPosts,
+    });
+  } catch (error) {
+    console.error("Get featured posts error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };
@@ -173,4 +313,6 @@ module.exports = {
   getPosts,
   getDetailPost,
   searchPosts,
+  getRelatedPosts,
+  getFeaturedPosts,
 };

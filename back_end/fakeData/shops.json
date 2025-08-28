@@ -1,0 +1,81 @@
+[
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef1"
+    },
+    "name": "Tech World Store",
+    "address": {
+      "detail": "123 Nguyễn Văn Linh, P.15",
+      "ward": "Phường 15",
+      "district": "Quận 7",
+      "city": "TP. Hồ Chí Minh",
+      "country": "Vietnam"
+    },
+    "phone": "0938123456",
+    "email": "info@techworld.com.vn",
+    "website": "https://techworld.com.vn",
+    "logo": "https://cdn.techworld.vn/logo/techworld-logo.png",
+    "description": "Cửa hàng chuyên phân phối các sản phẩm công nghệ, điện tử, phụ kiện chính hãng với giá tốt nhất thị trường. Cam kết chất lượng và dịch vụ hậu mãi tốt nhất.",
+    "socialMedia": {
+      "facebook": "https://facebook.com/techworld.vn",
+      "instagram": "https://instagram.com/techworld_vn",
+      "youtube": "https://youtube.com/c/techworldvn",
+      "tiktok": "https://tiktok.com/@techworld.vn"
+    },
+    "businessHours": {
+      "monday": {
+        "open": "08:00",
+        "close": "20:00",
+        "isClosed": false
+      },
+      "tuesday": {
+        "open": "08:00",
+        "close": "20:00",
+        "isClosed": false
+      },
+      "wednesday": {
+        "open": "08:00",
+        "close": "20:00",
+        "isClosed": false
+      },
+      "thursday": {
+        "open": "08:00",
+        "close": "20:00",
+        "isClosed": false
+      },
+      "friday": {
+        "open": "08:00",
+        "close": "20:00",
+        "isClosed": false
+      },
+      "saturday": {
+        "open": "08:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "19:00",
+        "isClosed": false
+      }
+    },
+    "settings": {
+      "currency": "VND",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "language": "vi",
+      "taxRate": 0.1
+    },
+    "policies": {
+      "returnPolicy": "Chấp nhận đổi trả trong vòng 7 ngày với sản phẩm còn nguyên seal, đầy đủ phụ kiện và hóa đơn mua hàng.",
+      "shippingPolicy": "Miễn phí vận chuyển cho đơn hàng từ 500.000 VNĐ trong nội thành TP.HCM. Giao hàng toàn quốc với phí vận chuyển theo khu vực.",
+      "privacyPolicy": "Chúng tôi cam kết bảo mật thông tin cá nhân của khách hàng và chỉ sử dụng cho mục đích giao dịch và hỗ trợ khách hàng.",
+      "termsOfService": "Khách hàng vui lòng đọc kỹ thông tin sản phẩm trước khi đặt hàng. Mọi tranh chấp sẽ được giải quyết theo pháp luật Việt Nam."
+    },
+    "createdAt": {
+      "$date": "2024-01-15T08:30:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T10:15:30.000Z"
+    }
+  }
+]

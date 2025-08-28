@@ -1,0 +1,37 @@
+[
+  {
+    "_id": {
+      "$oid": "60f1e2c0d4f5e6789abcdef0"
+    },
+    "name": "sale",
+    "slug": "sale"
+  },
+  {
+    "_id": {
+      "$oid": "60f1e2c0d4f5e6789abcdef1"
+    },
+    "name": "new",
+    "slug": "new"
+  },
+  {
+    "_id": {
+      "$oid": "60f1e2c0d4f5e6789abcdef2"
+    },
+    "name": "featured",
+    "slug": "featured"
+  },
+  {
+    "_id": {
+      "$oid": "60f1e2c0d4f5e6789abcdef3"
+    },
+    "name": "bestseller",
+    "slug": "bestseller"
+  },
+  {
+    "_id": {
+      "$oid": "60f1e2c0d4f5e6789abcdef4"
+    },
+    "name": "trending",
+    "slug": "trending"
+  }
+]

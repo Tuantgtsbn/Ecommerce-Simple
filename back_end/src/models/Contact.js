@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ContactSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
     username: {
       type: String,
       required: true,
@@ -18,13 +23,14 @@ const ContactSchema = new Schema(
       type: String,
       required: true,
     },
-    read: {
+    isRead: {
       type: Boolean,
       default: false,
     },
   },
-  {timestamps: true},
+  {timestamps: true, collection: "contacts"},
 );
 
 const ContactModel = mongoose.model("Contact", ContactSchema);
-module.exports = ContactModel;
+
+module.exports = {ContactModel};

@@ -1,5 +1,5 @@
 const formatMongooseError = require("../../helpers/formatError");
-const BannerHero = require("../../models/Hero");
+const {BannerHeroModel: BannerHero} = require("../../models/Hero");
 
 const getAllBanners = async (req, res) => {
   try {
@@ -8,8 +8,8 @@ const getAllBanners = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const filter = {};
-    if (req.query.active !== undefined) {
-      filter.active = req.query.active === "true";
+    if (req.query.isActive !== undefined) {
+      filter.isActive = req.query.isActive === "true";
     }
     if (req.query.search) {
       filter.$or = [
@@ -24,11 +24,16 @@ const getAllBanners = async (req, res) => {
         },
       ];
     }
+
     const banners = await BannerHero.find(filter)
+      .populate("createBy", "name email")
+      .populate("updateBy", "name email")
       .sort({order: 1, createdAt: -1})
       .skip(skip)
       .limit(limit);
+
     const total = await BannerHero.countDocuments(filter);
+
     res.status(200).json({
       success: true,
       data: banners,

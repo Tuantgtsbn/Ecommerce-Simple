@@ -178,5 +178,6 @@ bannerHeroSchema.pre("save", function (next) {
   next();
 });
 
-const BannerHero = mongoose.model("BannerHero", bannerHeroSchema);
-module.exports = BannerHero;
+const BannerHeroModel = mongoose.model("BannerHero", bannerHeroSchema);
+
+module.exports = {BannerHeroModel};

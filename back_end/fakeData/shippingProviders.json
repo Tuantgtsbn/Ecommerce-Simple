@@ -1,0 +1,56 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f212c0d4f5e6789abcdef0"
+    },
+    "name": "Giao Hang Nhanh",
+    "slug": "giao-hang-nhanh",
+    "description": "Fast delivery service across Vietnam",
+    "logo": "https://static.ybox.vn/2022/10/6/1665216192677-300402309_2710448215756061_5293639806893640453_n.jpg",
+    "phone": "1900545454",
+    "isActive": true,
+    "config": {
+      "apiKey": "ghn_api_key_123",
+      "baseUrl": "https://dev-online-gateway.ghn.vn",
+      "webhookUrl": "https://our-site.com/webhook/ghn"
+    },
+    "pricing": {
+      "baseRate": 15000,
+      "perKgRate": 5000,
+      "freeShippingThreshold": 500000
+    },
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f212c0d4f5e6789abcdef1"
+    },
+    "name": "Viettel Post",
+    "slug": "viettel-post",
+    "description": "Nationwide postal service by Viettel",
+    "logo": "https://viettelpost.com.vn/wp-content/uploads/2019/09/logo-vtp.png",
+    "phone": "1900545435",
+    "isActive": true,
+    "config": {
+      "apiKey": "vtp_api_key_456",
+      "baseUrl": "https://api.viettelpost.vn",
+      "webhookUrl": "https://our-site.com/webhook/vtp"
+    },
+    "pricing": {
+      "baseRate": 18000,
+      "perKgRate": 4500,
+      "freeShippingThreshold": 600000
+    },
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  }
+]

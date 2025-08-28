@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 const CouponSchema = new Schema(
   {
     code: {
@@ -34,11 +35,15 @@ const CouponSchema = new Schema(
     },
     endDate: {
       type: Date,
-      required: true,
+      default: null,
     },
     usageLimit: {
       type: Number,
       default: 100,
+    },
+    usageLimitPerUser: {
+      type: Number,
+      default: 0,
     },
     usedCount: {
       type: Number,
@@ -48,11 +53,40 @@ const CouponSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    type: {
+      type: String,
+      enum: ["all", "category", "product"],
+      default: "all",
+    },
+    couponCategories: [
+      {
+        name: String,
+        categoryId: {
+          type: Schema.Types.ObjectId,
+          ref: "Category",
+        },
+      },
+    ],
+    couponProducts: [
+      {
+        name: String,
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      },
+    ],
   },
   {
     timestamps: true,
+    collection: "coupons",
   },
 );
 
-const Coupon = mongoose.model("Coupon", CouponSchema);
-module.exports = Coupon;
+CouponSchema.index({code: 1}, {unique: true});
+CouponSchema.index({isActive: 1, startDate: 1, endDate: 1});
+CouponSchema.index({type: 1});
+
+const CouponModel = mongoose.model("Coupon", CouponSchema);
+
+module.exports = {CouponModel};

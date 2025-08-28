@@ -1,0 +1,122 @@
+[
+  {
+    "_id": {
+      "$oid": "60f1b2c0d4f5e6789abcdef0"
+    },
+    "userName": "admin",
+    "password": "$2b$10$rNZJQ.KRQ8oOJjxHQZ9jc.8UOXw2QOt7Q8LQ9jQw0JQZ9jQw0JQZ9j",
+    "email": "admin@ecommerce.com",
+    "role": "admin",
+    "avatar": "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg",
+    "birthday": {
+      "$date": "1990-05-15T00:00:00.000Z"
+    },
+    "gender": "male",
+    "isActive": true,
+    "lastLoginAt": {
+      "$date": "2024-08-28T10:00:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T10:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "userName": "john_doe",
+    "password": "$2b$10$rNZJQ.KRQ8oOJjxHQZ9jc.8UOXw2QOt7Q8LQ9jQw0JQZ9jQw0JQZ9j",
+    "email": "john.doe@gmail.com",
+    "role": "client",
+    "avatar": "https://img.freepik.com/free-psd/3d-illustration-person-with-long-hair_23-2149436197.jpg",
+    "birthday": {
+      "$date": "1992-03-20T00:00:00.000Z"
+    },
+    "gender": "male",
+    "isActive": true,
+    "lastLoginAt": {
+      "$date": "2024-08-27T14:30:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-02-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T14:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1b2c0d4f5e6789abcdef2"
+    },
+    "userName": "jane_smith",
+    "password": "$2b$10$rNZJQ.KRQ8oOJjxHQZ9jc.8UOXw2QOt7Q8LQ9jQw0JQZ9jQw0JQZ9j",
+    "email": "jane.smith@gmail.com",
+    "role": "client",
+    "avatar": "https://img.freepik.com/free-psd/3d-illustration-woman-with-pink-hair_23-2149436201.jpg",
+    "birthday": {
+      "$date": "1988-12-10T00:00:00.000Z"
+    },
+    "gender": "female",
+    "isActive": true,
+    "lastLoginAt": {
+      "$date": "2024-08-28T09:15:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-01-20T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T09:15:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1b2c0d4f5e6789abcdef3"
+    },
+    "userName": "mike_wilson",
+    "password": "$2b$10$rNZJQ.KRQ8oOJjxHQZ9jc.8UOXw2QOt7Q8LQ9jQw0JQZ9jQw0JQZ9j",
+    "email": "mike.wilson@yahoo.com",
+    "role": "client",
+    "avatar": "https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436191.jpg",
+    "birthday": {
+      "$date": "1995-07-08T00:00:00.000Z"
+    },
+    "gender": "male",
+    "isActive": true,
+    "lastLoginAt": {
+      "$date": "2024-08-26T16:45:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-03-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-26T16:45:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1b2c0d4f5e6789abcdef4"
+    },
+    "userName": "staff_member",
+    "password": "$2b$10$rNZJQ.KRQ8oOJjxHQZ9jc.8UOXw2QOt7Q8LQ9jQw0JQZ9jQw0JQZ9j",
+    "email": "admin@ecommerce.com",
+    "role": "admin",
+    "avatar": "https://img.freepik.com/free-psd/3d-illustration-person-with-blue-hair_23-2149436205.jpg",
+    "birthday": {
+      "$date": "1993-11-25T00:00:00.000Z"
+    },
+    "gender": "female",
+    "isActive": true,
+    "lastLoginAt": {
+      "$date": "2024-08-28T08:00:00.000Z"
+    },
+    "createdAt": {
+      "$date": "2024-01-10T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T08:00:00.000Z"
+    }
+  }
+]

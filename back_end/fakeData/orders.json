@@ -1,0 +1,279 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f232c0d4f5e6789abcdef0"
+    },
+    "orderNumber": "ORD-2024-001",
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "customer": {
+      "username": "john_doe",
+      "email": "john.doe@gmail.com",
+      "phone": "0901234567"
+    },
+    "orderItems": [
+      {
+        "variantId": {
+          "$oid": "60f1f2c0d4f5e6789abcdef0"
+        },
+        "title": "iPhone 15 Pro - Premium Smartphone",
+        "thumbnail": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=5120\u0026hei=2880\u0026fmt=p-jpg\u0026qlt=80\u0026.v=1692895703522",
+        "price": 999,
+        "quantity": 1,
+        "name": "iPhone 15 Pro Natural Titanium 128GB",
+        "discount": 10,
+        "attributes": [
+          {
+            "name": "Color",
+            "value": "Natural Titanium"
+          },
+          {
+            "name": "Storage",
+            "value": "128GB"
+          }
+        ]
+      }
+    ],
+    "shippingAddress": {
+      "addressId": {
+        "$oid": "60f202c0d4f5e6789abcdef0"
+      },
+      "detail": "123 Nguyen Hue Street, Floor 10",
+      "ward": "Ben Nghe Ward",
+      "district": "District 1",
+      "city": "Ho Chi Minh City",
+      "country": "Vietnam",
+      "phone": "0901234567",
+      "notes": "Near Bitexco Tower"
+    },
+    "orderStatus": "delivered",
+    "couponId": {
+      "$oid": "60f222c0d4f5e6789abcdef1"
+    },
+    "coupon": {
+      "code": "NEWUSER50",
+      "discount": 50000
+    },
+    "shippingFee": 25000,
+    "subTotal": 999,
+    "totalDiscount": 149.9,
+    "totalAmount": 874100,
+    "paymentId": {
+      "$oid": "60f242c0d4f5e6789abcdef0"
+    },
+    "orderDate": {
+      "$date": "2024-08-20T10:30:00.000Z"
+    },
+    "shipping": {
+      "providerId": {
+        "$oid": "60f212c0d4f5e6789abcdef0"
+      },
+      "providerName": "Giao Hang Nhanh",
+      "trackingNumber": "GHN123456789",
+      "estimatedDelivery": {
+        "$date": "2024-08-22T18:00:00.000Z"
+      },
+      "actualDelivery": {
+        "$date": "2024-08-22T16:30:00.000Z"
+      }
+    },
+    "notes": "Please handle with care",
+    "createdAt": {
+      "$date": "2024-08-20T10:30:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-22T16:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f232c0d4f5e6789abcdef1"
+    },
+    "orderNumber": "ORD-2024-002",
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef2"
+    },
+    "customer": {
+      "username": "jane_smith",
+      "email": "jane.smith@gmail.com",
+      "phone": "0912345678"
+    },
+    "orderItems": [
+      {
+        "variantId": {
+          "$oid": "60f1f2c0d4f5e6789abcdef1"
+        },
+        "title": "Samsung Galaxy S24 - AI Smartphone",
+        "thumbnail": "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-highlights-design-kv.jpg",
+        "price": 799,
+        "quantity": 1,
+        "name": "Samsung Galaxy S24 Phantom Black 256GB",
+        "discount": 15,
+        "attributes": [
+          {
+            "name": "Color",
+            "value": "Phantom Black"
+          },
+          {
+            "name": "Storage",
+            "value": "256GB"
+          }
+        ]
+      },
+      {
+        "variantId": {
+          "$oid": "60f1f2c0d4f5e6789abcdef3"
+        },
+        "title": "Nike Air Max 270 - Men\u0027s Shoes",
+        "thumbnail": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png",
+        "price": 150,
+        "quantity": 2,
+        "name": "Nike Air Max 270 Black/White US 9",
+        "discount": 25,
+        "attributes": [
+          {
+            "name": "Color",
+            "value": "Black/White"
+          },
+          {
+            "name": "Size",
+            "value": "US 9"
+          }
+        ]
+      }
+    ],
+    "shippingAddress": {
+      "addressId": {
+        "$oid": "60f202c0d4f5e6789abcdef1"
+      },
+      "detail": "456 Le Lai Street, Apartment 5A",
+      "ward": "Ben Thanh Ward",
+      "district": "District 1",
+      "city": "Ho Chi Minh City",
+      "country": "Vietnam",
+      "phone": "0912345678",
+      "notes": "Blue building"
+    },
+    "orderStatus": "inShipping",
+    "couponId": {
+      "$oid": "60f222c0d4f5e6789abcdef0"
+    },
+    "coupon": {
+      "code": "SUMMER2024",
+      "discount": 219.8
+    },
+    "shippingFee": 30000,
+    "subTotal": 1099,
+    "totalDiscount": 294.65,
+    "totalAmount": 834350,
+    "paymentId": {
+      "$oid": "60f242c0d4f5e6789abcdef1"
+    },
+    "orderDate": {
+      "$date": "2024-08-25T14:15:00.000Z"
+    },
+    "shipping": {
+      "providerId": {
+        "$oid": "60f212c0d4f5e6789abcdef1"
+      },
+      "providerName": "Viettel Post",
+      "trackingNumber": "VTP987654321",
+      "estimatedDelivery": {
+        "$date": "2024-08-28T18:00:00.000Z"
+      },
+      "actualDelivery": null
+    },
+    "notes": "",
+    "createdAt": {
+      "$date": "2024-08-25T14:15:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T09:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f232c0d4f5e6789abcdef2"
+    },
+    "orderNumber": "ORD-2024-003",
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef3"
+    },
+    "customer": {
+      "username": "mike_wilson",
+      "email": "mike.wilson@yahoo.com",
+      "phone": "0923456789"
+    },
+    "orderItems": [
+      {
+        "variantId": {
+          "$oid": "60f1f2c0d4f5e6789abcdef2"
+        },
+        "title": "Dell XPS 13 - Premium Ultrabook",
+        "thumbnail": "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
+        "price": 1299,
+        "quantity": 1,
+        "name": "Dell XPS 13 Platinum Silver 16GB 512GB SSD",
+        "discount": 20,
+        "attributes": [
+          {
+            "name": "Color",
+            "value": "Platinum Silver"
+          },
+          {
+            "name": "RAM",
+            "value": "16GB"
+          },
+          {
+            "name": "Storage",
+            "value": "512GB SSD"
+          }
+        ]
+      }
+    ],
+    "shippingAddress": {
+      "addressId": {
+        "$oid": "60f202c0d4f5e6789abcdef2"
+      },
+      "detail": "789 Dong Khoi Street",
+      "ward": "Ben Nghe Ward",
+      "district": "District 1",
+      "city": "Ho Chi Minh City",
+      "country": "Vietnam",
+      "phone": "0923456789",
+      "notes": "Near Opera House"
+    },
+    "orderStatus": "confirmed",
+    "couponId": null,
+    "coupon": null,
+    "shippingFee": 0,
+    "subTotal": 1299,
+    "totalDiscount": 259.8,
+    "totalAmount": 1039200,
+    "paymentId": {
+      "$oid": "60f242c0d4f5e6789abcdef2"
+    },
+    "orderDate": {
+      "$date": "2024-08-27T11:45:00.000Z"
+    },
+    "shipping": {
+      "providerId": {
+        "$oid": "60f212c0d4f5e6789abcdef0"
+      },
+      "providerName": "Giao Hang Nhanh",
+      "trackingNumber": "GHN456789123",
+      "estimatedDelivery": {
+        "$date": "2024-08-30T18:00:00.000Z"
+      },
+      "actualDelivery": null
+    },
+    "notes": "Fragile - Laptop",
+    "createdAt": {
+      "$date": "2024-08-27T11:45:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T08:00:00.000Z"
+    }
+  }
+]

@@ -1,0 +1,410 @@
+users {
+  _id: ObjectId,
+  username: String,
+  email: String,
+  password: String,
+  role: String, // "admin", "customer", "staff"
+  profile: {
+    avatar: String,
+    birthday: Date,
+    gender: String
+  },
+  socialLogin: {
+    googleId: String,
+    facebookId: String
+  }
+  ,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+addresses: 
+    {
+      _id: ObjectId,
+      detail: String,
+      ward: String,
+      district: String,
+      city: String,
+      country: String,
+      phone: String,
+      notes: String,
+      isDefault: Boolean
+    }
+  
+
+cart: {
+    _id: ObjectId,
+    userId: ObjectId,
+    item: 
+      {
+        variantId: ObjectId,
+        quantity: Number,
+        addedAt: Date
+      },
+    updatedAt: Date
+}
+
+wishlist: 
+    {
+        _id: ObjectId,
+        userId: ObjectId,
+      productId: ObjectId,
+      variantId: ObjectId,
+      addedAt: Date
+    }
+
+sessions {
+  _id: String, // session token
+  userId: ObjectId,
+  expiresAt: Date,
+  createdAt: Date
+}
+
+categories {
+  _id: ObjectId,
+  name: String,
+  slug: String,
+  description: String,
+  image: String,
+  isActive: Boolean,
+  sortOrder: Number,
+  parentCategoryId: ObjectId, // null for root categories
+  level: Number, // 0 for root, 1 for subcategory, etc.
+  path: [ObjectId], // array of parent category IDs for easy querying
+  createdAt: Date,
+  updatedAt: Date
+}
+
+brands {
+  _id: ObjectId,
+  name: String,
+  slug: String,
+  description: String,
+  logo: String,
+  isActive: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+products {
+  _id: ObjectId,
+  name: String,
+  slug: String,
+  description: String,
+  thumbnail: String,
+  images: [String],
+  brandId: ObjectId,
+  categoryId: ObjectId,
+  attributes: [
+    {
+      name: String, // "Color", "Size", "Material"
+      values: [String] // ["Red", "Blue", "Green"]
+    }
+  ],
+  variants: [
+    {
+      _id: ObjectId,
+      sku: String,
+      name: String,
+      slug: String,
+      price: Number,
+      basePrice: Number,
+      discount: Number,
+      quantity: Number,
+      imageUrl: String,
+      attributeValues: [
+        {
+          attributeName: String,
+          value: String
+        }
+      ]
+    }
+  ],
+  basePrice: Number,
+  maxDiscount: Number,
+  tags: [String],
+  status: String, // "active", "inactive", "draft"
+  isActive: Boolean,
+  
+  // Analytics & Reviews (embedded for performance)
+  analytics: {
+    totalReviews: Number,
+    averageRating: Number,
+    totalRatings: Number,
+    totalLikes: Number,
+    totalDislikes: Number,
+    viewCount: Number
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
+
+attributeProduct {
+    _id: ObjectId,
+    name: String
+}
+
+reviews {
+  _id: ObjectId,
+  userId: ObjectId,
+  productId: ObjectId,
+  variantId: ObjectId, // optional, if review is for specific variant
+  user: { // embedded user info for display
+    username: String,
+    avatar: String
+  },
+  rating: Number, // 1-5
+  comment: String,
+  images: [String], // review images
+  isVerifiedPurchase: Boolean,
+  helpfulCount: Number, // how many found this review helpful
+  createdAt: Date,
+  updatedAt: Date
+}
+
+coupons {
+  _id: ObjectId,
+  code: String,
+  name: String,
+  discountType: String, // "percentage", "fixed"
+  discountValue: Number,
+  minOrderAmount: Number,
+  maxDiscountAmount: Number,
+  startDate: Date,
+  endDate: Date,
+  usageLimit: Number, // total usage limit
+  usageLimitPerUser: Number,
+  usedCount: Number,
+  isActive: Boolean,
+  applicationType: String, // "all", "category", "product"
+  
+  // For category-specific coupons
+  applicableCategories: [ObjectId],
+  
+  // For product-specific coupons
+  applicableProducts: [ObjectId],
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+
+orders {
+  _id: ObjectId,
+  orderNumber: String, // human-readable order number
+  userId: ObjectId,
+  items: [
+    {
+      productId: ObjectId,
+      variantId: ObjectId,
+      productName: String,
+      variantName: String,
+      sku: String,
+      price: Number,
+      quantity: Number,
+      discount: Number,
+      thumbnail: String,
+      attributes: [
+        {
+          name: String,
+          value: String
+        }
+      ]
+    }
+  ],
+  
+  pricing: {
+    subtotal: Number, // total from products
+    shippingFee: Number,
+    totalDiscount: Number,
+    totalAmount: Number
+  },
+  
+  shippingAddress: {
+    detail: String,
+    ward: String,
+    district: String,
+    city: String,
+    country: String,
+    phone: String,
+    recipientName: String
+  },
+  
+  coupon: {
+    couponId: ObjectId,
+    code: String,
+    discountAmount: Number
+  },
+  
+  
+  
+  status: String, // "pending", "confirmed", "processing", "shipping", "delivered", "cancelled", "returned"
+  
+  statusHistory: [
+    {
+      status: String,
+      message: String,
+      timestamp: Date,
+      updatedBy: ObjectId // admin user who updated status
+    }
+  ],
+  
+  cancellation: {
+    reason: String,
+    cancelledBy: String, // "customer", "admin"
+    cancelledAt: Date
+  },
+  
+  shipping: {
+    providerId: ObjectId,
+    providerName: String,
+    trackingNumber: String,
+    estimatedDelivery: Date
+  },
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+
+payment: {
+    _id: ObjectId,
+    orderId: ObjectId,
+    method: String, // "cod", "vnpay", "momo", etc.
+    status: String, // "pending", "paid", "failed", "refunded"
+    transactionId: String,
+    paymentDate: Date,
+    amount: Number,
+    currency: String,
+    payerName: String,
+    payerEmail: String
+  },
+
+BlogCategories {
+  _id: ObjectId,
+  name: String,
+  slug: String,
+  description: String,
+  imageUrl: String,
+  isActive: Boolean,
+  sortOrder: Number,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+posts {
+  _id: ObjectId,
+  title: String,
+  slug: String,
+  content: String,
+  excerpt: String,
+  
+  categories: [
+    {
+      categoryId: ObjectId,
+      name: String,
+      slug: String
+    }
+  ],
+  
+  author: {
+    authorId: ObjectId,
+    username: String,
+    avatar: String
+  },
+  
+  featuredImage: {
+    url: String,
+    altText: String
+  },
+  
+  engagement: {
+    viewCount: Number,
+    likeCount: Number,
+    dislikeCount: Number,
+    commentCount: Number
+  },
+  
+  status: String, // "draft", "published", "archived"
+  visibility: String, // "public", "private"
+  
+  seo: {
+    metaTitle: String,
+    metaDescription: String,
+    keywords: [String]
+  },
+  
+  publishedAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+contacts 
+    {
+  _id: ObjectId,
+  name: String,
+  email: String,
+  phone: String,
+  subject: String,
+  message: String,
+  isRead: Boolean,
+  response: {
+    message: String,
+    respondedBy: ObjectId,
+    respondedAt: Date
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
+
+shippingProviders {
+  _id: ObjectId,
+  name: String,
+  slug: String,
+  description: String,
+  logo: String,
+  phone: String,
+  isActive: Boolean,
+  config: {
+    apiKey: String,
+    baseUrl: String,
+    // other provider-specific config
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
+
+shopInformation {
+  _id: ObjectId,
+  name: String,
+  address: {
+    detail: String,
+    ward: String,
+    district: String,
+    city: String,
+    country: String
+  },
+  contact: {
+    phone: String,
+    email: String,
+    website: String
+  },
+  logo: String,
+  description: String,
+  socialMedia: {
+    facebook: String,
+    instagram: String,
+    youtube: String
+  },
+  businessHours: {
+    monday: { open: String, close: String },
+    tuesday: { open: String, close: String },
+    // ... other days
+  },
+  settings: {
+    currency: String,
+    timezone: String,
+    language: String
+  },
+  createdAt: Date,
+  updatedAt: Date
+}
+

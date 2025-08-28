@@ -1,0 +1,47 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f272c0d4f5e6789abcdef0"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "items": ["60f1f2c0d4f5e6789abcdef1", "60f1f2c0d4f5e6789abcdef2"],
+    "createdAt": {
+      "$date": "2024-08-15T10:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T09:30:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f272c0d4f5e6789abcdef1"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef2"
+    },
+    "items": ["60f1f2c0d4f5e6789abcdef0", "60f1f2c0d4f5e6789abcdef3"],
+    "createdAt": {
+      "$date": "2024-08-20T14:20:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-27T16:45:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f272c0d4f5e6789abcdef2"
+    },
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef3"
+    },
+    "items": "60f1f2c0d4f5e6789abcdef2",
+    "createdAt": {
+      "$date": "2024-08-22T11:30:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-22T11:30:00.000Z"
+    }
+  }
+]

@@ -1,0 +1,66 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f2b2c0d4f5e6789abcdef0"
+    },
+    "name": "Technology News",
+    "slug": "technology-news",
+    "description": "Latest news and updates about technology trends",
+    "imageUrl": "https://img.freepik.com/free-vector/technology-background-design_1200-85.jpg",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f2b2c0d4f5e6789abcdef1"
+    },
+    "name": "Product Reviews",
+    "slug": "product-reviews",
+    "description": "In-depth reviews of the latest products",
+    "imageUrl": "https://img.freepik.com/free-vector/product-review-concept-illustration_114360-969.jpg",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f2b2c0d4f5e6789abcdef2"
+    },
+    "name": "Shopping Guides",
+    "slug": "shopping-guides",
+    "description": "Helpful guides for making informed purchase decisions",
+    "imageUrl": "https://img.freepik.com/free-vector/shopping-guide-concept-illustration_114360-1355.jpg",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f2b2c0d4f5e6789abcdef3"
+    },
+    "name": "Industry Trends",
+    "slug": "industry-trends",
+    "description": "Analysis of current market trends and future predictions",
+    "imageUrl": "https://img.freepik.com/free-vector/business-analytics-concept-illustration_114360-1389.jpg",
+    "isActive": true,
+    "createdAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-01T00:00:00.000Z"
+    }
+  }
+]

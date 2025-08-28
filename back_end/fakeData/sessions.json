@@ -1,0 +1,14 @@
+﻿[
+  {
+    "_id": {
+      "$oid": "60f292c0d4f5e6789abcdef0"
+    },
+    "sessionId": "sess_john_doe_20240828_100000",
+    "userId": {
+      "$oid": "60f1b2c0d4f5e6789abcdef1"
+    },
+    "expiresAt": {
+      "$date": "2024-09-28T10:00:00.000Z"
+    }
+  }
+]

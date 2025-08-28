@@ -1,0 +1,360 @@
+[
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef1"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef0"
+    },
+    "sku": "IPHONE15PRO-NT-128GB",
+    "price": 999,
+    "quantity": 15,
+    "imageUrl": {
+      "desktop": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ],
+      "tablet": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=3840&hei=2160&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ],
+      "mobile": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=1920&hei=1080&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ]
+    },
+    "discount": 5,
+    "name": "iPhone 15 Pro Natural Titanium 128GB",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Natural Titanium"
+      },
+      {
+        "name": "Storage",
+        "value": "128GB"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef2"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef0"
+    },
+    "sku": "IPHONE15PRO-BT-256GB",
+    "price": 1099,
+    "quantity": 12,
+    "imageUrl": {
+      "desktop": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703618"
+      ],
+      "tablet": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium_GEO_US?wid=3840&hei=2160&fmt=p-jpg&qlt=80&.v=1692895703618"
+      ],
+      "mobile": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium_GEO_US?wid=1920&hei=1080&fmt=p-jpg&qlt=80&.v=1692895703618"
+      ]
+    },
+    "discount": 5,
+    "name": "iPhone 15 Pro Blue Titanium 256GB",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Blue Titanium"
+      },
+      {
+        "name": "Storage",
+        "value": "256GB"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef3"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef0"
+    },
+    "sku": "IPHONE15PRO-WT-512GB",
+    "price": 1299,
+    "quantity": 8,
+    "imageUrl": {
+      "desktop": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-whitetitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ],
+      "tablet": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-whitetitanium_GEO_US?wid=3840&hei=2160&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ],
+      "mobile": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-whitetitanium_GEO_US?wid=1920&hei=1080&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ]
+    },
+    "discount": 3,
+    "name": "iPhone 15 Pro White Titanium 512GB",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "White Titanium"
+      },
+      {
+        "name": "Storage",
+        "value": "512GB"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef4"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef1"
+    },
+    "sku": "GALAXYS24-PB-128GB",
+    "price": 799,
+    "quantity": 20,
+    "imageUrl": {
+      "desktop": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-black-front.jpg"
+      ],
+      "tablet": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-black-front-tablet.jpg"
+      ],
+      "mobile": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-black-front-mobile.jpg"
+      ]
+    },
+    "discount": 10,
+    "name": "Samsung Galaxy S24 Phantom Black 128GB",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Phantom Black"
+      },
+      {
+        "name": "Storage",
+        "value": "128GB"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef5"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef1"
+    },
+    "sku": "GALAXYS24-PV-256GB",
+    "price": 899,
+    "quantity": 18,
+    "imageUrl": {
+      "desktop": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-violet-front.jpg"
+      ],
+      "tablet": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-violet-front-tablet.jpg"
+      ],
+      "mobile": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-phantom-violet-front-mobile.jpg"
+      ]
+    },
+    "discount": 15,
+    "name": "Samsung Galaxy S24 Phantom Violet 256GB",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Phantom Violet"
+      },
+      {
+        "name": "Storage",
+        "value": "256GB"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef6"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef2"
+    },
+    "sku": "DELLXPS13-PS-8GB-256GB",
+    "price": 1299,
+    "quantity": 10,
+    "imageUrl": {
+      "desktop": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd"
+      ],
+      "tablet": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1-tablet.psd"
+      ],
+      "mobile": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1-mobile.psd"
+      ]
+    },
+    "discount": 15,
+    "name": "Dell XPS 13 Platinum Silver 8GB RAM 256GB SSD",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Platinum Silver"
+      },
+      {
+        "name": "RAM",
+        "value": "8GB"
+      },
+      {
+        "name": "Storage",
+        "value": "256GB SSD"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef7"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef2"
+    },
+    "sku": "DELLXPS13-FW-16GB-512GB",
+    "price": 1599,
+    "quantity": 8,
+    "imageUrl": {
+      "desktop": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-white-gallery-1.psd"
+      ],
+      "tablet": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-white-gallery-1-tablet.psd"
+      ],
+      "mobile": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-white-gallery-1-mobile.psd"
+      ]
+    },
+    "discount": 20,
+    "name": "Dell XPS 13 Frost White 16GB RAM 512GB SSD",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Frost White"
+      },
+      {
+        "name": "RAM",
+        "value": "16GB"
+      },
+      {
+        "name": "Storage",
+        "value": "512GB SSD"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef8"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef3"
+    },
+    "sku": "NIKEAIRMAX270-BW-US9",
+    "price": 150,
+    "quantity": 25,
+    "imageUrl": {
+      "desktop": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png"
+      ],
+      "tablet": [
+        "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png"
+      ],
+      "mobile": [
+        "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png"
+      ]
+    },
+    "discount": 20,
+    "name": "Nike Air Max 270 Black/White US 9",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Black/White"
+      },
+      {
+        "name": "Size",
+        "value": "US 9"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdef9"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef3"
+    },
+    "sku": "NIKEAIRMAX270-NW-US10",
+    "price": 150,
+    "quantity": 30,
+    "imageUrl": {
+      "desktop": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/nike-air-max-270-navy-white-mens-shoes.png"
+      ],
+      "tablet": [
+        "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/nike-air-max-270-navy-white-mens-shoes.png"
+      ],
+      "mobile": [
+        "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,q_auto:eco/nike-air-max-270-navy-white-mens-shoes.png"
+      ]
+    },
+    "discount": 25,
+    "name": "Nike Air Max 270 Navy/White US 10",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Navy/White"
+      },
+      {
+        "name": "Size",
+        "value": "US 10"
+      }
+    ],
+    "isActive": true
+  },
+  {
+    "_id": {
+      "$oid": "64a7f8c1234567890abcdefa"
+    },
+    "productId": {
+      "$oid": "60f1f2c0d4f5e6789abcdef3"
+    },
+    "sku": "NIKEAIRMAX270-RB-US11",
+    "price": 150,
+    "quantity": 22,
+    "imageUrl": {
+      "desktop": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/nike-air-max-270-red-black-mens-shoes.png"
+      ],
+      "tablet": [
+        "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/nike-air-max-270-red-black-mens-shoes.png"
+      ],
+      "mobile": [
+        "https://static.nike.com/a/images/t_PDP_864_v1/f_auto,q_auto:eco/nike-air-max-270-red-black-mens-shoes.png"
+      ]
+    },
+    "discount": 25,
+    "name": "Nike Air Max 270 Red/Black US 11",
+    "attributeValues": [
+      {
+        "name": "Color",
+        "value": "Red/Black"
+      },
+      {
+        "name": "Size",
+        "value": "US 11"
+      }
+    ],
+    "isActive": true
+  }
+]

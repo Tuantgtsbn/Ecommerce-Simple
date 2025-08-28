@@ -1,0 +1,308 @@
+[
+  {
+    "_id": {
+      "$oid": "60f1f2c0d4f5e6789abcdef0"
+    },
+    "name": "iPhone 15 Pro",
+    "slug": "iphone-15-pro",
+    "brandId": {
+      "$oid": "60f1d2c0d4f5e6789abcdef0"
+    },
+    "categoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef1"
+    },
+    "category": {
+      "name": "Smartphones",
+      "slug": "smartphones"
+    },
+    "brand": {
+      "name": "Apple",
+      "slug": "apple",
+      "logo": "https://logos-world.net/wp-content/uploads/2020/04/Apple-Logo.png"
+    },
+    "attributes": [
+      {
+        "name": "Color",
+        "value": [
+          "Natural Titanium",
+          "Blue Titanium",
+          "White Titanium",
+          "Black Titanium"
+        ]
+      },
+      {
+        "name": "Storage",
+        "value": ["128GB", "256GB", "512GB", "1TB"]
+      }
+    ],
+    "description": "The iPhone 15 Pro features a titanium design, A17 Pro chip, and advanced camera system.",
+    "title": "iPhone 15 Pro - Premium Smartphone",
+    "thumbnail": {
+      "desktop": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703522"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "images": {
+      "desktop": [
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703522",
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-bluetitanium_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692895703618"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "averageRating": 4.5,
+    "totalReviews": 125,
+    "totalLikes": 450,
+    "totalDislikes": 25,
+    "totalRatings": 125,
+    "maxDiscount": 10,
+    "basePrice": 999,
+    "quantity": 50,
+    "isActive": true,
+    "status": "inStock",
+    "tags": [
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef1"
+      },
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef2"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-01-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1f2c0d4f5e6789abcdef1"
+    },
+    "name": "Samsung Galaxy S24",
+    "slug": "samsung-galaxy-s24",
+    "brandId": {
+      "$oid": "60f1d2c0d4f5e6789abcdef1"
+    },
+    "categoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef1"
+    },
+    "category": {
+      "name": "Smartphones",
+      "slug": "smartphones"
+    },
+    "brand": {
+      "name": "Samsung",
+      "slug": "samsung",
+      "logo": "https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo.png"
+    },
+    "attributes": [
+      {
+        "name": "Color",
+        "value": [
+          "Phantom Black",
+          "Phantom Silver",
+          "Phantom Violet",
+          "Phantom Yellow"
+        ]
+      },
+      {
+        "name": "Storage",
+        "value": ["128GB", "256GB", "512GB"]
+      }
+    ],
+    "description": "Samsung Galaxy S24 with AI-powered features and stunning display technology.",
+    "title": "Samsung Galaxy S24 - AI Smartphone",
+    "thumbnail": {
+      "desktop": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-highlights-design-kv.jpg"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "images": {
+      "desktop": [
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-highlights-design-kv.jpg",
+        "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-highlights-camera-kv.jpg"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "averageRating": 4.3,
+    "totalReviews": 89,
+    "totalLikes": 320,
+    "totalDislikes": 18,
+    "totalRatings": 89,
+    "maxDiscount": 15,
+    "basePrice": 799,
+    "quantity": 75,
+    "isActive": true,
+    "status": "inStock",
+    "tags": [
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef1"
+      },
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef4"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-02-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1f2c0d4f5e6789abcdef2"
+    },
+    "name": "Dell XPS 13",
+    "slug": "dell-xps-13",
+    "brandId": {
+      "$oid": "60f1d2c0d4f5e6789abcdef4"
+    },
+    "categoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef2"
+    },
+    "category": {
+      "name": "Laptops",
+      "slug": "laptops"
+    },
+    "brand": {
+      "name": "Dell",
+      "slug": "dell",
+      "logo": "https://logos-world.net/wp-content/uploads/2020/04/Dell-Logo.png"
+    },
+    "attributes": [
+      {
+        "name": "Color",
+        "value": ["Platinum Silver", "Frost White"]
+      },
+      {
+        "name": "RAM",
+        "value": ["8GB", "16GB", "32GB"]
+      },
+      {
+        "name": "Storage",
+        "value": ["256GB SSD", "512GB SSD", "1TB SSD"]
+      }
+    ],
+    "description": "Ultra-portable Dell XPS 13 laptop with stunning InfinityEdge display.",
+    "title": "Dell XPS 13 - Premium Ultrabook",
+    "thumbnail": {
+      "desktop": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "images": {
+      "desktop": [
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
+        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-2.psd"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "averageRating": 4.4,
+    "totalReviews": 67,
+    "totalLikes": 245,
+    "totalDislikes": 12,
+    "totalRatings": 67,
+    "maxDiscount": 20,
+    "basePrice": 1299,
+    "quantity": 30,
+    "isActive": true,
+    "status": "inStock",
+    "tags": [
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef2"
+      },
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef3"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-02-15T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "60f1f2c0d4f5e6789abcdef3"
+    },
+    "name": "Nike Air Max 270",
+    "slug": "nike-air-max-270",
+    "brandId": {
+      "$oid": "60f1d2c0d4f5e6789abcdef2"
+    },
+    "categoryId": {
+      "$oid": "60f1c2c0d4f5e6789abcdef4"
+    },
+    "category": {
+      "name": "Men's Clothing",
+      "slug": "mens-clothing"
+    },
+    "brand": {
+      "name": "Nike",
+      "slug": "nike",
+      "logo": "https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png"
+    },
+    "attributes": [
+      {
+        "name": "Color",
+        "value": ["Black/White", "Navy/White", "Red/Black", "White/Blue"]
+      },
+      {
+        "name": "Size",
+        "value": ["US 7", "US 8", "US 9", "US 10", "US 11", "US 12"]
+      }
+    ],
+    "description": "Nike Air Max 270 features the largest heel Air unit in Nike history for maximum comfort.",
+    "title": "Nike Air Max 270 - Men's Shoes",
+    "thumbnail": {
+      "desktop": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "images": {
+      "desktop": [
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/i1-c6f6eb84-d4f5-4e3a-8b0b-3d4c8b3a3e0c/air-max-270-mens-shoes-KkLcGR.png"
+      ],
+      "tablet": [],
+      "mobile": []
+    },
+    "averageRating": 4.2,
+    "totalReviews": 234,
+    "totalLikes": 567,
+    "totalDislikes": 43,
+    "totalRatings": 234,
+    "maxDiscount": 25,
+    "basePrice": 150,
+    "quantity": 120,
+    "isActive": true,
+    "status": "inStock",
+    "tags": [
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef0"
+      },
+      {
+        "$oid": "60f1e2c0d4f5e6789abcdef3"
+      }
+    ],
+    "createdAt": {
+      "$date": "2024-03-01T00:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2024-08-28T00:00:00.000Z"
+    }
+  }
+]
