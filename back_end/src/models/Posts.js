@@ -51,17 +51,19 @@ const PostsSchema = new Schema(
       enum: ["draft", "published", "scheduled", "rejected"],
       default: "draft",
     },
-    author: {
-      authorId: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+    authors: [
+      {
+        authorId: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        authorName: {
+          type: String,
+          required: true,
+        },
       },
-      authorName: {
-        type: String,
-        required: true,
-      },
-    },
+    ],
     thumbnail: {
       desktop: {
         url: {

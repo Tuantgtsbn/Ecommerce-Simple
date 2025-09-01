@@ -10,7 +10,8 @@ const getAllOrders = async (req, res) => {
     if (search) {
       filter.$or = [
         {orderId: {$regex: search, $options: "i"}},
-        {"shippingAddress.recipientName": {$regex: search, $options: "i"}},
+        {"customer.name": {$regex: search, $options: "i"}},
+        {"customer.email": {$regex: search, $options: "i"}},
         {"shippingAddress.phone": {$regex: search, $options: "i"}},
       ];
     }
@@ -39,12 +40,13 @@ const getAllOrders = async (req, res) => {
     res.status(200).json({
       success: true,
       data: orders,
-      pagination: {
+      metadata: {
         currentPage: Number(page),
         totalPages: Math.ceil(total / Number(limit)),
         totalItems: total,
         itemsPerPage: Number(limit),
       },
+      message: "Orders retrieved successfully",
     });
   } catch (error) {
     res.status(500).json({
@@ -57,9 +59,8 @@ const getDetailOrder = async (req, res) => {
   try {
     const {id} = req.params;
     const order = await Order.findById(id)
-      .populate("userId", "name email phone")
-      .populate("items.productId", "name slug thumbnail basePrice")
-      .populate("couponId", "code discountType discountValue");
+      .populate("paymentId", "paymentMethod paymentStatus amount currency")
+      .lean();
 
     if (!order) {
       return res.status(404).json({
@@ -67,10 +68,14 @@ const getDetailOrder = async (req, res) => {
         message: "Order not found",
       });
     }
+    const {paymentId, ...rest} = order;
 
     res.status(200).json({
       success: true,
-      data: order,
+      data: {
+        ...rest,
+        payment: paymentId,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -95,9 +100,12 @@ const updateOrderStatus = async (req, res) => {
     const validStatuses = [
       "pending",
       "confirmed",
-      "shipped",
+      "inShipping",
       "delivered",
+      "rejected",
       "cancelled",
+      "failedDelivery",
+      "refunded",
     ];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({
@@ -110,12 +118,9 @@ const updateOrderStatus = async (req, res) => {
       id,
       {
         status: status,
-        updatedAt: new Date(),
       },
       {new: true},
-    )
-      .populate("userId", "name email phone")
-      .populate("items.productId", "name slug thumbnail basePrice");
+    );
 
     if (!order) {
       return res.status(404).json({
@@ -138,10 +143,7 @@ const updateOrderStatus = async (req, res) => {
 };
 const statisticalOrdersAndRevenue = async (req, res) => {
   try {
-    const orders = await Order.find().populate(
-      "items.productId",
-      "name category.name",
-    );
+    const orders = await Order.find();
     const dateNow = new Date();
 
     // Lấy thông tin tháng hiện tại
@@ -201,14 +203,7 @@ const statisticalOrdersAndRevenue = async (req, res) => {
 
     // Thống kê theo status
     const statusStats = orders.reduce((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
-      return acc;
-    }, {});
-
-    // Thống kê theo payment method
-    const paymentStats = orders.reduce((acc, order) => {
-      const method = order.paymentMethod || "unknown";
-      acc[method] = (acc[method] || 0) + 1;
+      acc[order.orderStatus] = (acc[order.orderStatus] || 0) + 1;
       return acc;
     }, {});
 
@@ -258,7 +253,6 @@ const statisticalOrdersAndRevenue = async (req, res) => {
             revenue: totalRevenue,
           },
           statusStats,
-          paymentStats,
           monthlyBusiness,
         },
       },

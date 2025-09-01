@@ -11,23 +11,24 @@ exports.createPost = async (req, res) => {
       publishedAt,
       status,
       visibility,
-      author,
+      authors,
       thumbnail,
       tags,
     } = req.body;
 
+
     const newPost = new Post({
       title,
       content,
-      excerpt,
+      excerpt: excerpt || "",
       categories: categories || [],
-      publishedAt,
+      publishedAt: publishedAt || null,
       status: status || "draft",
       visibility: visibility || "public",
-      author: {
+      authors: authors.map(author => ({
         authorId: author?.authorId,
         authorName: author?.authorName,
-      },
+      })) || [],
       thumbnail,
       tags: tags || [],
     });
@@ -68,19 +69,13 @@ exports.updatePost = async (req, res) => {
     }
 
     const updates = req.body;
-
-    // Tự động tạo slug mới nếu title thay đổi
-    if (updates.title && updates.title !== currentPost.title) {
-      updates.slug = await generateUniqueSlug("Posts", updates.title, postId);
-    }
-
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
-      {$set: {...updates, updatedAt: new Date()}},
+      {$set: updates},
       {new: true},
     )
       .populate("categories.categoryId", "name slug")
-      .populate("author.authorId", "name email")
+      .populate("authors.authorId", "name email")
       .populate("tags.tagId", "name slug");
 
     if (!updatedPost) {
