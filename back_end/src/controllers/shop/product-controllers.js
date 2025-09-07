@@ -1,63 +1,66 @@
-const {ProductModel: Product} = require("../../models/Product");
+const {
+  ProductModel: Product,
+  ProductVariantModel,
+} = require("../../models/Product");
+const {cleanObject} = require("../../helpers/filter");
 
 const fetchFilteredProducts = async (req, res) => {
+  1;
   try {
-    const {
-      categoryId = [],
-      brandId = [],
-      category = [],
-      brand = [],
-      sortBy = "price-lowtohigh",
-      limit = 12,
-      page = 1,
-      search,
-      minPrice,
-      maxPrice,
-      tags,
-      status = "inStock",
-    } = req.query;
+    const filterParams = cleanObject(req.query, [
+      "categories",
+      "brands",
+      "price",
+      "sortBy",
+      "search",
+      "page",
+      "limit",
+      "colors",
+    ]);
 
-    let filter = {isActive: true, status: status};
+    let filter = {status: "inStock", isActive: true};
+    const limit = filterParams.limit ? Number(filterParams.limit) || 12 : 12;
+    const page = filterParams.page ? Number(filterParams.page) || 1 : 1;
 
-    // Lọc theo category (cả ID và name)
-    if (categoryId.length > 0) {
-      filter.categoryId = {$in: categoryId.split(",")};
-    } else if (category.length > 0) {
-      filter["category.name"] = {$in: category.split(",")};
+    // Lọc theo category (slug)
+    if (filterParams.categories) {
+      const categories = filterParams.categories.split(",");
+      filter.category.slug = {$in: categories};
     }
 
-    // Lọc theo brand (cả ID và name)
-    if (brandId.length > 0) {
-      filter.brandId = {$in: brandId.split(",")};
-    } else if (brand.length > 0) {
-      filter["brand.name"] = {$in: brand.split(",")};
+    // Lọc theo brand (slug)
+    if (filterParams.brands) {
+      const brands = filterParams.brands.split(",");
+      filter.brand.slug = {$in: brands};
+    }
+
+    // Lọc theo khoảng giá
+    if (filterParams.price) {
+      const priceRange = filterParams.price;
+      if (priceRange.includes("-")) {
+        const [minPrice, maxPrice] = priceRange.split("-");
+        filter.basePrice = {$gte: Number(minPrice), $lte: Number(maxPrice)};
+      }
+    }
+
+    // Lọc theo màu sắc
+    if (filterParams.colors) {
+      const colors = filterParams.colors.split(",");
+      filter["attributes.value"] = {$in: colors};
     }
 
     // Tìm kiếm theo từ khóa
-    if (search) {
+    if (filterParams.search) {
+      const search = filterParams.search;
       filter.$or = [
         {name: {$regex: search, $options: "i"}},
-        {title: {$regex: search, $options: "i"}},
-        {description: {$regex: search, $options: "i"}},
         {"category.name": {$regex: search, $options: "i"}},
         {"brand.name": {$regex: search, $options: "i"}},
       ];
     }
 
-    // Lọc theo khoảng giá
-    if (minPrice || maxPrice) {
-      filter.basePrice = {};
-      if (minPrice) filter.basePrice.$gte = Number(minPrice);
-      if (maxPrice) filter.basePrice.$lte = Number(maxPrice);
-    }
-
-    // Lọc theo tags
-    if (tags && tags.length > 0) {
-      filter.tags = {$in: tags.split(",")};
-    }
-
     let sort = {};
-    switch (sortBy) {
+    switch (filterParams.sortBy) {
       case "price-lowtohigh":
         sort.basePrice = 1;
         break;
@@ -80,32 +83,31 @@ const fetchFilteredProducts = async (req, res) => {
         sort.averageRating = -1;
         break;
       case "popular":
-        sort.totalReviews = -1;
+        sort.totalViews = -1;
         break;
       default:
         sort.basePrice = 1;
         break;
     }
 
-    const totalProducts = await Product.countDocuments(filter);
-    const totalPages = Math.ceil(totalProducts / limit);
-
-    const filteredProducts = await Product.find(filter)
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug logo")
+    const p1 = Product.countDocuments(filter);
+    const p2 = Product.find(filter)
       .populate("tags", "name slug")
       .sort(sort)
-      .limit(Number(limit))
-      .skip(Number(limit) * (Number(page) - 1));
+      .limit(limit)
+      .skip(limit * (page - 1));
+
+    const [totalProducts, products] = await Promise.all([p1, p2]);
+    const totalPages = Math.ceil(totalProducts / limit);
 
     return res.status(200).json({
       success: true,
-      data: filteredProducts,
-      pagination: {
-        totalProducts,
+      data: products,
+      metadata: {
+        page,
+        limit,
         totalPages,
-        currentPage: Number(page),
-        itemsPerPage: Number(limit),
+        totalItems: totalProducts,
       },
     });
   } catch (error) {
@@ -118,13 +120,23 @@ const fetchFilteredProducts = async (req, res) => {
 };
 const getProductDetail = async (req, res) => {
   try {
-    const {id} = req.params;
+    const {id, slug} = req.query;
+    const filter = id ? {_id: id, isActive: true} : {slug, isActive: true};
 
-    const product = await Product.findById(id)
-      .populate("categoryId", "name slug description")
-      .populate("brandId", "name slug logo description")
-      .populate("tags", "name slug");
+    const productPromise = Product.findOne(filter)
+      .populate("categoryId", "_id name slug description")
+      .populate("brandId", "_id name slug logo description")
+      .populate("tags", "_id name slug")
+      .exec();
 
+    const productVariantsPromise = ProductVariantModel.find({
+      productId: id,
+    }).exec();
+
+    const [product, variants] = await Promise.all([
+      productPromise,
+      productVariantsPromise,
+    ]);
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -132,21 +144,13 @@ const getProductDetail = async (req, res) => {
       });
     }
 
-    if (!product.isActive) {
-      return res.status(404).json({
-        success: false,
-        message: "Product is not available",
-      });
-    }
-
     // Tăng view count (optional)
-    await Product.findByIdAndUpdate(id, {
-      $inc: {totalViews: 1},
-    });
+    product.totalViews = product.totalViews + 1;
+    Promise.allSettled([product.save()]);
 
     return res.status(200).json({
       success: true,
-      data: product.toObject(),
+      data: {...product.toObject(), variants},
     });
   } catch (error) {
     console.log("error", error);
@@ -160,6 +164,7 @@ const getProductDetail = async (req, res) => {
 const findRelatedProducts = async (req, res) => {
   try {
     const {id} = req.params;
+    const {limit = 8} = req.query;
     const currentProduct = await Product.findById(id);
 
     if (!currentProduct) {
@@ -170,7 +175,7 @@ const findRelatedProducts = async (req, res) => {
     }
 
     // Tìm sản phẩm liên quan theo category và brand
-    const relatedProducts = await Product.find({
+    const filter = {
       $or: [
         {categoryId: currentProduct.categoryId},
         {brandId: currentProduct.brandId},
@@ -179,101 +184,21 @@ const findRelatedProducts = async (req, res) => {
       _id: {$ne: currentProduct._id},
       isActive: true,
       status: "inStock",
-    })
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug logo")
-      .sort({averageRating: -1, totalReviews: -1})
-      .limit(8);
+    };
+
+    const relatedProducts = await Product.find(filter)
+      .limit(Number(limit))
+      .skip(Number(limit) * (Number(page) - 1));
 
     return res.status(200).json({
       success: true,
       data: relatedProducts,
-    });
-  } catch (error) {
-    console.log("error", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const getProductBySlug = async (req, res) => {
-  try {
-    const {slug} = req.params;
-
-    const product = await Product.findOne({slug, isActive: true})
-      .populate("categoryId", "name slug description")
-      .populate("brandId", "name slug logo description")
-      .populate("tags", "name slug");
-
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
-    }
-
-    // Tăng view count
-    await Product.findByIdAndUpdate(product._id, {
-      $inc: {totalViews: 1},
-    });
-
-    return res.status(200).json({
-      success: true,
-      data: product.toObject(),
-    });
-  } catch (error) {
-    console.log("error", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const getFeaturedProducts = async (req, res) => {
-  try {
-    const {limit = 8} = req.query;
-
-    const featuredProducts = await Product.find({
-      isActive: true,
-      status: "inStock",
-    })
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug logo")
-      .sort({averageRating: -1, totalReviews: -1, totalLikes: -1})
-      .limit(Number(limit));
-
-    return res.status(200).json({
-      success: true,
-      data: featuredProducts,
-    });
-  } catch (error) {
-    console.log("error", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const getNewProducts = async (req, res) => {
-  try {
-    const {limit = 8} = req.query;
-
-    const newProducts = await Product.find({
-      isActive: true,
-      status: "inStock",
-    })
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug logo")
-      .sort({createdAt: -1})
-      .limit(Number(limit));
-
-    return res.status(200).json({
-      success: true,
-      data: newProducts,
+      metadata: {
+        page: 1,
+        limit: Number(limit),
+        totalItems: relatedProducts.length,
+        totalPages: 1,
+      },
     });
   } catch (error) {
     console.log("error", error);
@@ -288,7 +213,4 @@ module.exports = {
   fetchFilteredProducts,
   getProductDetail,
   findRelatedProducts,
-  getProductBySlug,
-  getFeaturedProducts,
-  getNewProducts,
 };

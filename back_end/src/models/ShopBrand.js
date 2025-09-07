@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 const {generateUniqueSlug} = require("../helpers/slug");
 
@@ -7,7 +7,6 @@ const ShopSchema = new Schema(
     name: {
       type: String,
       required: true,
-      index: true,
     },
     address: {
       detail: {type: String, required: true},
@@ -100,12 +99,10 @@ const BrandSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     slug: {
       type: String,
       unique: true,
-      index: true,
     },
     description: {
       type: String,

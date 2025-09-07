@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const SessionSchema = new Schema({
@@ -21,4 +21,4 @@ SessionSchema.index({expiresAt: 1}, {expireAfterSeconds: 0});
 
 const SessionModel = mongoose.model("Session", SessionSchema);
 
-module.exports = SessionModel;
+module.exports = {SessionModel};

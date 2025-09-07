@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema(
@@ -11,16 +11,16 @@ const ReviewSchema = new Schema(
     productId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
-      required: true,
+      default: null,
     },
     variantId: {
       type: Schema.Types.ObjectId,
       ref: "Variant",
-      required: true,
+      default: null,
     },
     comment: {
       type: String,
-      default: "",
+      required: true,
     },
     rating: {
       type: Number,
@@ -34,6 +34,11 @@ const ReviewSchema = new Schema(
     collection: "reviews",
   },
 );
+
+ReviewSchema.index({userId: 1});
+ReviewSchema.index({productId: 1});
+ReviewSchema.index({variantId: 1});
+ReviewSchema.index({productId: 1, createdAt: -1});
 
 const ReviewModel = mongoose.model("Review", ReviewSchema);
 

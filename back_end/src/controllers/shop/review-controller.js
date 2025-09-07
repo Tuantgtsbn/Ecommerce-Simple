@@ -3,13 +3,15 @@ const {OrderModel: Order} = require("../../models/Orders");
 const {ProductModel: Product} = require("../../models/Product");
 
 const addReview = async (req, res) => {
+  const {id: userId} = req.user;
   try {
-    const {userId, productId, variantId, comment, rating} = req.body;
+    const {productId, variantId, comment, rating} = req.body;
 
-    if (!userId || !productId || !variantId || !rating) {
+    if (!userId || (!productId && !variantId) || !rating || !comment) {
       return res.status(400).json({
         success: false,
-        message: "UserId, productId, variantId, and rating are required",
+        message:
+          "UserId, productId, variantId, rating, and comment are required",
       });
     }
 
@@ -23,8 +25,15 @@ const addReview = async (req, res) => {
     // Kiểm tra user đã mua sản phẩm variant này chưa
     const order = await Order.findOne({
       userId,
-      "orderItems.variantId": variantId,
-      "orderStatus": {$in: ["delivered", "confirmed"]},
+      $or: [
+        {
+          "orderItems.variantId": variantId,
+        },
+        {
+          "orderItems.product.productId": productId,
+        },
+      ],
+      orderStatus: {$in: ["delivered", "confirmed"]},
     });
 
     if (!order) {
@@ -51,8 +60,8 @@ const addReview = async (req, res) => {
     // Tạo review mới
     const newReview = new Review({
       userId,
-      productId,
-      variantId,
+      productId: productId || null,
+      variantId: variantId || null,
       comment: comment || "",
       rating,
     });
@@ -60,15 +69,17 @@ const addReview = async (req, res) => {
     await newReview.save();
 
     // Cập nhật average rating và total reviews cho product
-    await updateProductRating(productId);
+    updateProductRating(productId, "new", rating);
 
-    // Populate user info để trả về
-    await newReview.populate("userId", "username avatar");
+    const fullReview = await Review.findById(newReview._id)
+      .populate("userId", "username avatar")
+      .populate("variantId")
+      .populate("productId", "name slug images");
 
     return res.status(200).json({
       success: true,
       message: "Review added successfully",
-      data: newReview,
+      data: fullReview,
     });
   } catch (error) {
     console.error("Add review error:", error);
@@ -82,7 +93,7 @@ const addReview = async (req, res) => {
 const getReviewsByProductId = async (req, res) => {
   try {
     const {productId} = req.params;
-    const {page = 1, limit = 10, rating} = req.query;
+    const {page = 1, limit = 10, sortBy} = req.query;
 
     if (!productId) {
       return res.status(400).json({
@@ -92,33 +103,31 @@ const getReviewsByProductId = async (req, res) => {
     }
 
     const skip = (page - 1) * limit;
-
+    const sortOptions = {};
+    switch (sortBy) {
+      case "newest":
+        sortOptions.createdAt = -1;
+        break;
+      case "oldest":
+        sortOptions.createdAt = 1;
+        break;
+      default:
+        sortOptions.createdAt = -1;
+    }
     // Build filter
     const filter = {productId};
-    if (rating) {
-      filter.rating = Number(rating);
-    }
 
-    const reviews = await Review.find(filter)
+    const p1 = Review.countDocuments(filter).exec();
+    const p2 = Review.find(filter)
       .populate("userId", "username avatar")
       .populate("variantId")
-      .sort({createdAt: -1})
+      .populate("productId", "name slug images")
+      .sort(sortOptions)
       .skip(skip)
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .exec();
 
-    const totalReviews = await Review.countDocuments(filter);
-
-    // Tính thống kê rating
-    const ratingStats = await Review.aggregate([
-      {$match: {productId: mongoose.Types.ObjectId(productId)}},
-      {
-        $group: {
-          _id: "$rating",
-          count: {$sum: 1},
-        },
-      },
-      {$sort: {_id: -1}},
-    ]);
+    const [totalReviews, reviews] = await Promise.all([p1, p2]);
 
     return res.status(200).json({
       success: true,
@@ -128,9 +137,6 @@ const getReviewsByProductId = async (req, res) => {
         limit: Number(limit),
         total: totalReviews,
         pages: Math.ceil(totalReviews / limit),
-      },
-      stats: {
-        ratingDistribution: ratingStats,
       },
     });
   } catch (error) {
@@ -143,9 +149,10 @@ const getReviewsByProductId = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
+  const {id: userId} = req.user;
   try {
     const {reviewId} = req.params;
-    const {userId, comment, rating} = req.body;
+    const {comment, rating} = req.body;
 
     if (!userId) {
       return res.status(400).json({
@@ -154,16 +161,22 @@ const updateReview = async (req, res) => {
       });
     }
 
-    const review = await Review.findOne({_id: reviewId, userId});
+    const review = await Review.findById(reviewId);
     if (!review) {
       return res.status(404).json({
         success: false,
         message: "Review not found or you don't have permission to update",
       });
     }
+    if (review.userId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You don't have permission to update this review",
+      });
+    }
 
-    if (rating !== undefined) {
-      if (rating < 1 || rating > 5) {
+    if (rating) {
+      if (typeof rating !== "number" || rating < 1 || rating > 5) {
         return res.status(400).json({
           success: false,
           message: "Rating must be between 1 and 5",
@@ -172,21 +185,24 @@ const updateReview = async (req, res) => {
       review.rating = rating;
     }
 
-    if (comment !== undefined) {
+    if (comment) {
       review.comment = comment;
     }
 
     await review.save();
 
     // Cập nhật lại average rating cho product
-    await updateProductRating(review.productId);
+    if (rating) updateProductRating(review.productId, "update", _, rating);
 
-    await review.populate("userId", "username avatar");
+    const fullReview = await Review.findById(reviewId)
+      .populate("userId", "username avatar")
+      .populate("variantId")
+      .populate("productId", "name slug images");
 
     return res.status(200).json({
       success: true,
       message: "Review updated successfully",
-      data: review,
+      data: fullReview,
     });
   } catch (error) {
     console.error("Update review error:", error);
@@ -198,10 +214,9 @@ const updateReview = async (req, res) => {
 };
 
 const deleteReview = async (req, res) => {
+  const {id: userId} = req.user;
   try {
     const {reviewId} = req.params;
-    const {userId} = req.body;
-
     if (!userId) {
       return res.status(400).json({
         success: false,
@@ -217,8 +232,7 @@ const deleteReview = async (req, res) => {
       });
     }
 
-    // Cập nhật lại average rating cho product
-    await updateProductRating(review.productId);
+    updateProductRating(review.productId, "delete", _, review.rating);
 
     return res.status(200).json({
       success: true,
@@ -233,79 +247,47 @@ const deleteReview = async (req, res) => {
   }
 };
 
-const getUserReviews = async (req, res) => {
-  try {
-    const {userId} = req.params;
-    const {page = 1, limit = 10} = req.query;
-
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: "UserId is required",
-      });
-    }
-
-    const skip = (page - 1) * limit;
-
-    const reviews = await Review.find({userId})
-      .populate("productId", "name images slug")
-      .populate("variantId")
-      .sort({createdAt: -1})
-      .skip(skip)
-      .limit(Number(limit));
-
-    const totalReviews = await Review.countDocuments({userId});
-
-    return res.status(200).json({
-      success: true,
-      data: reviews,
-      pagination: {
-        page: Number(page),
-        limit: Number(limit),
-        total: totalReviews,
-        pages: Math.ceil(totalReviews / limit),
-      },
-    });
-  } catch (error) {
-    console.error("Get user reviews error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
 // Helper function để cập nhật product rating
-const updateProductRating = async (productId) => {
+const updateProductRating = async (
+  productId,
+  type,
+  newRating = 0,
+  oldRating = 0,
+) => {
   try {
-    const reviews = await Review.find({productId});
-    const totalReviews = reviews.length;
+    const product = await Product.findById(productId);
+    if (!product) return true;
 
-    if (totalReviews === 0) {
-      await Product.findByIdAndUpdate(productId, {
-        averageRating: 0,
-        totalReviews: 0,
-      });
-      return;
+    if (type === "new") {
+      product.totalRatings = (product.totalRatings || 0) + 1;
+      product.averageRating =
+        ((product.averageRating || 0) * (product.totalRatings - 1) +
+          newRating) /
+        product.totalRatings;
+    } else if (type === "update") {
+      product.totalRatings = product.totalRatings || 0;
+      product.averageRating =
+        ((product.averageRating || 0) * product.totalRatings -
+          oldRating +
+          newRating) /
+        product.totalRatings;
+    } else if (type === "delete") {
+      product.totalRatings = (product.totalRatings || 0) - 1;
+      product.averageRating =
+        ((product.averageRating || 0) * (product.totalRatings + 1) -
+          oldRating) /
+        product.totalRatings;
     }
-
-    const averageRating =
-      reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
-
-    await Product.findByIdAndUpdate(productId, {
-      averageRating: Number(averageRating.toFixed(1)),
-      totalReviews,
-    });
+    await product.save();
+    return true;
   } catch (error) {
-    console.error("Update product rating error:", error);
+    return false;
   }
 };
-const mongoose = require("mongoose");
 
 module.exports = {
   addReview,
   getReviewsByProductId,
   updateReview,
   deleteReview,
-  getUserReviews,
 };

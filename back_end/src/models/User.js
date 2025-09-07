@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -10,7 +10,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: [6, "Password must be at least 6 characters long"],
-      select: false,
     },
     email: {
       type: String,
@@ -39,11 +38,9 @@ const UserSchema = new mongoose.Schema(
     },
     googleId: {
       type: String,
-      sparse: true,
     },
     facebookId: {
       type: String,
-      sparse: true,
     },
     isActive: {
       type: Boolean,
@@ -53,12 +50,14 @@ const UserSchema = new mongoose.Schema(
       type: Date,
     },
   },
-  {timestamps: true, toJSON: {virtuals: true}, toObject: {virtuals: true}},
+  {
+    timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
+    versionKey: false,
+  },
 );
 
-UserSchema.index({googleId: 1}, {sparse: true});
-UserSchema.index({facebookId: 1}, {sparse: true});
+const UserModel = mongoose.model("User", UserSchema);
 
-const User = mongoose.model("User", UserSchema);
-
-module.exports = User;
+module.exports = UserModel;

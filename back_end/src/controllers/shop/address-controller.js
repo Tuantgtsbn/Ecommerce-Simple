@@ -1,28 +1,12 @@
+const {cleanObject} = require("../../helpers/filter");
 const {AddressModel: Address} = require("../../models/Address");
 
 const addAddress = async (req, res) => {
+  const {id} = req.user;
   try {
-    const {
-      userId,
-      detail,
-      ward,
-      district,
-      city,
-      country,
-      phone,
-      notes,
-      isDefault = false,
-    } = req.body;
+    const {detail, ward, district, city, country, phone, ...rest} = req.body;
 
-    if (
-      !userId ||
-      !detail ||
-      !ward ||
-      !district ||
-      !city ||
-      !country ||
-      !phone
-    ) {
+    if (!detail || !ward || !district || !city || !country || !phone) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields",
@@ -30,28 +14,25 @@ const addAddress = async (req, res) => {
     }
 
     // Nếu đây là địa chỉ mặc định, set tất cả địa chỉ khác của user về false
-    if (isDefault) {
+    if (res.isDefault) {
       await Address.updateMany({userId}, {$set: {isDefault: false}});
     }
 
-    const newAddress = new Address({
-      userId,
+    const newAddress = await Address.create({
+      userId: id,
       detail,
       ward,
       district,
       city,
       country,
       phone,
-      notes,
-      isDefault,
+      ...rest,
     });
-
-    await newAddress.save();
 
     return res.status(200).json({
       success: true,
       message: "Address added successfully",
-      data: newAddress.toObject(),
+      data: newAddress.toJSON(),
     });
   } catch (error) {
     console.error("Add address error:", error);
@@ -63,9 +44,8 @@ const addAddress = async (req, res) => {
 };
 
 const getListAddress = async (req, res) => {
+  const {id: userId} = req.user;
   try {
-    const {userId} = req.params;
-
     if (!userId) {
       return res.status(400).json({
         success: false,
@@ -81,7 +61,7 @@ const getListAddress = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Addresses retrieved successfully",
-      data: addresses.map((address) => address.toObject()),
+      data: addresses,
     });
   } catch (error) {
     console.error("Get addresses error:", error);
@@ -93,9 +73,19 @@ const getListAddress = async (req, res) => {
 };
 
 const editAddress = async (req, res) => {
+  const {id: userId} = req.user;
   try {
     const {addressId} = req.params;
-    const {userId, isDefault, ...updateData} = req.body;
+    const data = cleanObject(req.body, [
+      "detail",
+      "ward",
+      "district",
+      "city",
+      "country",
+      "phone",
+      "notes",
+      "isDefault",
+    ]);
 
     // Kiểm tra địa chỉ có tồn tại không
     const existingAddress = await Address.findById(addressId);
@@ -105,21 +95,38 @@ const editAddress = async (req, res) => {
         message: "Address not found",
       });
     }
+    // Kiểm tra quyền chỉnh sửa
+    if (existingAddress.userId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You do not have permission to edit this address",
+      });
+    }
 
     // Nếu set làm địa chỉ mặc định, bỏ default của các địa chỉ khác
-    if (isDefault && !existingAddress.isDefault) {
+    if (data.isDefault && !existingAddress.isDefault) {
       await Address.updateMany(
         {userId: existingAddress.userId},
         {$set: {isDefault: false}},
       );
-      updateData.isDefault = true;
+    }
+    if (data.isDefault === false && existingAddress.isDefault) {
+      await Address.findOneAndUpdate(
+        {
+          userId: existingAddress.userId,
+          _id: {$ne: addressId},
+        },
+        {
+          $set: {
+            isDefault: true,
+          },
+        },
+      );
     }
 
-    const updatedAddress = await Address.findByIdAndUpdate(
-      addressId,
-      updateData,
-      {new: true},
-    );
+    const updatedAddress = await Address.findByIdAndUpdate(addressId, data, {
+      new: true,
+    });
 
     return res.status(200).json({
       success: true,
@@ -136,10 +143,14 @@ const editAddress = async (req, res) => {
 };
 
 const deleteAddress = async (req, res) => {
+  const {id: userId} = req.user;
   try {
     const {addressId} = req.params;
 
-    const address = await Address.findById(addressId);
+    const address = await Address.findOne({
+      _id: addressId,
+      userId: userId,
+    });
     if (!address) {
       return res.status(404).json({
         success: false,
@@ -150,7 +161,7 @@ const deleteAddress = async (req, res) => {
     // Nếu xóa địa chỉ mặc định, set địa chỉ đầu tiên còn lại làm mặc định
     if (address.isDefault) {
       const remainingAddresses = await Address.find({
-        userId: address.userId,
+        userId: userId,
         _id: {$ne: addressId},
       }).limit(1);
 
@@ -161,7 +172,7 @@ const deleteAddress = async (req, res) => {
       }
     }
 
-    await Address.findByIdAndDelete(addressId);
+    await address.deleteOne();
 
     return res.status(200).json({
       success: true,
@@ -179,10 +190,13 @@ const deleteAddress = async (req, res) => {
 const setDefaultAddress = async (req, res) => {
   try {
     const {addressId} = req.params;
-    const {userId} = req.body;
+    const {id: userId} = req.user;
 
     // Kiểm tra địa chỉ có tồn tại không
-    const address = await Address.findById(addressId);
+    const address = await Address.findOne({
+      _id: addressId,
+      userId: userId,
+    });
     if (!address) {
       return res.status(404).json({
         success: false,
@@ -191,23 +205,19 @@ const setDefaultAddress = async (req, res) => {
     }
 
     // Set tất cả địa chỉ khác của user về false
-    await Address.updateMany(
-      {userId: address.userId},
-      {$set: {isDefault: false}},
-    );
+    await Address.updateMany({userId: userId}, {$set: {isDefault: false}});
 
     // Set địa chỉ này làm mặc định
     await Address.findByIdAndUpdate(addressId, {isDefault: true});
 
     return res.status(200).json({
       success: true,
-      message: "Default address updated successfully",
+      message: "This address is now the default address successfully",
     });
   } catch (error) {
-    console.error("Set default address error:", error);
     return res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: error.message || "Internal server error",
     });
   }
 };

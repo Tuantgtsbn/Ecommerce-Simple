@@ -16,33 +16,42 @@ const ShoppingBlogCategoryRouter = require("./shop/blogcategory-routes");
 const ShoppingPostRouter = require("./shop/post-routes");
 const ShoppingHeroBannerRouter = require("./shop/heroBanner-routes");
 const CommonCategoryRouter = require("./common/category-routes");
-const {
-  checkRoleAdmin,
-  checkRoleUser,
-  checkRoleClient,
-} = require("../middlewares/checkRole");
+const {checkRole} = require("../middlewares/checkRole");
+
 function routes(app) {
   app.use("/api/auth", AuthRouter);
-  app.use("/api/admin/products", checkRoleAdmin, AdminProductRouter);
-  app.use("/api/admin/contact", checkRoleAdmin, AdminContactRouter);
-  app.use("/api/admin/orders", checkRoleAdmin, AdminOrderRouter);
-  app.use("/api/admin/users", checkRoleAdmin, AdminUserRouter);
-  app.use("/api/admin/posts", checkRoleAdmin, AdminPostRouter);
-  app.use("/api/admin/hero-banner", checkRoleAdmin, AdminHeroBannerRouter);
-  app.use("/api/shop/products", checkRoleClient, ShoppingProductRouter);
-  app.use("/api/shop/cart", checkRoleClient, ShoppingCartRouter);
-  app.use("/api/shop/address", checkRoleClient, ShoppingAddressRouter);
-  app.use("/api/shop/order", checkRoleClient, ShoppingOrderRouter);
-  app.use("/api/shop/search", checkRoleClient, ShoppingSearchRouter);
-  app.use("/api/shop/review", checkRoleClient, ShoppingReviewRouter);
-  app.use("/api/shop/contact", checkRoleClient, ShoppingContactRouter);
+  app.use("/api/admin/products", checkRole(["admin"]), AdminProductRouter);
+  app.use("/api/admin/contact", checkRole(["admin"]), AdminContactRouter);
+  app.use("/api/admin/orders", checkRole(["admin"]), AdminOrderRouter);
+  app.use("/api/admin/users", checkRole(["admin"]), AdminUserRouter);
+  app.use("/api/admin/posts", checkRole(["admin"]), AdminPostRouter);
+  app.use(
+    "/api/admin/hero-banner",
+    checkRole(["admin"]),
+    AdminHeroBannerRouter,
+  );
+  app.use("/api/shop/products", checkRole(["client"]), ShoppingProductRouter);
+  app.use("/api/shop/cart", checkRole(["client"]), ShoppingCartRouter);
+  app.use("/api/shop/address", checkRole(["client"]), ShoppingAddressRouter);
+  app.use("/api/shop/order", checkRole(["client"]), ShoppingOrderRouter);
+  app.use("/api/shop/search", checkRole(["client"]), ShoppingSearchRouter);
+  app.use("/api/shop/review", checkRole(["client"]), ShoppingReviewRouter);
+  app.use("/api/shop/contact", checkRole(["client"]), ShoppingContactRouter);
   app.use(
     "/api/shop/blogcategory",
-    checkRoleClient,
+    checkRole(["client"]),
     ShoppingBlogCategoryRouter,
   );
-  app.use("/api/shop/post", checkRoleClient, ShoppingPostRouter);
-  app.use("/api/shop/hero-banner", checkRoleClient, ShoppingHeroBannerRouter);
-  app.use("/api/common/category", checkRoleUser, CommonCategoryRouter);
+  app.use("/api/shop/post", checkRole(["client"]), ShoppingPostRouter);
+  app.use(
+    "/api/shop/hero-banner",
+    checkRole(["client"]),
+    ShoppingHeroBannerRouter,
+  );
+  app.use(
+    "/api/common/category",
+    checkRole(["admin", "client"]),
+    CommonCategoryRouter,
+  );
 }
 module.exports = routes;

@@ -1,12 +1,10 @@
 const {
-  BlogCategoryModel: BlogCategories,
+  BlogCategoriesModel: BlogCategories,
 } = require("../../models/BlogCategories");
 
 const getBlogCategories = async (req, res) => {
   try {
     const {page = 1, limit = 20, search, isActive} = req.query;
-    const skip = (page - 1) * limit;
-
     // Build filter
     const filter = {};
     if (search) {
@@ -18,22 +16,28 @@ const getBlogCategories = async (req, res) => {
     if (isActive !== undefined) {
       filter.isActive = isActive === "true";
     }
+    let categories;
 
-    const categories = await BlogCategories.find(filter)
-      .sort({createdAt: -1})
-      .skip(skip)
-      .limit(Number(limit));
+    const query = BlogCategories.find(filter).sort({name: 1});
+    if (limit === "all") {
+      categories = await query.exec();
+    } else {
+      categories = await query.skip(skip).limit(Number(limit)).exec();
+    }
 
     const totalCategories = await BlogCategories.countDocuments(filter);
 
     return res.status(200).json({
+      message: "Blog categories retrieved successfully",
       success: true,
       data: categories,
-      pagination: {
-        page: Number(page),
-        limit: Number(limit),
-        total: totalCategories,
-        pages: Math.ceil(totalCategories / limit),
+      metadata: {
+        page: limit === "all" ? 1 : Number(page),
+        limit: limit === "all" ? "all" : Number(limit),
+        totalItems: totalCategories,
+        totalPages: Math.ceil(
+          totalCategories / (limit === "all" ? totalCategories : Number(limit)),
+        ),
       },
     });
   } catch (error) {
@@ -67,28 +71,6 @@ const getBlogCategoryBySlug = async (req, res) => {
     });
   } catch (error) {
     console.error("Get blog category by slug error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const getActiveBlogCategories = async (req, res) => {
-  try {
-    const {limit = 50} = req.query;
-
-    const categories = await BlogCategories.find({isActive: true})
-      .sort({name: 1})
-      .limit(Number(limit));
-
-    return res.status(200).json({
-      success: true,
-      data: categories,
-      message: "Active blog categories retrieved successfully",
-    });
-  } catch (error) {
-    console.error("Get active blog categories error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -134,6 +116,5 @@ const getBlogCategoryStats = async (req, res) => {
 module.exports = {
   getBlogCategories,
   getBlogCategoryBySlug,
-  getActiveBlogCategories,
   getBlogCategoryStats,
 };

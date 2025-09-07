@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const {Schema} = mongoose;
 
 const bannerHeroSchema = new Schema(
@@ -124,15 +124,32 @@ const bannerHeroSchema = new Schema(
         },
       ],
     },
-    createBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    updateBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    createdBy: [
+      {
+        userId: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        userName: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    updatedBy: [
+      {
+        userId: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        userName: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -140,9 +157,7 @@ const bannerHeroSchema = new Schema(
   },
 );
 
-bannerHeroSchema.index({isActive: 1, order: 1});
-bannerHeroSchema.index({startDate: 1, endDate: 1});
-bannerHeroSchema.index({createdAt: -1});
+bannerHeroSchema.index({isActive: 1, order: 1, createdAt: -1});
 
 bannerHeroSchema.virtual("isCurrentlyActive").get(function () {
   const now = new Date();
@@ -172,7 +187,7 @@ bannerHeroSchema.pre("save", function (next) {
   if (this.endDate && this.startDate > this.endDate) {
     const error = new Error("startDate must be before endDate");
     error.name = "ValidationError";
-    error.status = 400;
+    error.status = 429;
     return next(error);
   }
   next();

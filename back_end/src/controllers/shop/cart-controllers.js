@@ -1,5 +1,9 @@
 const {CartItemModel: CartItem} = require("../../models/Cart");
-const {ProductModel: Product} = require("../../models/Product");
+const {
+  ProductModel: Product,
+  ProductVariantModel,
+} = require("../../models/Product");
+const {mongoose} = require("../../config/db");
 
 const addProductToCart = async (req, res) => {
   try {
@@ -13,21 +17,19 @@ const addProductToCart = async (req, res) => {
     }
 
     // Kiểm tra sản phẩm có tồn tại và available không
-    const product = await Product.findOne({
-      "variants._id": variantId,
-      "isActive": true,
-      "status": "inStock",
-    });
+    const productVariant = await ProductVariantModel.findOne({
+      _id: variantId,
+      isActive: true,
+    }).populate("productId");
 
-    if (!product) {
+    if (!productVariant || productVariant.quantity < 1) {
       return res.status(404).json({
         success: false,
         message: "Product variant not found or not available",
       });
     }
 
-    const variant = product.variants.id(variantId);
-    if (!variant || variant.quantity < quantity) {
+    if (productVariant.quantity < quantity) {
       return res.status(400).json({
         success: false,
         message: "Insufficient stock for this variant",
@@ -41,13 +43,16 @@ const addProductToCart = async (req, res) => {
       // Cập nhật quantity
       const newQuantity = existingCartItem.quantity + quantity;
 
-      if (newQuantity > variant.quantity) {
-        return res.status(400).json({
+      if (newQuantity > productVariant.quantity) {
+        existingCartItem.quantity = productVariant.quantity;
+        await existingCartItem.save();
+        return res.status(200).json({
           success: false,
-          message: "Total quantity exceeds available stock",
+          message:
+            "Quantity is adjusted to available stock: " +
+            productVariant.quantity,
         });
       }
-
       existingCartItem.quantity = newQuantity;
       await existingCartItem.save();
 
@@ -61,7 +66,7 @@ const addProductToCart = async (req, res) => {
       const newCartItem = new CartItem({
         userId,
         variantId,
-        quantity,
+        quantity: Math.min(quantity, productVariant.quantity),
       });
 
       await newCartItem.save();
@@ -73,7 +78,6 @@ const addProductToCart = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Add to cart error:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -92,66 +96,42 @@ const fetchCartItems = async (req, res) => {
     }
 
     // Lấy tất cả cart items của user và populate thông tin product
-    const cartItems = await CartItem.find({userId})
-      .populate({
-        path: "variantId",
-        populate: {
-          path: "productId",
-          select:
-            "name slug description images categoryId brandId basePrice discountPrice averageRating totalReviews",
-          populate: [
-            {path: "categoryId", select: "name slug"},
-            {path: "brandId", select: "name slug logo"},
-          ],
+
+    const cartItems = await CartItem.aggregate([
+      {$match: {userId: mongoose.Types.ObjectId(userId)}},
+      {
+        $lookup: {
+          from: "productVariants",
+          localField: "variantId",
+          foreignField: "_id",
+          as: "variant",
         },
-      })
-      .sort({createdAt: -1});
-
-    // Lọc ra các items có variant và product hợp lệ
-    const validCartItems = cartItems.filter(
-      (item) =>
-        item.variantId &&
-        item.variantId.productId &&
-        item.variantId.productId.isActive,
-    );
-
-    // Format dữ liệu cho frontend
-    const formattedItems = validCartItems.map((item) => {
-      const variant = item.variantId;
-      const product = variant.productId;
-
-      return {
-        _id: item._id,
-        cartItemId: item._id,
-        productId: product._id,
-        variantId: variant._id,
-        name: product.name,
-        slug: product.slug,
-        description: product.description,
-        images: variant.images?.length > 0 ? variant.images : product.images,
-        price: variant.price || product.basePrice,
-        discountPrice: variant.discountPrice || product.discountPrice,
-        category: product.categoryId,
-        brand: product.brandId,
-        averageRating: product.averageRating,
-        totalReviews: product.totalReviews,
-        attributes: variant.attributes,
-        stock: variant.quantity,
-        quantity: item.quantity,
-        createdAt: item.createdAt,
-      };
-    });
+      },
+      {$unwind: {path: "$variant", preserveNullAndEmptyArrays: false}},
+      {
+        $lookup: {
+          from: "products",
+          localField: "variant.productId",
+          foreignField: "_id",
+          as: "product",
+        },
+      },
+      {$unwind: {path: "$product", preserveNullAndEmptyArrays: false}},
+      // rename fields so output matches expected shape used later in code
+      {
+        $addFields: {
+          "variantId": "$variant",
+          "variantId.productId": "$product",
+        },
+      },
+      // remove temporary fields
+      {$project: {variant: 0, product: 0}},
+    ]);
 
     return res.status(200).json({
       success: true,
-      data: {
-        items: formattedItems,
-        totalItems: formattedItems.length,
-        totalQuantity: formattedItems.reduce(
-          (sum, item) => sum + item.quantity,
-          0,
-        ),
-      },
+      data: cartItems,
+      message: "Cart items retrieved successfully",
     });
   } catch (error) {
     console.error("Fetch cart items error:", error);
@@ -183,23 +163,25 @@ const updateCartItemQty = async (req, res) => {
     }
 
     // Kiểm tra stock
-    const product = await Product.findOne({
-      "variants._id": variantId,
-      "isActive": true,
+    const productVariant = await ProductVariantModel.findOne({
+      _id: variantId,
+      isActive: true,
     });
 
-    if (!product) {
+    if (!productVariant) {
       return res.status(404).json({
         success: false,
         message: "Product not found or not available",
       });
     }
 
-    const variant = product.variants.id(variantId);
-    if (!variant || variant.quantity < quantity) {
-      return res.status(400).json({
+    if (productVariant.quantity < quantity) {
+      cartItem.quantity = productVariant.quantity;
+      await cartItem.save();
+      return res.status(200).json({
         success: false,
-        message: "Insufficient stock. Available: " + (variant?.quantity || 0),
+        message:
+          "Quantity is adjusted to available stock: " + productVariant.quantity,
       });
     }
 
@@ -207,19 +189,48 @@ const updateCartItemQty = async (req, res) => {
     cartItem.quantity = quantity;
     await cartItem.save();
 
-    // Populate và trả về thông tin đầy đủ
-    await cartItem.populate({
-      path: "variantId",
-      populate: {
-        path: "productId",
-        select: "name slug images basePrice discountPrice",
+    const updatedCartItem = await CartItem.aggregate([
+      {
+        $match: {
+          userId: mongoose.Types.ObjectId(userId),
+          variantId: mongoose.Types.ObjectId(variantId),
+        },
       },
-    });
+      {
+        $lookup: {
+          from: "productVariants",
+          localField: "variantId",
+          foreignField: "_id",
+          as: "variant",
+        },
+      },
+      {
+        $unwind: {path: "$variant", preserveNullAndEmptyArrays: false},
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "variant.productId",
+          foreignField: "_id",
+          as: "product",
+        },
+      },
+      {$unwind: {path: "$product", preserveNullAndEmptyArrays: false}},
+      // rename fields so output matches expected shape used later in code
+      {
+        $addFields: {
+          "variantId": "$variant",
+          "variantId.productId": "$product",
+        },
+      },
+      // remove temporary fields
+      {$project: {variant: 0, product: 0}},
+    ]);
 
     return res.status(200).json({
       success: true,
       message: "Cart item updated successfully",
-      data: cartItem,
+      data: updatedCartItem[0],
     });
   } catch (error) {
     console.error("Update cart item error:", error);
@@ -289,44 +300,10 @@ const clearCart = async (req, res) => {
   }
 };
 
-const getCartCount = async (req, res) => {
-  try {
-    const {userId} = req.params;
-
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: "User ID is required",
-      });
-    }
-
-    const totalItems = await CartItem.countDocuments({userId});
-    const cartItems = await CartItem.find({userId});
-    const totalQuantity = cartItems.reduce(
-      (sum, item) => sum + item.quantity,
-      0,
-    );
-
-    return res.status(200).json({
-      success: true,
-      data: {
-        totalItems,
-        totalQuantity,
-      },
-    });
-  } catch (error) {
-    console.error("Get cart count error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
 module.exports = {
   addProductToCart,
   fetchCartItems,
   updateCartItemQty,
   deleteCartItem,
   clearCart,
-  getCartCount,
 };

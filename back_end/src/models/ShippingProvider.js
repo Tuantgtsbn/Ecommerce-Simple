@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const ShippingProviderSchema = new Schema(
@@ -11,7 +11,6 @@ const ShippingProviderSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     description: String,
     logo: {
@@ -37,7 +36,7 @@ const ShippingProviderSchema = new Schema(
   {timestamps: true, collection: "shippingProviders"},
 );
 
-ShippingProviderSchema.index({slug: 1}, {unique: true});
+// slug has unique:true in field definition; explicit index() removed to avoid duplicate
 ShippingProviderSchema.index({isActive: 1});
 
 const ShippingProviderModel = mongoose.model(
@@ -45,4 +44,4 @@ const ShippingProviderModel = mongoose.model(
   ShippingProviderSchema,
 );
 
-module.exports = ShippingProviderModel;
+module.exports = {ShippingProviderModel};

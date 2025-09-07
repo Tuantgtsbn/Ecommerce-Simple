@@ -16,7 +16,6 @@ exports.createPost = async (req, res) => {
       tags,
     } = req.body;
 
-
     const newPost = new Post({
       title,
       content,
@@ -25,10 +24,11 @@ exports.createPost = async (req, res) => {
       publishedAt: publishedAt || null,
       status: status || "draft",
       visibility: visibility || "public",
-      authors: authors.map(author => ({
-        authorId: author?.authorId,
-        authorName: author?.authorName,
-      })) || [],
+      authors:
+        authors.map((author) => ({
+          authorId: author?.authorId,
+          authorName: author?.authorName,
+        })) || [],
       thumbnail,
       tags: tags || [],
     });

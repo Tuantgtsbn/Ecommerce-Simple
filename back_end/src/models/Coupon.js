@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const CouponSchema = new Schema(
@@ -83,7 +83,7 @@ const CouponSchema = new Schema(
   },
 );
 
-CouponSchema.index({code: 1}, {unique: true});
+// code has unique:true in field definition; explicit index() removed to avoid duplicate
 CouponSchema.index({isActive: 1, startDate: 1, endDate: 1});
 CouponSchema.index({type: 1});
 

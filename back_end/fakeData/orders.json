@@ -15,7 +15,7 @@
     "orderItems": [
       {
         "variantId": {
-          "$oid": "60f1f2c0d4f5e6789abcdef0"
+          "$oid": "64a7f8c1234567890abcdef1"
         },
         "title": "iPhone 15 Pro - Premium Smartphone",
         "thumbnail": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium_GEO_US?wid=5120\u0026hei=2880\u0026fmt=p-jpg\u0026qlt=80\u0026.v=1692895703522",
@@ -32,7 +32,18 @@
             "name": "Storage",
             "value": "128GB"
           }
-        ]
+        ],
+        "product": {
+          "id": {
+            "$oid": "60f1f2c0d4f5e6789abcdef0"
+          },
+          "name": "iPhone 15 Pro",
+          "slug": "iphone-15-pro",
+          "brand": "Apple",
+          "categoryId": {
+            "$oid": "60f1c2c0d4f5e6789abcdef1"
+          }
+        }
       }
     ],
     "shippingAddress": {
@@ -48,13 +59,15 @@
       "notes": "Near Bitexco Tower"
     },
     "orderStatus": "delivered",
-    "couponId": {
-      "$oid": "60f222c0d4f5e6789abcdef1"
-    },
-    "coupon": {
-      "code": "NEWUSER50",
-      "discount": 50000
-    },
+    "coupon": [
+      {
+        "couponId": {
+          "$oid": "60f222c0d4f5e6789abcdef1"
+        },
+        "code": "NEWUSER50",
+        "discount": 50000
+      }
+    ],
     "shippingFee": 25000,
     "subTotal": 999,
     "totalDiscount": 149.9,
@@ -102,7 +115,7 @@
     "orderItems": [
       {
         "variantId": {
-          "$oid": "60f1f2c0d4f5e6789abcdef1"
+          "$oid": "64a7f8c1234567890abcdef4"
         },
         "title": "Samsung Galaxy S24 - AI Smartphone",
         "thumbnail": "https://images.samsung.com/us/smartphones/galaxy-s24/images/galaxy-s24-highlights-design-kv.jpg",
@@ -119,11 +132,22 @@
             "name": "Storage",
             "value": "256GB"
           }
-        ]
+        ],
+        "product": {
+          "id": {
+            "$oid": "60f1f2c0d4f5e6789abcdef1"
+          },
+          "name": "Samsung Galaxy S24",
+          "slug": "samsung-galaxy-s24",
+          "brand": "Samsung",
+          "categoryId": {
+            "$oid": "60f1c2c0d4f5e6789abcdef1"
+          }
+        }
       },
       {
         "variantId": {
-          "$oid": "60f1f2c0d4f5e6789abcdef3"
+          "$oid": "64a7f8c1234567890abcdef8"
         },
         "title": "Nike Air Max 270 - Men\u0027s Shoes",
         "thumbnail": "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/awjogtdnqxniqqk0wpgf/air-max-270-mens-shoes-KkLcGR.png",
@@ -159,10 +183,15 @@
     "couponId": {
       "$oid": "60f222c0d4f5e6789abcdef0"
     },
-    "coupon": {
-      "code": "SUMMER2024",
-      "discount": 219.8
-    },
+    "coupon": [
+      {
+        "couponId": {
+          "$oid": "60f222c0d4f5e6789abcdef1"
+        },
+        "code": "NEWUSER50",
+        "discount": 50000
+      }
+    ],
     "shippingFee": 30000,
     "subTotal": 1099,
     "totalDiscount": 294.65,
@@ -208,7 +237,7 @@
     "orderItems": [
       {
         "variantId": {
-          "$oid": "60f1f2c0d4f5e6789abcdef2"
+          "$oid": "64a7f8c1234567890abcdef6"
         },
         "title": "Dell XPS 13 - Premium Ultrabook",
         "thumbnail": "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
@@ -229,7 +258,18 @@
             "name": "Storage",
             "value": "512GB SSD"
           }
-        ]
+        ],
+        "product": {
+          "id": {
+            "$oid": "60f1f2c0d4f5e6789abcdef2"
+          },
+          "name": "Dell XPS 13",
+          "slug": "dell-xps-13",
+          "brand": "Dell",
+          "categoryId": {
+            "$oid": "60f1c2c0d4f5e6789abcdef2"
+          }
+        }
       }
     ],
     "shippingAddress": {

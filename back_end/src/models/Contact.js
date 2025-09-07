@@ -1,23 +1,20 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
+
 const ContactSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      default: null,
     },
     username: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
-      required: true,
     },
     phone: {
       type: String,
-      required: true,
     },
     message: {
       type: String,
@@ -26,6 +23,11 @@ const ContactSchema = new Schema(
     isRead: {
       type: Boolean,
       default: false,
+    },
+    response: {
+      message: {type: String},
+      respondedBy: {type: Schema.Types.ObjectId, ref: "User"},
+      respondedAt: {type: Date},
     },
   },
   {timestamps: true, collection: "contacts"},

@@ -3,6 +3,9 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const routes = require("./routes");
+const {connectDB} = require("./config/db");
+const {validateToken} = require("./middlewares/checkRole");
+
 const envPath = `.env.${process.env.NODE_ENV || "development"}`;
 dotenv.config({path: envPath});
 const app = express();
@@ -17,8 +20,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 const path = require("path");
 app.use(express.static(path.join(__dirname, "..", "public")));
-const connectDB = require("./config/db");
 connectDB();
+app.use(validateToken);
 routes(app);
 app.listen(process.env.PORT || 5000, "0.0.0.0", () => {
   console.log(`Server is running on port ${process.env.PORT || 5000}`);

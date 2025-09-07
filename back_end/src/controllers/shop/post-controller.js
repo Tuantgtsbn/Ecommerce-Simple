@@ -1,29 +1,29 @@
-const {PostModel: Post} = require("../../models/Posts");
+const {PostsModel: Post} = require("../../models/Posts");
 const {
-  BlogCategoryModel: BlogCategories,
+  BlogCategoriesModel: BlogCategories,
 } = require("../../models/BlogCategories");
-const {UserModel: User} = require("../../models/User");
 const {default: mongoose} = require("mongoose");
 
 const getPosts = async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 20,
-      categoryId,
+      limit,
+      categoryIds,
       sortBy = "createdAt",
       search,
       authorId,
       tags,
     } = req.query;
 
-    const skip = (page - 1) * limit;
-
     // Build filter object
-    const filter = {isActive: true};
+    const filter = {status: "published", visibility: "public"};
 
-    if (categoryId) {
-      filter.categoryId = categoryId;
+    if (typeof categoryIds === "string" && categoryIds.trim() !== "") {
+      const categoryIdArray = categoryIds.split(",").map((id) => id.trim());
+      filter.categoryId = {$in: categoryIdArray};
+    } else if (Array.isArray(categoryIds) && categoryIds.length > 0) {
+      filter.categoryId = {$in: categoryIds};
     }
 
     if (authorId) {
@@ -67,22 +67,25 @@ const getPosts = async (req, res) => {
 
     const totalPosts = await Post.countDocuments(filter);
 
-    const posts = await Post.find(filter)
+    const query = Post.find(filter)
       .populate("categoryId", "name slug")
       .populate("authorId", "username avatar")
       .select("-content") // Exclude content for list view
-      .sort(sortOptions)
-      .skip(skip)
-      .limit(Number(limit));
+      .sort(sortOptions);
+
+    if (limit && Number(limit) > 0) {
+      query.limit(Number(limit)).skip((page - 1) * limit);
+    }
+    const posts = await query.exec();
 
     return res.status(200).json({
       success: true,
       data: posts,
-      pagination: {
+      metadata: {
         page: Number(page),
-        limit: Number(limit),
-        total: totalPosts,
-        pages: Math.ceil(totalPosts / limit),
+        limit: Number(limit) || "all",
+        totalItems: totalPosts,
+        totalPages: Math.ceil(totalPosts / (Number(limit) || totalPosts)),
       },
     });
   } catch (error) {
@@ -94,14 +97,19 @@ const getPosts = async (req, res) => {
   }
 };
 
-const getDetailPostById = async (req, res) => {
+const getDetailPost = async (req, res) => {
   try {
-    const {id} = req.params;
-
-    const post = await Post.findOne({_id: id, isActive: true})
-      .populate("categoryId", "name slug description")
-      .populate("authorId", "username avatar bio")
-      .populate("tags", "name slug");
+    const {id, slug} = req.params;
+    const filter = {};
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      filter._id = id;
+    } else if (slug) {
+      filter.slug = slug;
+    }
+    const post = await Post.findOne(filter).populate(
+      "categories.categoryId",
+      "name slug description",
+    );
 
     if (!post) {
       return res.status(404).json({
@@ -110,134 +118,23 @@ const getDetailPostById = async (req, res) => {
       });
     }
 
-    // Increase view count
-    await Post.findByIdAndUpdate(id, {
-      $inc: {totalViews: 1},
-    });
-
+    post.totalViews += 1;
+    await post.save();
+    const {categories} = post;
+    if (categories && categories.length > 0) {
+      post.categories = categories.map((cat) => cat.categoryId);
+    } else {
+      post.categories = null;
+    }
     return res.status(200).json({
       success: true,
-      data: post,
+      data: post.toObject(),
     });
   } catch (error) {
     console.error("Get post by ID error:", error);
     return res.status(500).json({
       success: false,
       message: error.message,
-    });
-  }
-};
-
-const getDetailPostBySlug = async (req, res) => {
-  try {
-    const {slug} = req.params;
-
-    const post = await Post.findOne({slug, isActive: true})
-      .populate("categoryId", "name slug description")
-      .populate("authorId", "username avatar bio")
-      .populate("tags", "name slug");
-
-    if (!post) {
-      return res.status(404).json({
-        success: false,
-        message: "Post not found",
-      });
-    }
-
-    // Increase view count
-    await Post.findByIdAndUpdate(post._id, {
-      $inc: {totalViews: 1},
-    });
-
-    return res.status(200).json({
-      success: true,
-      data: post,
-    });
-  } catch (error) {
-    console.error("Get post by slug error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const getDetailPost = async (req, res) => {
-  try {
-    const {id} = req.params;
-    const isValidId = mongoose.Types.ObjectId.isValid(id);
-
-    if (!isValidId) {
-      // Treat as slug
-      req.params.slug = id;
-      return getDetailPostBySlug(req, res);
-    } else {
-      return getDetailPostById(req, res);
-    }
-  } catch (error) {
-    console.error("Get detail post error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-const searchPosts = async (req, res) => {
-  try {
-    const {keyword, page = 1, limit = 10, categoryId} = req.query;
-
-    if (!keyword || typeof keyword !== "string") {
-      return res.status(400).json({
-        success: false,
-        message: "Keyword is required and must be a string",
-      });
-    }
-
-    const skip = (page - 1) * limit;
-    const cleanKeyword = keyword.replace(/\+/g, " ").trim();
-
-    // Build search query
-    const searchQuery = {
-      isActive: true,
-      $or: [
-        {title: {$regex: cleanKeyword, $options: "i"}},
-        {excerpt: {$regex: cleanKeyword, $options: "i"}},
-        {content: {$regex: cleanKeyword, $options: "i"}},
-        {tags: {$regex: cleanKeyword, $options: "i"}},
-      ],
-    };
-
-    if (categoryId) {
-      searchQuery.categoryId = categoryId;
-    }
-
-    const totalPosts = await Post.countDocuments(searchQuery);
-
-    const searchResults = await Post.find(searchQuery)
-      .populate("categoryId", "name slug")
-      .populate("authorId", "username avatar")
-      .select("-content") // Exclude content for search results
-      .sort({createdAt: -1})
-      .skip(skip)
-      .limit(Number(limit));
-
-    res.status(200).json({
-      success: true,
-      data: searchResults,
-      pagination: {
-        page: Number(page),
-        limit: Number(limit),
-        total: totalPosts,
-        pages: Math.ceil(totalPosts / limit),
-      },
-      searchQuery: cleanKeyword,
-    });
-  } catch (error) {
-    console.error("Search posts error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Search error occurred",
     });
   }
 };
@@ -256,23 +153,64 @@ const getRelatedPosts = async (req, res) => {
     }
 
     // Find related posts based on category and tags
+    // Extract categoryIds and tagIds from currentPost according to Posts schema
+    const categoryIds = (currentPost.categories || [])
+      .map((c) => c && c.categoryId)
+      .filter(Boolean);
+    const tagIds = (currentPost.tags || [])
+      .map((t) => t && t.tagId)
+      .filter(Boolean);
+
+    // If no categories/tags, return empty list
+    if (categoryIds.length === 0 && tagIds.length === 0) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+        matadata: {
+          page: 1,
+          limit: Number(limit),
+          totalItems: 0,
+          totalPages: 0,
+        },
+      });
+    }
+
+    const orClauses = [];
+    if (categoryIds.length)
+      orClauses.push({"categories.categoryId": {$in: categoryIds}});
+    if (tagIds.length) orClauses.push({"tags.tagId": {$in: tagIds}});
+
+    const totalRelatedPosts = await Post.countDocuments({
+      _id: {$ne: postId},
+      status: "published",
+      visibility: "public",
+      $or: orClauses,
+    });
+
     const relatedPosts = await Post.find({
       _id: {$ne: postId},
-      isActive: true,
-      $or: [
-        {categoryId: currentPost.categoryId},
-        {tags: {$in: currentPost.tags}},
-      ],
+      status: "published",
+      visibility: "public",
+      $or: orClauses,
     })
-      .populate("categoryId", "name slug")
-      .populate("authorId", "username avatar")
+      .populate("categories.categoryId", "name slug")
+      .populate("authors.authorId", "username avatar")
       .select("-content")
       .sort({createdAt: -1})
       .limit(Number(limit));
-
+    for (const post of relatedPosts) {
+      post.categories = post.categories.map((cat) => cat.categoryId);
+      post.tags = post.tags.map((tag) => tag.tagId);
+    }
     return res.status(200).json({
       success: true,
       data: relatedPosts,
+      matadata: {
+        page: 1,
+        limit: Number(limit),
+        totalItems: relatedPosts.length,
+        totalPages: Math.ceil(totalRelatedPosts / Number(limit)),
+      },
     });
   } catch (error) {
     console.error("Get related posts error:", error);
@@ -285,21 +223,55 @@ const getRelatedPosts = async (req, res) => {
 
 const getFeaturedPosts = async (req, res) => {
   try {
-    const {limit = 5} = req.query;
+    const {limit = 5, categoryIds, page = 1} = req.query;
 
-    const featuredPosts = await Post.find({
-      isActive: true,
-      isFeatured: true,
-    })
-      .populate("categoryId", "name slug")
-      .populate("authorId", "username avatar")
+    const filter = {
+      status: "published",
+      visibility: "public",
+    };
+
+    if (typeof categoryIds === "string" && categoryIds.trim() !== "") {
+      filter["categories.categoryId"] = {
+        $in: categoryIds.split(",").map((id) => id.trim()),
+      };
+    } else if (Array.isArray(categoryIds) && categoryIds.length > 0) {
+      filter["categories.categoryId"] = {$in: categoryIds};
+    }
+
+    const totalItems = await Post.countDocuments(filter);
+
+    const featuredPosts = await Post.find(filter)
+      .populate("categories.categoryId", "name slug")
+      .populate("authors.authorId", "username avatar")
       .select("-content")
-      .sort({createdAt: -1})
+      .sort({totalViews: -1})
       .limit(Number(limit));
+
+    // Normalize categories/tags to arrays of ids
+    const normalized = featuredPosts.map((post) => {
+      const p = post.toObject();
+      if (p.categories && p.categories.length) {
+        p.categories = p.categories.map((c) => c.categoryId);
+      } else {
+        p.categories = null;
+      }
+      if (p.tags && p.tags.length) {
+        p.tags = p.tags.map((t) => t.tagId);
+      } else {
+        p.tags = null;
+      }
+      return p;
+    });
 
     return res.status(200).json({
       success: true,
-      data: featuredPosts,
+      data: normalized,
+      metadata: {
+        page: Number(page),
+        limit: Number(limit),
+        totalItems,
+        totalPages: Math.ceil(totalItems / Number(limit || totalItems)),
+      },
     });
   } catch (error) {
     console.error("Get featured posts error:", error);
@@ -312,7 +284,6 @@ const getFeaturedPosts = async (req, res) => {
 module.exports = {
   getPosts,
   getDetailPost,
-  searchPosts,
   getRelatedPosts,
   getFeaturedPosts,
 };

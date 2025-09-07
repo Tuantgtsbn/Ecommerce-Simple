@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema(
@@ -16,7 +16,6 @@ const OrderSchema = new Schema(
     customer: {
       username: {type: String, required: true},
       email: {type: String, required: true},
-      phone: {type: String, required: true},
     },
     orderItems: [
       {
@@ -25,8 +24,18 @@ const OrderSchema = new Schema(
           ref: "Product",
           required: true,
         },
-        title: {type: String, required: true},
-        thumbnail: {type: String, required: true},
+        imageUrl: {
+          desktop: {
+            type: [String],
+          },
+          tablet: {
+            type: [String],
+          },
+          mobile: {
+            type: [String],
+          },
+        },
+        sku: {type: String},
         price: {type: Number, required: true},
         quantity: {type: Number, required: true},
         name: {type: String, required: true},
@@ -37,6 +46,12 @@ const OrderSchema = new Schema(
             value: {type: String, required: true},
           },
         ],
+        product: {
+          id: {type: Schema.Types.ObjectId, ref: "Product"},
+          name: String,
+          slug: String,
+          categoryId: {type: Schema.Types.ObjectId, ref: "Category"},
+        },
       },
     ],
 
@@ -64,11 +79,13 @@ const OrderSchema = new Schema(
       ],
       default: "pending",
     },
-    couponId: {type: Schema.Types.ObjectId, ref: "Coupon", default: null},
-    coupon: {
-      code: String,
-      discount: Number,
-    },
+    coupon: [
+      {
+        couponId: {type: Schema.Types.ObjectId, ref: "Coupon"},
+        code: String,
+        discount: Number,
+      },
+    ],
     shippingFee: {type: Number, default: 0},
     subTotal: {type: Number, required: true},
     totalDiscount: {type: Number, required: true},
@@ -92,8 +109,9 @@ const OrderSchema = new Schema(
   {timestamps: true, collection: "orders"},
 );
 
+OrderSchema.index({userId: 1});
 OrderSchema.index({userId: 1, orderDate: 1});
-OrderSchema.index({orderNumber: 1});
+// orderNumber has `unique: true` on field, no separate index() needed
 OrderSchema.index({createdAt: 1});
 
 const OrderStatusHistorySchema = new Schema(
@@ -102,7 +120,6 @@ const OrderStatusHistorySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Order",
       required: true,
-      index: true,
     },
     message: String,
     status: {

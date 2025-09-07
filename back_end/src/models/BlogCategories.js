@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
+const {generateUniqueSlug} = require("../helpers/slug");
 const Schema = mongoose.Schema;
 
 const BlogCategoriesSchema = new Schema(
@@ -11,7 +12,6 @@ const BlogCategoriesSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     description: {
       type: String,
@@ -42,8 +42,7 @@ BlogCategoriesSchema.pre("save", async function (next) {
   next();
 });
 
-BlogCategoriesSchema.index({slug: 1}, {unique: true});
-BlogCategoriesSchema.index({isActive: 1, sortOrder: 1});
+BlogCategoriesSchema.index({name: 1, createdAt: 1});
 
 const BlogCategoriesModel = mongoose.model(
   "BlogCategories",

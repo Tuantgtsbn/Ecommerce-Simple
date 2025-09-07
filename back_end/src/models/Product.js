@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema(
@@ -7,12 +7,12 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     slug: {
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     brandId: {
       type: Schema.Types.ObjectId,
@@ -74,15 +74,15 @@ const ProductSchema = new Schema(
       min: 0,
       max: 5,
     },
-    totalReviews: {
-      type: Number,
-      default: 0,
-    },
     totalLikes: {
       type: Number,
       default: 0,
     },
     totalDislikes: {
+      type: Number,
+      default: 0,
+    },
+    totalViews: {
       type: Number,
       default: 0,
     },
@@ -123,11 +123,23 @@ const ProductSchema = new Schema(
   },
   {
     timestamps: true,
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true},
     collection: "products",
   },
 );
+
+ProductSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("name")) {
+    const postIdToExclude = this.isNew ? null : this._id;
+    this.slug = await generateUniqueSlug("Product", this.name, postIdToExclude);
+  }
+  next();
+});
+
+// slug has unique:true in field definition; explicit index() removed to avoid duplicate
+ProductSchema.index({categoryId: 1});
+ProductSchema.index({brandId: 1});
+ProductSchema.index({tags: 1});
+ProductSchema.index({createdAt: -1});
 
 const AttributeSchema = new Schema(
   {
@@ -147,13 +159,7 @@ const AttributeSchema = new Schema(
   {timestamps: true, collection: "attributes"},
 );
 
-ProductSchema.index({slug: 1}, {unique: true});
-ProductSchema.index({categoryId: 1});
-ProductSchema.index({brandId: 1});
-ProductSchema.index({tags: 1});
-ProductSchema.index({createdAt: -1});
-
-AttributeSchema.index({name: 1});
+// AttributeSchema.name has `unique: true`, no separate index() needed
 
 const VariantAttributeSchema = new Schema(
   {
@@ -226,6 +232,8 @@ const ProductVariantSchema = new Schema(
   },
   {timestamps: true, collection: "productVariants"},
 );
+
+ProductVariantSchema.index({productId: 1});
 
 const AttributeModel = mongoose.model("Attribute", AttributeSchema);
 const ProductModel = mongoose.model("Product", ProductSchema);

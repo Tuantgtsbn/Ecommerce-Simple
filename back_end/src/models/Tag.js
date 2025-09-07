@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 const {generateUniqueSlug} = require("../utils/slugGenerator");
 
@@ -13,7 +13,6 @@ const TagSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
   },
   {timestamps: true, collection: "tags"},
@@ -28,4 +27,4 @@ TagSchema.pre("save", async function (next) {
 });
 
 const TagModel = mongoose.model("Tag", TagSchema);
-module.exports = TagModel;
+module.exports = {TagModel};

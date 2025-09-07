@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 const {generateUniqueSlug} = require("../helpers/slug");
 
@@ -12,7 +12,6 @@ const PostsSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     content: {
       type: String,
@@ -20,7 +19,7 @@ const PostsSchema = new Schema(
     },
     excerpt: {
       type: String,
-      default: "",
+      required: true,
     },
     categories: [
       {
@@ -60,7 +59,6 @@ const PostsSchema = new Schema(
         },
         authorName: {
           type: String,
-          required: true,
         },
       },
     ],
@@ -123,6 +121,8 @@ const PostsSchema = new Schema(
 );
 
 PostsSchema.index({createdAt: 1});
+PostsSchema.index({categories: 1});
+PostsSchema.index({totalViews: -1});
 
 PostsSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("title")) {

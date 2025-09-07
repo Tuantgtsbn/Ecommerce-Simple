@@ -1,114 +1,10 @@
 const {ProductModel: Product} = require("../../models/Product");
-const {PostModel: Post} = require("../../models/Posts");
+const {PostsModel: Post} = require("../../models/Posts");
 const {CategoryModel: Category} = require("../../models/Category");
-const {BrandModel: Brand} = require("../../models/Brand");
+const {BrandModel: Brand} = require("../../models/ShopBrand");
+const {TagModel: Tag} = require("../../models/Tag");
 
-const searchProducts = async (req, res) => {
-  try {
-    const {
-      keyword,
-      page = 1,
-      limit = 20,
-      categoryId,
-      brandId,
-      minPrice,
-      maxPrice,
-      sortBy = "relevance",
-    } = req.query;
-
-    if (!keyword || typeof keyword !== "string") {
-      return res.status(400).json({
-        success: false,
-        message: "Keyword is required and must be a string",
-      });
-    }
-
-    const skip = (page - 1) * limit;
-    const cleanKeyword = keyword.replace(/\+/g, " ").trim();
-
-    // Build search query
-    const searchQuery = {
-      isActive: true,
-      status: "inStock",
-      $or: [
-        {name: {$regex: cleanKeyword, $options: "i"}},
-        {description: {$regex: cleanKeyword, $options: "i"}},
-        {tags: {$regex: cleanKeyword, $options: "i"}},
-      ],
-    };
-
-    // Add filters
-    if (categoryId) {
-      searchQuery.categoryId = categoryId;
-    }
-
-    if (brandId) {
-      searchQuery.brandId = brandId;
-    }
-
-    if (minPrice || maxPrice) {
-      searchQuery.basePrice = {};
-      if (minPrice) searchQuery.basePrice.$gte = Number(minPrice);
-      if (maxPrice) searchQuery.basePrice.$lte = Number(maxPrice);
-    }
-
-    // Build sort options
-    let sortOptions = {};
-    switch (sortBy) {
-      case "price_low":
-        sortOptions = {basePrice: 1};
-        break;
-      case "price_high":
-        sortOptions = {basePrice: -1};
-        break;
-      case "rating":
-        sortOptions = {averageRating: -1};
-        break;
-      case "newest":
-        sortOptions = {createdAt: -1};
-        break;
-      case "popular":
-        sortOptions = {totalReviews: -1, totalViews: -1};
-        break;
-      default: // relevance
-        sortOptions = {totalViews: -1};
-    }
-
-    const totalProducts = await Product.countDocuments(searchQuery);
-
-    const searchResults = await Product.find(searchQuery)
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug logo")
-      .sort(sortOptions)
-      .skip(skip)
-      .limit(Number(limit));
-
-    res.status(200).json({
-      success: true,
-      data: searchResults,
-      pagination: {
-        page: Number(page),
-        limit: Number(limit),
-        total: totalProducts,
-        pages: Math.ceil(totalProducts / limit),
-      },
-      searchQuery: cleanKeyword,
-      filters: {
-        categoryId,
-        brandId,
-        minPrice,
-        maxPrice,
-        sortBy,
-      },
-    });
-  } catch (error) {
-    console.error("Search products error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Search error occurred",
-    });
-  }
-};
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const searchAll = async (req, res) => {
   try {
@@ -122,71 +18,74 @@ const searchAll = async (req, res) => {
     }
 
     const cleanKeyword = keyword.replace(/\+/g, " ").trim();
-    const searchRegex = {$regex: cleanKeyword, $options: "i"};
+    const safe = escapeRegex(cleanKeyword);
+    const searchRegex = {$regex: safe, $options: "i"};
 
-    // Search products
-    const products = await Product.find({
+    // Products: search by name, embedded category.name and brand.name
+    const p1 = Product.find({
       isActive: true,
       status: "inStock",
       $or: [
         {name: searchRegex},
-        {description: searchRegex},
-        {tags: searchRegex},
+        {"category.name": searchRegex},
+        {"brand.name": searchRegex},
       ],
     })
-      .populate("categoryId", "name slug")
-      .populate("brandId", "name slug")
       .limit(Number(limit))
-      .select("name slug images basePrice discountPrice averageRating");
+      .exec();
 
-    // Search posts
-    const posts = await Post.find({
-      isActive: true,
+    // Tags
+    const p2 = Tag.find({name: searchRegex})
+      .limit(Number(limit))
+      .select("name slug")
+      .exec();
+
+    // Posts: only published posts (keep as promise for parallel execution)
+    const p3 = Post.find({
+      status: "published",
+      visibility: "public",
       $or: [
         {title: searchRegex},
         {excerpt: searchRegex},
         {content: searchRegex},
       ],
     })
-      .populate("categoryId", "name slug")
-      .populate("authorId", "username avatar")
+      .populate("categories.categoryId", "name slug")
       .limit(Number(limit))
-      .select("title slug excerpt thumbnail createdAt");
+      .exec();
 
-    // Search categories
-    const categories = await Category.find({
-      isActive: true,
-      name: searchRegex,
-    })
+    // Categories (product categories)
+    const p4 = Category.find({isActive: true, name: searchRegex})
       .limit(Number(limit))
-      .select("name slug description");
+      .select("name slug description")
+      .exec();
 
-    // Search brands
-    const brands = await Brand.find({
-      isActive: true,
-      name: searchRegex,
-    })
+    // Brands
+    const p5 = Brand.find({isActive: true, name: searchRegex})
       .limit(Number(limit))
-      .select("name slug logo description");
+      .select("name slug logo description")
+      .exec();
+
+    const [products, tags, posts, categories, brands] = await Promise.all(
+      [p1, p2, p3, p4, p5].map((p) => p.catch((err) => null)),
+    );
+
+    if (posts) {
+      posts.forEach((post) => {
+        if (Array.isArray(post.categories)) {
+          post.categories = post.categories.map((cat) => cat.categoryId || cat);
+        }
+      });
+    }
 
     res.status(200).json({
       success: true,
-      data: {
-        products,
-        posts,
-        categories,
-        brands,
-      },
+      data: {products, posts, categories, brands, tags},
       searchQuery: cleanKeyword,
-      totalResults:
-        products.length + posts.length + categories.length + brands.length,
     });
   } catch (error) {
     console.error("Search all error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Search error occurred",
-    });
+    res.status(500).json({success: false, message: "Search error occurred"});
   }
 };
 
@@ -202,39 +101,29 @@ const getSearchSuggestions = async (req, res) => {
     }
 
     const cleanKeyword = keyword.replace(/\+/g, " ").trim();
-    const searchRegex = {$regex: `^${cleanKeyword}`, $options: "i"};
+    const safe = escapeRegex(cleanKeyword);
+    const searchRegex = {$regex: `^${safe}`, $options: "i"};
 
-    // Get product name suggestions
-    const productSuggestions = await Product.find({
+    // Use distinct to get unique names, then slice to requested limit
+    const productSuggestionsAll = await Product.distinct("name", {
       isActive: true,
       name: searchRegex,
-    })
-      .limit(Number(limit))
-      .select("name")
-      .distinct("name");
+    });
 
-    // Get category suggestions
-    const categorySuggestions = await Category.find({
+    const categorySuggestionsAll = await Category.distinct("name", {
       isActive: true,
       name: searchRegex,
-    })
-      .limit(5)
-      .select("name")
-      .distinct("name");
+    });
 
-    // Get brand suggestions
-    const brandSuggestions = await Brand.find({
+    const brandSuggestionsAll = await Brand.distinct("name", {
       isActive: true,
       name: searchRegex,
-    })
-      .limit(5)
-      .select("name")
-      .distinct("name");
+    });
 
     const suggestions = [
-      ...productSuggestions,
-      ...categorySuggestions,
-      ...brandSuggestions,
+      ...productSuggestionsAll,
+      ...categorySuggestionsAll,
+      ...brandSuggestionsAll,
     ].slice(0, Number(limit));
 
     res.status(200).json({
@@ -264,13 +153,14 @@ const getPopularSearches = async (req, res) => {
       .limit(Number(limit))
       .select("name slug totalViews");
 
-    // Lấy category phổ biến
-    const popularCategories = await Category.find({
-      isActive: true,
+    // Lấy các bài post được xem nhiều nhất
+    const popularPosts = await Post.find({
+      status: "published",
+      visibility: "public",
     })
-      .sort({productCount: -1})
-      .limit(5)
-      .select("name slug");
+      .sort({totalViews: -1})
+      .limit(Number(limit))
+      .select("title slug totalViews thumbnail createdAt");
 
     res.status(200).json({
       success: true,
@@ -289,7 +179,6 @@ const getPopularSearches = async (req, res) => {
 };
 
 module.exports = {
-  searchProducts,
   searchAll,
   getSearchSuggestions,
   getPopularSearches,

@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
+const {generateUniqueSlug} = require("../helpers/slug");
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema(
@@ -6,12 +7,12 @@ const CategorySchema = new Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     slug: {
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     description: {
       type: String,
@@ -34,13 +35,10 @@ const CategorySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Category",
       default: null,
-      index: true,
     },
   },
   {
     timestamps: true,
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true},
     collection: "categories",
   },
 );
@@ -63,8 +61,6 @@ CategorySchema.pre("save", async function (next) {
   }
   next();
 });
-
-CategorySchema.index({parentCategoryId: 1});
 
 const CategoryModel = mongoose.model("Category", CategorySchema);
 

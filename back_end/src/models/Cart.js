@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const {mongoose} = require("../config/db");
 const Schema = mongoose.Schema;
 
-CartItemSchema = new Schema(
+const CartItemSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -22,8 +22,8 @@ CartItemSchema = new Schema(
   {timestamps: true, collection: "cartItems"},
 );
 
+CartItemSchema.index({userId: 1});
 CartItemSchema.index({userId: 1, variantId: 1}, {unique: true});
-CartItemSchema.index({createdAt: 1});
-const CartItemModel = mongoose.model("CartItem", CartItemSchema);
 
+const CartItemModel = mongoose.model("CartItem", CartItemSchema);
 module.exports = {CartItemModel};

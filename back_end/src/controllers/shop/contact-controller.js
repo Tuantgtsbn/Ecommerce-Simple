@@ -1,49 +1,36 @@
 const {ContactModel: Contact} = require("../../models/Contact");
+const {cleanObject} = require("../../helpers/filter");
 
 const submitContact = async (req, res) => {
+  const {id: userId} = req.user;
   try {
-    const {name, email, phone, subject, message, userId} = req.body;
+    const data = cleanObject(req.body, [
+      "username",
+      "email",
+      "phone",
+      "message",
+    ]);
 
     // Validate required fields
-    if (!name || !email || !message) {
+    if (!data.message) {
       return res.status(400).json({
         success: false,
-        message: "Name, email, and message are required fields",
+        message: "Message is a required field",
       });
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (data.email && !emailRegex.test(data.email)) {
       return res.status(400).json({
         success: false,
         message: "Invalid email format",
       });
     }
 
-    // Check if user has submitted too many contacts recently (spam protection)
-    if (email) {
-      const recentContacts = await Contact.countDocuments({
-        email,
-        createdAt: {$gte: new Date(Date.now() - 24 * 60 * 60 * 1000)}, // Last 24 hours
-      });
-
-      if (recentContacts >= 3) {
-        return res.status(429).json({
-          success: false,
-          message: "Too many contact submissions. Please try again later.",
-        });
-      }
-    }
-
     const newContact = new Contact({
-      name,
-      email,
-      phone: phone || null,
-      subject: subject || "General Inquiry",
-      message,
-      userId: userId || null,
-      status: "pending",
+      userId,
+      ...data,
     });
 
     await newContact.save();
@@ -51,13 +38,9 @@ const submitContact = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Contact submitted successfully. We will get back to you soon!",
-      data: {
-        id: newContact._id,
-        submittedAt: newContact.createdAt,
-      },
+      data: newContact,
     });
   } catch (error) {
-    console.error("Submit contact error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error. Please try again later.",
@@ -65,13 +48,23 @@ const submitContact = async (req, res) => {
   }
 };
 
-const getContactStatus = async (req, res) => {
+const getDetailContact = async (req, res) => {
+  const {id: userId} = req.user;
   try {
     const {contactId} = req.params;
-
-    const contact = await Contact.findById(contactId).select(
-      "status response createdAt updatedAt",
-    );
+    const contact = await Contact.findOne({
+      _id: contactId,
+      userId,
+    }).populate([
+      {
+        path: "userId",
+        select: "username email",
+      },
+      {
+        path: "response.respondedBy",
+        select: "username email",
+      },
+    ]);
 
     if (!contact) {
       return res.status(404).json({
@@ -79,10 +72,13 @@ const getContactStatus = async (req, res) => {
         message: "Contact not found",
       });
     }
-
+    const {userId: user, ...contactData} = contact.toObject();
     return res.status(200).json({
       success: true,
-      data: contact,
+      data: {
+        user,
+        ...contactData,
+      },
     });
   } catch (error) {
     console.error("Get contact status error:", error);
@@ -95,9 +91,8 @@ const getContactStatus = async (req, res) => {
 
 const getUserContacts = async (req, res) => {
   try {
-    const {userId} = req.params;
-    const {page = 1, limit = 10} = req.query;
-    const skip = (page - 1) * limit;
+    const {id: userId} = req.user;
+    const {page = 1, limit, isRead} = req.query;
 
     if (!userId) {
       return res.status(400).json({
@@ -105,22 +100,41 @@ const getUserContacts = async (req, res) => {
         message: "User ID is required",
       });
     }
+    const filter = {userId};
+    if (isRead !== undefined) {
+      filter.isRead = isRead === "true";
+    }
+    const query = Contact.find(filter).sort({createdAt: -1});
 
-    const contacts = await Contact.find({userId})
-      .sort({createdAt: -1})
-      .skip(skip)
-      .limit(Number(limit));
+    if (limit !== "all") {
+      query.skip((page - 1) * (limit || 10)).limit(Number(limit || 10));
+    }
+    const contacts = await query.populate([
+      {
+        path: "userId",
+        select: "username email",
+      },
+      {
+        path: "response.respondedBy",
+        select: "username email",
+      },
+    ]);
 
-    const totalContacts = await Contact.countDocuments({userId});
+    const formatedContacts = contacts.map((contact) => {
+      const {userId, ...contactData} = contact.toObject();
+      return {user: userId, ...contactData};
+    });
 
+    const totalContacts = await Contact.countDocuments(filter);
     return res.status(200).json({
       success: true,
-      data: contacts,
+      data: formatedContacts,
       pagination: {
-        page: Number(page),
-        limit: Number(limit),
-        total: totalContacts,
-        pages: Math.ceil(totalContacts / limit),
+        page: limit === "all" ? 1 : Number(page),
+        limit: limit || Number(limit || 10),
+        totalItems: totalContacts,
+        totalPages:
+          limit === "all" ? 1 : Math.ceil(totalContacts / (limit || 10)),
       },
     });
   } catch (error) {
@@ -134,6 +148,6 @@ const getUserContacts = async (req, res) => {
 
 module.exports = {
   submitContact,
-  getContactStatus,
+  getDetailContact,
   getUserContacts,
 };
