@@ -268,6 +268,10 @@ const createOrder = async (req, res) => {
           paymentStatus: "pending",
           transactionId: null,
         }).save(),
+        CouponModel.updateMany(
+          {_id: {$in: coupons.map((c) => c._id)}},
+          {$inc: {usedCount: 1}},
+        ).exec(),
       ]);
       return res.status(200).json({
         success: true,
@@ -453,6 +457,10 @@ const paymentPaypalSuccess = async (req, res) => {
               PaymentModel.findByIdAndUpdate(
                 {orderId: order._id},
                 {paymentStatus: "paid"},
+              ).exec(),
+              CouponModel.updateMany(
+                {_id: {$in: order.coupon.map((c) => c.couponId)}},
+                {$inc: {usedCount: 1}},
               ).exec(),
             ]);
 

@@ -6,7 +6,6 @@ const CouponSchema = new Schema(
     code: {
       type: String,
       required: true,
-      unique: true,
     },
     name: {
       type: String,
@@ -43,7 +42,7 @@ const CouponSchema = new Schema(
     },
     usageLimitPerUser: {
       type: Number,
-      default: 0,
+      default: null,
     },
     usedCount: {
       type: Number,
@@ -86,6 +85,49 @@ const CouponSchema = new Schema(
 // code has unique:true in field definition; explicit index() removed to avoid duplicate
 CouponSchema.index({isActive: 1, startDate: 1, endDate: 1});
 CouponSchema.index({type: 1});
+
+/**
+ * Populate related targets based on coupon.type
+ * - 'category' => populate couponCategories.categoryId
+ * - 'product'  => populate couponProducts.productId
+ * - 'all'      => populate both
+ */
+CouponSchema.methods.populateTargets = async function () {
+  if (!this) return this;
+  if (this.type === "category") {
+    // modern mongoose: populate returns a promise, older versions used execPopulate()
+    if (typeof this.populate === "function") {
+      await this.populate("couponCategories.categoryId", "_id name slug");
+    }
+  } else if (this.type === "product") {
+    if (typeof this.populate === "function")
+      await this.populate(
+        "couponProducts.productId",
+        "_id name slug basePrice",
+      );
+  }
+  return this;
+};
+
+/**
+ * Find by id and populate targets according to type
+ */
+CouponSchema.statics.findByIdWithTargets = async function (id) {
+  const doc = await this.findById(id);
+  if (!doc) return null;
+  await doc.populateTargets();
+  return doc;
+};
+
+/**
+ * Find one by query and populate targets according to type
+ */
+CouponSchema.statics.findOneWithTargets = async function (query) {
+  const doc = await this.findOne(query);
+  if (!doc) return null;
+  await doc.populateTargets();
+  return doc;
+};
 
 const CouponModel = mongoose.model("Coupon", CouponSchema);
 

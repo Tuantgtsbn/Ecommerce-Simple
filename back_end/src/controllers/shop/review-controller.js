@@ -127,7 +127,9 @@ const getReviewsByProductId = async (req, res) => {
       .limit(Number(limit))
       .exec();
 
-    const [totalReviews, reviews] = await Promise.all([p1, p2]);
+    const [totalReviews, reviews] = await Promise.all(
+      [p1, p2].map((p) => p.catch((err) => null)),
+    );
 
     return res.status(200).json({
       success: true,
@@ -135,8 +137,11 @@ const getReviewsByProductId = async (req, res) => {
       pagination: {
         page: Number(page),
         limit: Number(limit),
-        total: totalReviews,
-        pages: Math.ceil(totalReviews / limit),
+        totalItems: totalReviews || 0,
+        totalPages: Math.ceil(totalReviews || 0 / limit),
+        hasNextPage:
+          reviews && totalReviews && skip + reviews.length < totalReviews,
+        hasPrevPage: page > 1,
       },
     });
   } catch (error) {
